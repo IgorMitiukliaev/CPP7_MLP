@@ -49,3 +49,6 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+datasets/
+build-src-Desktop-Debug
+.vscode/settings.json
