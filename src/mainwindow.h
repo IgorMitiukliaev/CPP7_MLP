@@ -29,7 +29,9 @@ class MainWindow : public QMainWindow {
 
   void on_btnInit_clicked();
 
- private:
+  void on_btnLoadDataset_clicked();
+
+private:
   Ui::MainWindow *ui;
 };
 #endif  // MAINWINDOW_H

@@ -23,6 +23,8 @@ set(PROJECT_SOURCES
         controller.cpp
         model.h
         model.cpp
+        fileloader.cpp
+        fileloader.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

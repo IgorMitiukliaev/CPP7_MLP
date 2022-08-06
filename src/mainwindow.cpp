@@ -54,3 +54,25 @@ void MainWindow::on_sizeLayer1_valueChanged(int arg1) {
 }
 
 void MainWindow::on_btnInit_clicked() {}
+
+void MainWindow::on_btnLoadDataset_clicked() {
+  QString fileName;
+  QFileDialog *fileDialog = new QFileDialog(this);
+  // определить заголовок файла
+  fileDialog->setWindowTitle(tr("Open dataset"));
+  // Установить путь к файлу по умолчанию
+  fileDialog->setDirectory(".");
+  // Установить фильтр файлов
+  // fileDialog->setNameFilter(tr("Images(*.png *.jpg *.jpeg *.bmp)"));
+  // Настройка позволяет выбрать несколько файлов, по умолчанию используется
+  // только один файл QFileDialog :: ExistingFiles
+  fileDialog->setFileMode(QFileDialog::ExistingFile);
+  // Установить режим просмотра
+  fileDialog->setViewMode(QFileDialog::Detail);
+  // выводим путь ко всем выбранным файлам
+  if (fileDialog->exec()) {
+    fileName = fileDialog->selectedFiles()[0];
+  }
+  qDebug() << fileName;
+  c->loadDataset(fileName.toStdString());
+}
