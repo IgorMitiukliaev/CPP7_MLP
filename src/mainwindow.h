@@ -19,8 +19,10 @@ class MainWindow : public QMainWindow {
  private:
   Ui::MainWindow *ui;
   s21::Controller *c;
-  void drawPreview();
+  qint16 num_images = 0, num_curr_image = 0;
+  void drawPreview(int img_num = 0);
   void on_Data_Loaded();
+  void updatePreviewLabel();
 
  public:
   MainWindow(s21::Controller *c, QWidget *parent = nullptr);
@@ -28,13 +30,9 @@ class MainWindow : public QMainWindow {
 
  private slots:
   void on_btnLoadImage_clicked();
-
   void on_sizeLayer1_valueChanged(int arg1);
-
   void on_btnInit_clicked();
-
   void on_btnLoadDataset_clicked();
-
-
+  void on_inpNumCurrImg_textChanged(const QString &arg1);
 };
 #endif  // MAINWINDOW_H

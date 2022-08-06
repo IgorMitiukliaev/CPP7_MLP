@@ -12,7 +12,8 @@ class Controller {
  public:
   Controller(s21::Model *model) : m(model){};
   void loadDataset(string const &path);
-  std::vector<double> getInputValues();
+  std::vector<double> getInputValues(int img_num = 0);
+  int getCountOfElements();
 };
 }  // namespace s21
 #endif  // CONTROLLER_H

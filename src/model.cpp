@@ -6,20 +6,21 @@ s21::Model::Model() {}
 void Model::createNetwork() {}
 
 void Model::loadDataset(string const &path) {
-  s21::FileLoader fileloader;
-  fileloader.SetFileStream(path);
-  while (fileloader.ReadElement()) {
+  fileloader = new FileLoader;
+  fileloader->SetFileStream(path);
+  count_images = fileloader->GetCountOfElements();
+  while (fileloader->ReadElement()) {
     //    fileloader.PrintOutputValues();  // вывод результирующего вектора
     //    fileloader.PrintInputValues(false);  // вывод значениями
     //    fileloader.PrintInputValues(true);   // вывод звёздочками
     //    qDebug() << fileloader.GetInputValues();
-    input = fileloader.GetInputValues();
+    input = fileloader->GetInputValues();
     normalizeInput();
     break;
   }
 };
 
-std::vector<double> Model::getInputValues() { return input; };
+std::vector<double> Model::getInputValues(int img_num) { return input; };
 
 double Model::sigmoid(double x) { return 1 / (1 + exp(-x)); }
 
@@ -34,3 +35,5 @@ void Model::normalizeInput() {
     std::for_each(input.begin(), input.end(), [](double &value) { value = 0; });
   }
 }
+
+int Model::getCountOfElements() { return count_images; }

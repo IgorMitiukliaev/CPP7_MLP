@@ -10,6 +10,10 @@ void Controller::loadDataset(string const &path) {
   m->loadDataset(path);
 }
 
-std::vector<double> Controller::getInputValues() {
-  return m->getInputValues();
+std::vector<double> Controller::getInputValues(int img_num) {
+  return m->getInputValues(img_num);
 };
+
+int Controller::getCountOfElements(){
+  return m->getCountOfElements();
+}

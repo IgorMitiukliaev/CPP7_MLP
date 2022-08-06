@@ -75,19 +75,21 @@ void MainWindow::on_btnLoadDataset_clicked() {
   }
   qDebug() << fileName;
   c->loadDataset(fileName.toStdString());
+  num_images = c->getCountOfElements();
   on_Data_Loaded();
   drawPreview();
+  updatePreviewLabel();
 }
 
 void MainWindow::on_Data_Loaded() {
   //  std::vector<double> input = c->getInputValues();
 }
 
-void MainWindow::drawPreview() {
+void MainWindow::drawPreview(int img_num) {
   QPixmap p;
   QByteArray pData;
   QLabel *wg = (QLabel *)ui->lblPreview;
-  std::vector<double> input = c->getInputValues();
+  std::vector<double> input = c->getInputValues(img_num);
   std::for_each(input.begin(), input.end(), [&pData](double const &value) {
     pData.insert(0, ~0);
     pData.insert(0, (1 - value) * 255);
@@ -101,4 +103,16 @@ void MainWindow::drawPreview() {
   QPixmap pixmap = QPixmap::fromImage(qim);
   wg->setPixmap(pixmap);
   wg->show();
-};
+}
+
+void MainWindow::updatePreviewLabel(){
+    QString lbl = " of " + QString::number(num_images);
+  ui->lblTotalImgs->setText(lbl);
+  ui->inpNumCurrImg->setText(QString::number(num_curr_image));
+}
+
+void MainWindow::on_inpNumCurrImg_textChanged(const QString &arg1)
+{
+
+}
+
