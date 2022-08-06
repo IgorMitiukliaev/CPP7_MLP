@@ -75,4 +75,30 @@ void MainWindow::on_btnLoadDataset_clicked() {
   }
   qDebug() << fileName;
   c->loadDataset(fileName.toStdString());
+  on_Data_Loaded();
+  drawPreview();
 }
+
+void MainWindow::on_Data_Loaded() {
+  //  std::vector<double> input = c->getInputValues();
+}
+
+void MainWindow::drawPreview() {
+  QPixmap p;
+  QByteArray pData;
+  QLabel *wg = (QLabel *)ui->lblPreview;
+  std::vector<double> input = c->getInputValues();
+  std::for_each(input.begin(), input.end(), [&pData](double const &value) {
+    pData.insert(0, ~0);
+    pData.insert(0, (1 - value) * 255);
+    pData.insert(0, (1 - value) * 255);
+    pData.insert(0, (1 - value) * 255);
+  });
+  const unsigned char *imageData =
+      reinterpret_cast<const unsigned char *>(pData.constData());
+  QImage qim = QImage(imageData, 28, 28, QImage::Format_ARGB32_Premultiplied);
+  qim = qim.transformed(QTransform().rotate(270)).scaled(280,280);
+  QPixmap pixmap = QPixmap::fromImage(qim);
+  wg->setPixmap(pixmap);
+  wg->show();
+};

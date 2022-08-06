@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QFileDialog>
 #include <QMainWindow>
+#include <QPixmap>
 
 #include "controller.h"
 
@@ -16,7 +17,10 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow {
   Q_OBJECT
  private:
+  Ui::MainWindow *ui;
   s21::Controller *c;
+  void drawPreview();
+  void on_Data_Loaded();
 
  public:
   MainWindow(s21::Controller *c, QWidget *parent = nullptr);
@@ -31,7 +35,6 @@ class MainWindow : public QMainWindow {
 
   void on_btnLoadDataset_clicked();
 
-private:
-  Ui::MainWindow *ui;
+
 };
 #endif  // MAINWINDOW_H
