@@ -2,6 +2,7 @@
 
 bool s21::FileLoader::SetFileStream(std::string filename) {
   filestream_.open(filename);
+  ReadCountOfElements();
   return filestream_.good();
 }
 
@@ -103,4 +104,21 @@ void s21::FileLoader::PrintInputValues(bool view) {
     i++;
     if (i%28 == 0) std::cout << std::endl;
   }
+}
+
+void s21::FileLoader::ReadCountOfElements() {
+  count_of_elements_ = 0; 
+  if (filestream_.good()) {
+    while(filestream_.good()) {
+      GetLine();
+      count_of_elements_++;
+    }
+    count_of_elements_--;
+    filestream_.clear();
+    filestream_.seekg(0, std::ios::beg);
+  }
+}
+
+int s21::FileLoader::GetCountOfElements() {
+  return count_of_elements_;
 }
