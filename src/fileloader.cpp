@@ -114,11 +114,14 @@ void s21::FileLoader::ReadCountOfElements() {
       count_of_elements_++;
     }
     count_of_elements_--;
-    filestream_.clear();
-    filestream_.seekg(0, std::ios::beg);
   }
 }
 
 int s21::FileLoader::GetCountOfElements() {
   return count_of_elements_;
+}
+
+void s21::FileLoader::StartReadElements() {
+  filestream_.clear();
+  filestream_.seekg(0, std::ios::beg);
 }

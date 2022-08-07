@@ -14,9 +14,9 @@ class FileLoader {
   std::vector<double> GetInputValues();
   int GetCountOfElements();
   bool ReadElement();
-  void PrintOutputValues();          //  потом удалить
+  void StartReadElements();
+  void PrintOutputValues();  //  потом удалить
   void PrintInputValues(bool view);  //  потом удалить
-
  private:
   std::ifstream filestream_;
   std::vector<double> output_values_;
