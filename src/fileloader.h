@@ -1,21 +1,22 @@
-#include <sstream>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <vector>
 
 namespace s21 {
 
 class FileLoader {
  public:
-  FileLoader() {};
-  ~FileLoader() {};
+  FileLoader(){};
+  ~FileLoader(){};
   bool SetFileStream(std::string filename);
   std::vector<double> GetOutputValues();
   std::vector<double> GetInputValues();
   int GetCountOfElements();
   bool ReadElement();
-  void PrintOutputValues();  //  потом удалить
+  void PrintOutputValues();          //  потом удалить
   void PrintInputValues(bool view);  //  потом удалить
+
  private:
   std::ifstream filestream_;
   std::vector<double> output_values_;
@@ -31,4 +32,4 @@ class FileLoader {
   void ReadCountOfElements();
 };
 
-};
+};  // namespace s21

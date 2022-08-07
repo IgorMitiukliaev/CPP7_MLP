@@ -1,24 +1,26 @@
 #include "model.h"
 
 using s21::Model;
-s21::Model::Model() {}
+s21::Model::Model() { fileloader = new FileLoader; }
 
 void Model::createNetwork() {}
 
 void Model::loadDataset(string const &path) {
-  fileloader = new FileLoader;
   fileloader->SetFileStream(path);
   count_images = fileloader->GetCountOfElements();
-  while (fileloader->ReadElement()) {
-    //    fileloader.PrintOutputValues();  // вывод результирующего вектора
-    //    fileloader.PrintInputValues(false);  // вывод значениями
-    //    fileloader.PrintInputValues(true);   // вывод звёздочками
-    //    qDebug() << fileloader.GetInputValues();
-    input = fileloader->GetInputValues();
-    normalizeInput();
-    break;
-  }
+  fileloader->ReadElement();
+  //    fileloader.PrintOutputValues();  // вывод результирующего вектора
+//  fileloader->PrintInputValues(false);  // вывод значениями
+  //    fileloader.PrintInputValues(true);   // вывод звёздочками
+  input = fileloader->GetInputValues();
+  normalizeInput();
 };
+
+void Model::loadNextDataset() {
+  fileloader->ReadElement();
+  input = fileloader->GetInputValues();
+  normalizeInput();
+}
 
 std::vector<double> Model::getInputValues(int img_num) { return input; };
 

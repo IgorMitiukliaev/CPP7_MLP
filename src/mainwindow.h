@@ -34,5 +34,6 @@ class MainWindow : public QMainWindow {
   void on_btnInit_clicked();
   void on_btnLoadDataset_clicked();
   void on_inpNumCurrImg_textChanged(const QString &arg1);
+  void on_btnImgUp_clicked();
 };
 #endif  // MAINWINDOW_H

@@ -99,20 +99,24 @@ void MainWindow::drawPreview(int img_num) {
   const unsigned char *imageData =
       reinterpret_cast<const unsigned char *>(pData.constData());
   QImage qim = QImage(imageData, 28, 28, QImage::Format_ARGB32_Premultiplied);
-  qim = qim.transformed(QTransform().rotate(270)).scaled(280,280);
+  qim = qim.transformed(QTransform().rotate(90)).scaled(280, 280);
+  qim.mirror(false);
   QPixmap pixmap = QPixmap::fromImage(qim);
   wg->setPixmap(pixmap);
   wg->show();
 }
 
-void MainWindow::updatePreviewLabel(){
-    QString lbl = " of " + QString::number(num_images);
+void MainWindow::updatePreviewLabel() {
+  QString lbl = " of " + QString::number(num_images);
   ui->lblTotalImgs->setText(lbl);
   ui->inpNumCurrImg->setText(QString::number(num_curr_image));
 }
 
-void MainWindow::on_inpNumCurrImg_textChanged(const QString &arg1)
-{
+void MainWindow::on_inpNumCurrImg_textChanged(const QString &arg1) {}
 
+void MainWindow::on_btnImgUp_clicked() {
+  num_curr_image++;
+  c->loadNextDataset();
+  drawPreview();
+  updatePreviewLabel();
 }
-

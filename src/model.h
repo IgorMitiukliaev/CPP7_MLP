@@ -23,6 +23,7 @@ class Model {
   void loadDataset(string const &path);
   std::vector<double> getInputValues(int img_num = 0);
   int getCountOfElements();
+  void loadNextDataset();
 };
 
 }  // namespace s21
