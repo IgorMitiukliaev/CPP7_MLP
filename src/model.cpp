@@ -1,11 +1,12 @@
 #include "model.h"
 
 using s21::Model;
-s21::Model::Model() { fileloader = new FileLoader; }
+s21::Model::Model() { fileloader = nullptr; }
 
 void Model::createNetwork() {}
 
 void Model::loadDataset(string const &path) {
+  fileloader = new FileLoader;
   fileloader->SetFileStream(path);
   count_images = fileloader->GetCountOfElements();
   fileloader->ReadElement();

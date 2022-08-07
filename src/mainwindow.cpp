@@ -76,6 +76,7 @@ void MainWindow::on_btnLoadDataset_clicked() {
   qDebug() << fileName;
   c->loadDataset(fileName.toStdString());
   num_images = c->getCountOfElements();
+  num_curr_image = 0;
   on_Data_Loaded();
   drawPreview();
   updatePreviewLabel();
