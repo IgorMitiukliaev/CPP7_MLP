@@ -26,8 +26,6 @@ void Model::loadNextDataset() {
 
 std::vector<double> Model::getInputValues(int img_num) { return input; };
 
-double Model::sigmoid(double x) { return 1 / (1 + exp(-x)); }
-
 void Model::normalizeInput() {
   double max = *max_element(input.begin(), input.end());
   double min = *min_element(input.begin(), input.end());

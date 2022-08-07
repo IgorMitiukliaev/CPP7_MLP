@@ -1,7 +1,6 @@
 #ifndef MODEL_H
 #define MODEL_H
 #include <QDebug>
-#include <cmath>
 #include <string>
 
 #include "fileloader.h"
@@ -17,8 +16,6 @@ class Model {
   std::vector<double> input;
   unsigned int num_images, num_layers_hidden, num_neurons_hidden;
   unsigned int const num_neurons_input = 28 * 28, num_neurons_out = 26;
-
-  double sigmoid(double x);
   void normalizeInput();
 
  public:
