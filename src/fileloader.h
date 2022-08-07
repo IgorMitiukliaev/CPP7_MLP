@@ -14,6 +14,7 @@ class FileLoader {
   std::vector<double> GetInputValues();
   int GetCountOfElements();
   bool ReadElement();
+  void StartReadElements();
   void PrintOutputValues();  //  потом удалить
   void PrintInputValues(bool view);  //  потом удалить
  private:
