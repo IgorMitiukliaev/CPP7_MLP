@@ -3,15 +3,17 @@
 using s21::Model;
 s21::Model::Model() { fileloader = nullptr; }
 
-void Model::createNetwork() {}
+void Model::createNetwork(s21::initConfig config) {
+    nn = new NeuralNetwork(config);
+}
 
 void Model::loadDataset(string const &path) {
   fileloader = new FileLoader;
   fileloader->SetFileStream(path);
-  count_images = fileloader->GetCountOfElements();
+  num_images = fileloader->GetCountOfElements();
   fileloader->ReadElement();
   //    fileloader.PrintOutputValues();  // вывод результирующего вектора
-//  fileloader->PrintInputValues(false);  // вывод значениями
+  //  fileloader->PrintInputValues(false);  // вывод значениями
   //    fileloader.PrintInputValues(true);   // вывод звёздочками
   input = fileloader->GetInputValues();
   normalizeInput();
@@ -39,4 +41,4 @@ void Model::normalizeInput() {
   }
 }
 
-int Model::getCountOfElements() { return count_images; }
+int Model::getCountOfElements() { return num_images; }

@@ -25,6 +25,8 @@ set(PROJECT_SOURCES
         model.cpp
         fileloader.cpp
         fileloader.h
+        neuralnetwork.h
+        neuralnetwork.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

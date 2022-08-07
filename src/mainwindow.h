@@ -11,7 +11,7 @@
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
-}
+}  // namespace Ui
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow {
@@ -31,7 +31,7 @@ class MainWindow : public QMainWindow {
  private slots:
   void on_btnLoadImage_clicked();
   void on_sizeLayer1_valueChanged(int arg1);
-  void on_btnInit_clicked();
+  void on_btnInit_clicked(s21::initConfig config);
   void on_btnLoadDataset_clicked();
   void on_inpNumCurrImg_textChanged(const QString &arg1);
   void on_btnImgUp_clicked();
