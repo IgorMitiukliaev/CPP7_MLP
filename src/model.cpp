@@ -1,17 +1,16 @@
 #include "model.h"
 
 using s21::Model;
-s21::Model::Model() { fileloader = nullptr; }
+s21::Model::Model() { fileloader = new FileLoader; }
 
 void Model::createNetwork(s21::initConfig config) {
     nn = new NeuralNetwork(config);
 }
 
 void Model::loadDataset(string const &path) {
-  fileloader = new FileLoader;
-  fileloader->SetFileStream(path);
+  qDebug()<<fileloader->SetFileStream(path);
   num_images = fileloader->GetCountOfElements();
-  fileloader->ReadElement();
+  qDebug()<<fileloader->ReadElement();
   //    fileloader.PrintOutputValues();  // вывод результирующего вектора
   //  fileloader->PrintInputValues(false);  // вывод значениями
   //    fileloader.PrintInputValues(true);   // вывод звёздочками
