@@ -50,6 +50,7 @@ class NeuralNetwork {
   unsigned int const num_neurons_input = 28 * 28, num_neurons_out = 26;
   std::vector<NeuronGraph> input_layer;
   std::vector<NeuronGraph> out_layer;
+  std::vector<NeuronGraph> hidden_layer[5];
 };
 
 }  // namespace s21

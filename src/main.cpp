@@ -12,8 +12,8 @@ int main(int argc, char* argv[]) {
 
   // testing NN activation
   s21::initConfig init = {.num_neurons_input = 28 * 28,
-                          .num_layers_hidden = 2,
-                          .num_neurons_hidden = 20,
+                          .num_layers_hidden = 5,
+                          .num_neurons_hidden = 300,
                           .num_neurons_out = 26,
                           .isGraph = true};
   std::vector<s21::NeuronGraph> n_prev_layer(10);

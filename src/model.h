@@ -14,6 +14,7 @@ class Model {
   s21::FileLoader *fileloader;
   s21::NeuralNetwork *nn;
   std::vector<double> input;
+    std::vector<double> input_value;
   unsigned int num_images, num_layers_hidden, num_neurons_hidden;
   unsigned int const num_neurons_input = 28 * 28, num_neurons_out = 26;
   void normalizeInput();

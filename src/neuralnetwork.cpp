@@ -20,10 +20,19 @@ NeuralNetwork::NeuralNetwork(initConfig config)
     : num_layers_hidden(config.num_layers_hidden),
       num_neurons_hidden(config.num_neurons_hidden) {
   input_layer = std::vector<NeuronGraph>(config.num_neurons_input);
-  out_layer = std::vector<NeuronGraph>(config.num_neurons_out);
 
-  //  for (int i = 0; i < config.num_layers_input; i++) {
-  //  }
+  for (unsigned int i = 0; i < config.num_layers_hidden; i++) {
+    for (unsigned int j = 0; j < num_neurons_hidden; j++) {
+      if (i == 0) {
+        hidden_layer[i].push_back(NeuronGraph(&input_layer));
+      } else {
+        hidden_layer[i].push_back(NeuronGraph(&hidden_layer[i - 1]));
+      }
+    }
+  }
+  for (unsigned int i = 0; i < config.num_neurons_out; i++) {
+    out_layer.push_back(NeuronGraph(&hidden_layer[num_layers_hidden - 1]));
+  }
 };
 
 NeuronGraph::NeuronGraph()

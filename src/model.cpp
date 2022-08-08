@@ -15,6 +15,7 @@ void Model::loadDataset(string const &path) {
   //  fileloader->PrintInputValues(false);  // вывод значениями
   //    fileloader.PrintInputValues(true);   // вывод звёздочками
   input = fileloader->GetInputValues();
+  input_value = fileloader->GetOutputValues();
   normalizeInput();
 };
 
