@@ -1,16 +1,24 @@
 #include "model.h"
 
+#include "matrixneuralnetwork.h"
+#include "graphneuralnetwork.h"
+
 using s21::Model;
 s21::Model::Model() { fileloader = new FileLoader; }
 
-void Model::createNetwork(s21::initConfig config) {
-    nn = new NeuralNetwork(config);
+void Model::InitNetwork(s21::InitConfig *config) {
+  if (config->is_graph) {
+    network_ = new GraphNeuralNetwork();
+  } else {
+    network_ = new MatrixNeuralNetwork();
+  }
+  network_->InitNetwork(config);
 }
 
 void Model::loadDataset(string const &path) {
-  qDebug()<<fileloader->SetFileStream(path);
+  qDebug() << fileloader->SetFileStream(path);
   num_images = fileloader->GetCountOfElements();
-  qDebug()<<fileloader->ReadElement();
+  qDebug() << fileloader->ReadElement();
   //    fileloader.PrintOutputValues();  // вывод результирующего вектора
   //  fileloader->PrintInputValues(false);  // вывод значениями
   //    fileloader.PrintInputValues(true);   // вывод звёздочками

@@ -26,7 +26,10 @@ set(PROJECT_SOURCES
         fileloader.cpp
         fileloader.h
         neuralnetwork.h
-        neuralnetwork.cpp
+        matrixneuralnetwork.h
+        matrixneuralnetwork.cpp
+        graphneuralnetwork.h
+        graphneuralnetwork.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

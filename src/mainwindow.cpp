@@ -53,7 +53,7 @@ void MainWindow::on_sizeLayer1_valueChanged(int arg1) {
   }
 }
 
-void MainWindow::on_btnInit_clicked(s21::initConfig config) {}
+void MainWindow::on_btnInit_clicked(s21::InitConfig config) {}
 
 void MainWindow::on_btnLoadDataset_clicked() {
   QString fileName;
