@@ -23,7 +23,7 @@ void Model::loadDataset(string const &path) {
   //  fileloader->PrintInputValues(false);  // вывод значениями
   //    fileloader.PrintInputValues(true);   // вывод звёздочками
   input = fileloader->GetInputValues();
-  input_value = fileloader->GetOutputValues();
+  out = fileloader->GetOutputValues();
   normalizeInput();
 };
 
@@ -48,3 +48,10 @@ void Model::normalizeInput() {
 }
 
 int Model::getCountOfElements() { return num_images; }
+
+void Model::activate(std::vector<double> input){
+  network_->activate(input);
+  out = network_->getOutput();
+};
+
+

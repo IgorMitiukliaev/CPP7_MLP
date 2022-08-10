@@ -13,35 +13,32 @@ class Neuron {
   double sigmoid(double x);
 
  public:
-  double activate(double input = 1);
+  Neuron();
+  ~Neuron(){};
+  Neuron(std::vector<Neuron> *input_layer);
+//  void activate();
+//  void activate(std::vector<double> const &input);
+  void activate(const double input);
   double getResponse();
-};
-
-class NeuronGraph : public s21::Neuron {
- public:
-  NeuronGraph();
-  NeuronGraph(std::vector<NeuronGraph> *n);
   std::vector<double> getWeights();
-
- private:
-  std::vector<double> w;
-  std::vector<NeuronGraph *> n;
-  double res;
 };
 
 class GraphNeuralNetwork : public NeuralNetwork {
  private:
-  std::vector<NeuronGraph> input_layer;
-  std::vector<NeuronGraph> out_layer;
-  std::vector<NeuronGraph> hidden_layer[5];
+  std::vector<Neuron> input_layer;
+  std::vector<Neuron> out_layer;
+  std::vector<Neuron> hidden_layer[5];
 
  public:
   GraphNeuralNetwork(){};
   ~GraphNeuralNetwork(){};
-  void InitNetwork(InitConfig *config);
-//  void LearningNetwork(LearnConfig *config);
-//  int Predicate(std::vector<double> input);
-//  void SaveWeights(std::string *filename);
+  void InitNetwork(InitConfig *config) override;
+  //  void LearningNetwork(LearnConfig *config);
+  //  int Predicate(std::vector<double> input);
+  //  void SaveWeights(std::string *filename);
+  void activate(std::vector<double> &input) override;
+  std::vector<double> getOutput() override;
+
 };
 };      // namespace s21
 #endif  // GRAPHNEURALNETWORK_H

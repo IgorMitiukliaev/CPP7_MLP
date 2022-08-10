@@ -16,9 +16,9 @@ int main(int argc, char* argv[]) {
                           .num_neurons_hidden = 100,
                           .num_neurons_out = 26,
                           .is_graph = true};
-  std::vector<s21::NeuronGraph> n_prev_layer(10);
-  s21::NeuronGraph n0;
-  s21::NeuronGraph n1(&n_prev_layer);
+  std::vector<s21::Neuron> n_prev_layer(10);
+  s21::Neuron n0;
+  s21::Neuron n1(&n_prev_layer);
   s21::GraphNeuralNetwork nn;
   nn.InitNetwork(&init);
   return a.exec();

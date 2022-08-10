@@ -30,6 +30,8 @@ class NeuralNetwork {
   //  virtual void LearningNetwork(LearnConfig *config);
   //  virtual int Predicate(std::vector<double> input);
   //  virtual void SaveWeights(std::string *filename);
+  virtual  void activate(std::vector<double> &input);
+  virtual std::vector<double> getOutput();
 
  protected:
   unsigned int num_layers_hidden, num_neurons_hidden;

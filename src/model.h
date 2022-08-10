@@ -14,17 +14,18 @@ class Model {
   s21::FileLoader *fileloader;
   s21::NeuralNetwork *network_;
   std::vector<double> input;
-    std::vector<double> input_value;
+  std::vector<double> out;
   unsigned int num_images, num_layers_hidden, num_neurons_hidden;
   unsigned int const num_neurons_input = 28 * 28, num_neurons_out = 26;
   void normalizeInput();
 
  public:
   Model();
-//  ~Model();
-  void InitNetwork(InitConfig* config);
+  ~Model(){};
+  void InitNetwork(InitConfig *config);
   void loadDataset(string const &path);
   std::vector<double> getInputValues(int img_num = 0);
+  void activate(std::vector<double> input);
   int getCountOfElements();
   void loadNextDataset();
 };
