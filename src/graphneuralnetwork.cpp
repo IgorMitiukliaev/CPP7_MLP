@@ -3,15 +3,20 @@
 using s21::NeuralNetwork, s21::Neuron, s21::GraphNeuralNetwork;
 
 double Neuron::sigmoid(double x) { return 1 / (1 + exp(-x)); }
+double Neuron::dsigmoid(double x) { return sigmoid(x) / (1 - sigmoid(x)); }
 
 void Neuron::activate(const double input = 1) {
-  for (int i = 0, sum = 0; i < n.size(); i++) {
-    sum += w[i] * (n[i] != nullptr ? n[i]->getResponse() : input);
+  sum = 0;
+  for (int i = 0; i < n.size(); i++) {
+    sum += w[i] * ((n[i] == nullptr) ? input : n[i]->getResponse());
   }
   out = sigmoid(sum);
+  dout = dsigmoid(sum);
 }
 
 double Neuron::getResponse() { return out; }
+double Neuron::getInput() { return sum; }
+double Neuron::getDResponse() { return dout; };
 
 void GraphNeuralNetwork::InitNetwork(InitConfig *config) {
   num_layers_hidden = config->num_layers_hidden;
@@ -69,4 +74,18 @@ std::vector<double> GraphNeuralNetwork::getOutput() {
   return res;
 };
 
-void GraphNeuralNetwork::teachNetwork(std::vector<double> err) {  qDebug() << "err: " << err;};
+void GraphNeuralNetwork::teachNetwork(std::vector<double> &correct) {
+  std::vector<double> sigma_[num_layers_hidden + 2];
+  sigma_[0] = std::vector<double>(num_neurons_out);
+  for (unsigned int i = 0; i < num_neurons_out; i++) {
+    sigma_[0][i] =
+        (correct[i] - out_layer[i].getResponse()) * out_layer[i].getDResponse();
+  }
+  for (unsigned int i = 0; i < num_layers_hidden; i++) {
+    sigma_[i + 1] = std::vector<double>(num_neurons_hidden);
+    for (unsigned int j = 0; j < num_neurons_hidden; j++) {
+
+    }
+  }
+  qDebug() << "sigma_: " << sigma_;
+};

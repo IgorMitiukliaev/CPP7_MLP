@@ -65,5 +65,5 @@ void Model::teachNetwork() {
   qDebug() << "out: " << out;
   qDebug() << "correct: " << correct;
 
-  network_->teachNetwork(err);
+  network_->teachNetwork(correct);
 }
