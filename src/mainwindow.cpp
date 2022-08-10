@@ -99,7 +99,7 @@ void MainWindow::drawPreview(int img_num) {
       reinterpret_cast<const unsigned char *>(pData.constData());
   QImage qim = QImage(imageData, 28, 28, QImage::Format_ARGB32_Premultiplied);
   qim = qim.transformed(QTransform().rotate(90)).scaled(280, 280);
-  qim.mirror(false);
+  qim = qim.mirrored(false, true);
   QPixmap pixmap = QPixmap::fromImage(qim);
   wg->setPixmap(pixmap);
   wg->show();
