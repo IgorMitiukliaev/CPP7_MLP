@@ -53,8 +53,6 @@ void MainWindow::on_sizeLayer1_valueChanged(int arg1) {
   }
 }
 
-void MainWindow::on_btnInit_clicked(s21::InitConfig config) {}
-
 void MainWindow::on_btnLoadDataset_clicked() {
   QString fileName;
   QFileDialog *fileDialog = new QFileDialog(this);
@@ -120,4 +118,15 @@ void MainWindow::on_btnImgUp_clicked() {
   c->loadNextDataset();
   drawPreview();
   updatePreviewLabel();
+}
+
+void MainWindow::on_btnInit_clicked() {
+  s21::InitConfig config;
+  config.is_graph = ui->rbtnGraph->isChecked();
+  config.num_layers_hidden = ui->num_layers_hidden->value();
+  config.num_neurons_hidden = ui->num_neurons_hidden->value();
+  config.num_neurons_input = pow(ui->num_neurons_input->text().toInt(),2);
+  config.num_neurons_out = ui->num_neurons_out->text().toInt();
+  qDebug() << config.is_graph;
+  c->InitNetwork(config);
 }

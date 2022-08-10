@@ -1,6 +1,6 @@
 #ifndef GRAPHNEURALNETWORK_H
 #define GRAPHNEURALNETWORK_H
-
+#include <QDebug>
 #include "neuralnetwork.h"
 
 namespace s21 {
@@ -9,7 +9,7 @@ class Neuron {
  private:
   std::vector<double> w;
   std::vector<Neuron *> n;
-  double res;
+  double sum, out;
   double sigmoid(double x);
 
  public:
@@ -38,6 +38,7 @@ class GraphNeuralNetwork : public NeuralNetwork {
   //  void SaveWeights(std::string *filename);
   void activate(std::vector<double> &input) override;
   std::vector<double> getOutput() override;
+  void teachNetwork(std::vector<double> err) override;
 
 };
 };      // namespace s21
