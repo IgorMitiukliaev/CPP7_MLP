@@ -9,8 +9,8 @@ class Matrix {
     Matrix(Matrix&& other);
     Matrix(const Matrix& other);
 
-    double ActivationFunction(double value);
-    Matrix Mult(Matrix& m);
+    double Sigmoid(double value);
+    Matrix ForwardSignal(Matrix& m);
     void PrintMatrix();
     ~Matrix(){};
 

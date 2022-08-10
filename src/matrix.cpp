@@ -58,22 +58,22 @@ s21::Matrix::Matrix(s21::Matrix&& other) {
 }
 
 
-s21::Matrix s21::Matrix::Mult(s21::Matrix& m) {
+s21::Matrix s21::Matrix::ForwardSignal(s21::Matrix& m) {
   Matrix res(rows_, m.columns_, false);
   for (auto i = 0; i < rows_; i++) {
     for (auto j = 0; j < m.columns_; j++) {
       for (auto k = 0; k < columns_; k++) {
         res.matrix_[i][j] += matrix_[i][k]*m.matrix_[k][j];
       }
-      res.matrix_[i][j] = ActivationFunction(res.matrix_[i][j]);
+      res.matrix_[i][j] = Sigmoid(res.matrix_[i][j]);
     }
   }
   return res;
 }
 
 void s21::Matrix::PrintMatrix() {
-  std::cout << std::endl;
-  std::cout << std::endl;
+  std::cout << std::endl << std::endl;
+  std::cout << "Rows: " <<rows_ <<" Columns:" << columns_ << std::endl;
   for(auto row : matrix_) {
     for(auto element : row) {
       std::cout << element <<" ";
@@ -82,6 +82,6 @@ void s21::Matrix::PrintMatrix() {
   }
 }
 
-double s21::Matrix::ActivationFunction(double value) {
+double s21::Matrix::Sigmoid(double value) {
   return 1/(1+exp(-value));
 }
