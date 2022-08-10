@@ -23,17 +23,20 @@ struct LearnConfig {
 
 class NeuralNetwork {
  public:
-  NeuralNetwork(){;};
-  ~NeuralNetwork(){;};
+  NeuralNetwork(){};
+  ~NeuralNetwork(){};
   //  NeuralNetwork(InitConfig config);
   virtual void InitNetwork(InitConfig *config){};  //инициализация из конфига
   //  virtual void LearningNetwork(LearnConfig *config);
   //  virtual int Predicate(std::vector<double> input);
   //  virtual void SaveWeights(std::string *filename);
+  virtual void activate(std::vector<double> &input){};
+  virtual std::vector<double> getOutput() { return std::vector<double>(1); };
+  virtual void teachNetwork(std::vector<double> err) {};
 
  protected:
-  unsigned int num_layers_hidden, num_neurons_hidden;
-  unsigned int const num_neurons_input = 28 * 28, num_neurons_out = 26;
+  unsigned int num_layers_hidden, num_neurons_hidden, num_neurons_input,
+      num_neurons_out;
 };
 
 }  // namespace s21

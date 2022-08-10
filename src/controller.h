@@ -15,6 +15,7 @@ class Controller {
   std::vector<double> getInputValues(int img_num = 0);
   int getCountOfElements();
   void loadNextDataset();
+  void InitNetwork(InitConfig &config);
 };
 }  // namespace s21
 #endif  // CONTROLLER_H
