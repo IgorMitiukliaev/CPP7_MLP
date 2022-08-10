@@ -3,6 +3,7 @@
 bool s21::FileLoader::SetFileStream(std::string filename) {
   filestream_.open(filename);
   ReadCountOfElements();
+  StartReadElements();
   return filestream_.good();
 }
 

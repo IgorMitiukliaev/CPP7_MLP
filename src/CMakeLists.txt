@@ -23,6 +23,13 @@ set(PROJECT_SOURCES
         controller.cpp
         model.h
         model.cpp
+        fileloader.cpp
+        fileloader.h
+        neuralnetwork.h
+        matrixneuralnetwork.h
+        matrixneuralnetwork.cpp
+        graphneuralnetwork.h
+        graphneuralnetwork.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

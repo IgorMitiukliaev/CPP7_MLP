@@ -1,14 +1,14 @@
-#include <sstream>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <vector>
 
 namespace s21 {
 
 class FileLoader {
  public:
-  FileLoader() {};
-  ~FileLoader() {};
+  FileLoader(){};
+  ~FileLoader(){};
   bool SetFileStream(std::string filename);
   std::vector<double> GetOutputValues();
   std::vector<double> GetInputValues();
@@ -32,4 +32,4 @@ class FileLoader {
   void ReadCountOfElements();
 };
 
-};
+};  // namespace s21
