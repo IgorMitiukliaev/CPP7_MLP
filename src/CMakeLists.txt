@@ -30,6 +30,8 @@ set(PROJECT_SOURCES
         matrixneuralnetwork.cpp
         graphneuralnetwork.h
         graphneuralnetwork.cpp
+        matrix.h
+        matrix.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
