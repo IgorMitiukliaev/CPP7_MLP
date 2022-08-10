@@ -53,7 +53,6 @@ void GraphNeuralNetwork::activate(std::vector<double> &input) {
   for (unsigned int i = 0; i < num_neurons_input; i++) {
     input_layer[i].activate(input[i]);
   }
-
   for (unsigned int i = 0; i < num_layers_hidden; i++) {
     for (unsigned int j = 0; j < num_neurons_hidden; j++) {
       hidden_layer[i][j].activate();
