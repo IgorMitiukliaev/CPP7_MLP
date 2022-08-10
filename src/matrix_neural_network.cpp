@@ -1,4 +1,4 @@
-#include "matrixneuralnetwork.h"
+#include "matrix_neural_network.h"
 
 void s21::MatrixNeuralNetwork::InitNetwork(s21::InitConfig* config) {
   num_layers_hidden = config->num_layers_hidden;
@@ -14,12 +14,12 @@ void s21::MatrixNeuralNetwork::InitWeights() {
     weights_.push_back(s21::Matrix(num_neurons_hidden, num_neurons_hidden, true));
   }
   weights_.push_back(s21::Matrix(num_neurons_hidden, num_neurons_out, true));
-  for (auto i = 0; i < num_layers_hidden; i++) {
-    weights_[i].PrintMatrix();
-  }
+  // for (auto i = 0; i < num_layers_hidden; i++) {
+  //   weights_[i].PrintMatrix();
+  // }
 }
 
-void s21::MatrixNeuralNetwork::activate(std::vector<double> &input) {
+void s21::MatrixNeuralNetwork::Activate(std::vector<double> &input) {
   s21::Matrix input_matrix(input);
   neurons_values_.push_back(input_matrix.ForwardSignal(weights_[0]));
   neurons_values_[0].PrintMatrix();
@@ -27,4 +27,14 @@ void s21::MatrixNeuralNetwork::activate(std::vector<double> &input) {
     neurons_values_.push_back(neurons_values_[i-1].ForwardSignal(weights_[i]));
     neurons_values_[i].PrintMatrix();
   }
+}
+
+void s21::MatrixNeuralNetwork::CalcError(const std::vector<double> &output) {
+  errors_.clear();
+  auto predicate = neurons_values_[num_layers_hidden].ToVector();
+  for (auto i = 0; i < output.size(); i++) errors_.push_back(predicate[i]-output[i]);
+}
+
+std::vector<double> s21::MatrixNeuralNetwork::getOutput() {
+  return neurons_values_[num_layers_hidden].ToVector();
 }

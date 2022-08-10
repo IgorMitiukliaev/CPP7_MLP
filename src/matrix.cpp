@@ -85,3 +85,7 @@ void s21::Matrix::PrintMatrix() {
 double s21::Matrix::Sigmoid(double value) {
   return 1/(1+exp(-value));
 }
+
+std::vector<double> s21::Matrix::ToVector() {
+  return matrix_[0];
+}

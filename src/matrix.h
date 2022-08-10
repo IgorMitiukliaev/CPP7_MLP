@@ -11,6 +11,7 @@ class Matrix {
 
     double Sigmoid(double value);
     Matrix ForwardSignal(Matrix& m);
+    std::vector<double> ToVector();
     void PrintMatrix();
     ~Matrix(){};
 

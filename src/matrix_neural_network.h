@@ -10,10 +10,13 @@ class MatrixNeuralNetwork : public NeuralNetwork {
   MatrixNeuralNetwork(){};
   ~MatrixNeuralNetwork(){};
   void InitNetwork(InitConfig* config) override;  // Инициализация весов
-  void activate(std::vector<double> &input) override;  //  Прямое распространение сигнала
+  void Activate(std::vector<double> &input) override;  //  Прямое распространение сигнала
+  std::vector<double> getOutput() override;
+  void CalcError(const std::vector<double> &output);
  private:
   std::vector<Matrix> weights_;
   std::vector<Matrix> neurons_values_;
+  std::vector<double> errors_;
   void InitWeights();
   
 };
