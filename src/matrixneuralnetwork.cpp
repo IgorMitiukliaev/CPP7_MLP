@@ -1,5 +1,4 @@
 #include "matrixneuralnetwork.h"
-#include <QDebug>
 
 void s21::MatrixNeuralNetwork::InitNetwork(s21::InitConfig* config) {
   num_layers_hidden = config->num_layers_hidden;
@@ -10,7 +9,6 @@ void s21::MatrixNeuralNetwork::InitNetwork(s21::InitConfig* config) {
 }
 
 void s21::MatrixNeuralNetwork::InitWeights() {
-  qDebug("I m here");
   weights_.push_back(s21::Matrix(num_neurons_input, num_neurons_hidden, true));
   for (auto i = 1; i < num_layers_hidden; i++) {
     weights_.push_back(s21::Matrix(num_neurons_hidden, num_neurons_hidden, true));
