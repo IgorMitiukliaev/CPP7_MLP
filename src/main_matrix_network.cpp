@@ -3,8 +3,8 @@
 
 int main() {
   s21::InitConfig init = {.num_neurons_input = 28 * 28,
-                           .num_layers_hidden = 5,
-                           .num_neurons_hidden = 100,
+                           .num_layers_hidden = 2,
+                           .num_neurons_hidden = 10,
                            .num_neurons_out = 26,
                            .is_graph = false};
   s21::MatrixNeuralNetwork network;
@@ -15,7 +15,7 @@ int main() {
   while (loader.ReadElement()) {
     auto input = loader.GetInputValues(); 
     network.Activate(input);
-    network.CalcError(loader.GetOutputValues());
+    network.CalcNewWeights(loader.GetOutputValues());
     break;
   }
 }

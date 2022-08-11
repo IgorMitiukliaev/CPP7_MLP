@@ -11,6 +11,9 @@ class Matrix {
 
     double Sigmoid(double value);
     Matrix ForwardSignal(Matrix& m);
+    Matrix BackSignalError(Matrix& err, Matrix& w);
+    void CalcDeltaWeights(Matrix& m, Matrix& o, Matrix& s);
+    void CalcWeights(Matrix& w, Matrix& d);
     std::vector<double> ToVector();
     void PrintMatrix();
     ~Matrix(){};

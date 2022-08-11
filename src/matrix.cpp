@@ -89,3 +89,37 @@ double s21::Matrix::Sigmoid(double value) {
 std::vector<double> s21::Matrix::ToVector() {
   return matrix_[0];
 }
+
+s21::Matrix s21::Matrix::BackSignalError(s21::Matrix& err, s21::Matrix& w) {
+  Matrix res(rows_, w.rows_, false);
+  for (auto i = 0; i < res.rows_; i++) {
+     for (auto j = 0; j < res.columns_; j++) {
+       for (auto k = 0; k < w.columns_; k++) {
+         res.matrix_[i][j] += err.matrix_[i][k]*w.matrix_[k][j];
+       }
+       res.matrix_[i][j] = matrix_[i][j]*(1-matrix_[i][j])*res.matrix_[i][j];
+   }
+  }
+  return res;
+}
+
+void s21::Matrix::CalcDeltaWeights(s21::Matrix& w, s21::Matrix& o, s21::Matrix& s) {
+  double inertia_coeff = 0.1;
+  double learning_rate = 0.1;
+
+  for (auto i = 0; i < rows_; i++) {
+    for (auto j = 0; j < columns_; j++) {
+      matrix_[i][j] = inertia_coeff*w.matrix_[i][j]
+                    + (1-inertia_coeff)*learning_rate
+                    * o.matrix_[0][i] * s.matrix_[0][i];
+    }
+  }
+}
+
+void s21::Matrix::CalcWeights(s21::Matrix& w, s21::Matrix& d) {
+  for (auto i = 0; i < rows_; i++) {
+    for (auto j = 0; j < columns_; j++) {
+      matrix_[i][j] = w.matrix_[i][j] - d.matrix_[i][j];
+    }
+  }
+}
