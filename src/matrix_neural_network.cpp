@@ -17,22 +17,23 @@ void s21::MatrixNeuralNetwork::InitWeights() {
   }
   weights_.push_back(s21::Matrix(num_neurons_hidden, num_neurons_out, true));
   delta_weights_.push_back(s21::Matrix(num_neurons_hidden, num_neurons_out, false));
-  std::cout <<"Weights"<<std::endl;
-  for (auto i = 0; i <= num_layers_hidden; i++) {
-    weights_[i].PrintMatrix();
-  }
+  // std::cout <<"Weights"<<std::endl;
+  // for (auto i = 0; i <= num_layers_hidden; i++) {
+  //   weights_[i].PrintMatrix();
+  // }
 }
 
 void s21::MatrixNeuralNetwork::Activate(std::vector<double> &input) {
   s21::Matrix input_matrix(input);
+  neurons_values_.clear();
   neurons_values_.push_back(input_matrix.ForwardSignal(weights_[0]));
   for (auto i = 1; i <= num_layers_hidden; i++) {
     neurons_values_.push_back(neurons_values_[i-1].ForwardSignal(weights_[i]));
   }
-  std::cout <<"Outs"<<std::endl;
-  for (auto i = 0; i <= num_layers_hidden; i++) {
-    neurons_values_[i].PrintMatrix();
-  }
+  // std::cout <<"Outs"<<std::endl;
+  // for (auto i = 0; i <= num_layers_hidden; i++) {
+  //   neurons_values_[i].PrintMatrix();
+  // }
 }
 
 void s21::MatrixNeuralNetwork::CalcError(const std::vector<double> &output) {
@@ -43,6 +44,7 @@ void s21::MatrixNeuralNetwork::CalcError(const std::vector<double> &output) {
 
 void s21::MatrixNeuralNetwork::CalcOutputError(const std::vector<double> &output) {
   std::vector<double> output_error;
+  neurons_errors_.clear();
   auto predicate = neurons_values_[num_layers_hidden].ToVector();
   for (auto i = 0; i < output.size(); i++) {
     auto err = -predicate[i]*(1-predicate[i])*(output[i]-predicate[i]);
@@ -68,10 +70,10 @@ void s21::MatrixNeuralNetwork::CalcHiddenErrors() {
     neurons_errors_.push_back(neurons_errors_[i-1].BackSignalError(neurons_values_[j],weights_[j]));
     j--;
   }
-  std::cout <<"Errors"<<std::endl;
-  for (auto i = 0; i <= num_layers_hidden; i++) {
-    neurons_errors_[i].PrintMatrix();
-  }
+  // std::cout <<"Errors"<<std::endl;
+  // for (auto i = 0; i <= num_layers_hidden; i++) {
+  //   neurons_errors_[i].PrintMatrix();
+  // }
 }
 
 void s21::MatrixNeuralNetwork::CalcDeltaWeights() {
@@ -80,14 +82,22 @@ void s21::MatrixNeuralNetwork::CalcDeltaWeights() {
     delta_weights_[i].CalcDeltaWeights(delta_weights_[i],neurons_values_[i], neurons_errors_[j]);
     j--;
   }
-  std::cout <<"Deltas"<<std::endl;
-  for (auto i = 0; i <= num_layers_hidden; i++) {
-    delta_weights_[i].PrintMatrix();
-  }
+  // std::cout <<"Deltas"<<std::endl;
+  // for (auto i = 0; i <= num_layers_hidden; i++) {
+  //   delta_weights_[i].PrintMatrix();
+  // }
 }
 
 void s21::MatrixNeuralNetwork::CalcWeights() {
   for (auto i = 0; i < num_layers_hidden; i++) {
     weights_[i+1].CalcWeights(weights_[i], delta_weights_[i+1]);
   }
+}
+
+void s21::MatrixNeuralNetwork::PrintOutputValues() {
+  std::vector<double> output = getOutput();
+  for (auto iter:output) {
+    std::cout << iter;
+  }
+  std::cout << std::endl;
 }

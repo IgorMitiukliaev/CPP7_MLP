@@ -18,6 +18,7 @@ class MatrixNeuralNetwork : public NeuralNetwork {
   void CalcHiddenErrors();
   void CalcDeltaWeights();
   void CalcWeights();
+  void PrintOutputValues(); 
  private:
   std::vector<Matrix> weights_;
   std::vector<Matrix> delta_weights_;
