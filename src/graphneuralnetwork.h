@@ -9,27 +9,36 @@ namespace s21 {
 class Neuron {
  private:
   std::vector<double> w;
+  std::vector<double> dw;
   std::vector<Neuron *> n;
-  double sum, out, dout;
+
+  double sum = 0, out = 0, dout = 0, err_ = 0, delta_ = 0;
   double sigmoid(double x);
   double dsigmoid(double x);
 
  public:
   Neuron();
   ~Neuron(){};
+  std::vector<Neuron *> p;
   Neuron(std::vector<Neuron> *input_layer);
-  //  void activate();
-  //  void activate(std::vector<double> const &input);
   void activate(const double input);
-  double getResponse();
-    double getDResponse();
-  double getInput();
+  double getResponse() { return out; };
+  double getDResponse() { return dout; };
+  double getInput() { return sum; };
+  void evaluateErr(unsigned int i, double correct);
+  void refreshWeight(double const &a_, double const &g_);
+//  void refreshWeight(double value) { delta_ = value; };
+  double getDelta() { return delta_; };
   std::vector<double> getWeights();
+  double getWeight(int i) {
+    if (i < 0 or i >= w.size()) throw std::runtime_error("index out of bounds");
+    return w[i];
+  };
 };
 
 class GraphNeuralNetwork : public NeuralNetwork {
  private:
-  float _a = 0.3, _g = 0.1;
+  float a_ = 0.3, g_ = 0.1;
   std::vector<Neuron> input_layer;
   std::vector<Neuron> out_layer;
   std::vector<Neuron> hidden_layer[5];

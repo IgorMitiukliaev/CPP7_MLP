@@ -36,6 +36,7 @@ void Model::loadNextDataset() {
 }
 
 std::vector<double> Model::getInputValues(int img_num) { return input; };
+std::vector<double> Model::getOutValues(){ return out; };
 std::vector<double> Model::getCorrectValue(int img_num) { return correct; };
 
 void Model::normalizeInput() {
