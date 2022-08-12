@@ -7,7 +7,7 @@
 namespace s21 {
 
 class Neuron {
- private:
+ public:
   std::vector<double> w;
   std::vector<double> dw;
   std::vector<Neuron *> n;
@@ -38,7 +38,7 @@ class Neuron {
 
 class GraphNeuralNetwork : public NeuralNetwork {
  private:
-  float a_ = 0.3, g_ = 0.1;
+  float const a_ = 0.5, g_ = 0.2;
   std::vector<Neuron> input_layer;
   std::vector<Neuron> out_layer;
   std::vector<Neuron> hidden_layer[5];

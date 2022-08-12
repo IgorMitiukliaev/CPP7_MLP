@@ -3,7 +3,7 @@
 using s21::NeuralNetwork, s21::Neuron, s21::GraphNeuralNetwork;
 
 double Neuron::sigmoid(double x) { return 1 / (1 + exp(-x)); }
-double Neuron::dsigmoid(double x) { return sigmoid(x) / (1 - sigmoid(x)); }
+double Neuron::dsigmoid(double x) { return sigmoid(x) * (1 - sigmoid(x)); }
 
 void Neuron::activate(const double input = 1) {
   sum = 0;
@@ -35,12 +35,14 @@ void GraphNeuralNetwork::InitNetwork(InitConfig *config) {
   }
 
   for (unsigned int i = 0; i < num_neurons_input; i++) {
+    input_layer[i].p.clear();
     for (unsigned int j = 0; j < num_neurons_hidden; j++) {
       input_layer[i].p.push_back(&hidden_layer[0][j]);
     }
   }
 
   for (unsigned int i = 0; i < num_neurons_hidden; i++) {
+    hidden_layer[num_layers_hidden - 1][i].p.clear();
     for (unsigned int j = 0; j < num_neurons_out; j++) {
       hidden_layer[num_layers_hidden - 1][i].p.push_back(&out_layer[j]);
     }
@@ -48,6 +50,7 @@ void GraphNeuralNetwork::InitNetwork(InitConfig *config) {
 
   for (unsigned int i = 0; i < num_layers_hidden - 1; i++) {
     for (unsigned int j = 0; j < num_neurons_hidden; j++) {
+      hidden_layer[i][j].p.clear();
       for (unsigned int k = 0; k < num_neurons_hidden; k++) {
         hidden_layer[i][j].p.push_back(&hidden_layer[i + 1][k]);
       }
@@ -110,29 +113,32 @@ void Neuron::evaluateErr(unsigned int num_pos = 0, double correct = 0) {
   }
 };
 
-void Neuron::refreshWeight(double const &a_, double const &g_){
-  for (unsigned int i = 0; i< dw.size(); i++){
-      dw[i] *= g_;
-      dw[i] += a_ * delta_ * n[i]->getResponse();
-      w[i] += dw[i];
-    }
+void Neuron::refreshWeight(double const &a_, double const &g_) {
+  for (unsigned int i = 0; i < dw.size(); i++) {
+    dw[i] *= g_;
+    dw[i] += a_ * delta_ * n[i]->getResponse();
+    w[i] += dw[i];
+  }
 };
 
 void GraphNeuralNetwork::teachNetwork(std::vector<double> &correct) {
   for (unsigned int i = 0; i < num_neurons_out; i++) {
-    out_layer[i].evaluateErr(correct[i]);
+    out_layer[i].evaluateErr(i, correct[i]);
   }
   for (int i = num_layers_hidden - 1; i >= 0; i--) {
     for (unsigned int j = 0; j < num_neurons_hidden; j++) {
-      hidden_layer[i][j].evaluateErr(j);
+      hidden_layer[i][j].evaluateErr(j, 0);
     }
   }
   for (unsigned int i = 0; i < num_neurons_input; i++) {
-    input_layer[i].evaluateErr(i);
+    input_layer[i].evaluateErr(i, 0);
   }
-  qDebug() << "here";
-
   for (unsigned int i = 0; i < num_neurons_out; i++) {
     out_layer[i].refreshWeight(a_, g_);
+  }
+  for (int i = num_layers_hidden - 1; i >= 0; i--) {
+    for (unsigned int j = 0; j < num_neurons_hidden; j++) {
+      hidden_layer[i][j].refreshWeight(a_, g_);
+    }
   }
 };

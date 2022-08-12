@@ -16,9 +16,9 @@ void Model::InitNetwork(s21::InitConfig &config) {
 }
 
 void Model::loadDataset(string const &path) {
-  qDebug() << fileloader->SetFileStream(path);
+  fileloader->SetFileStream(path);
   num_images = fileloader->GetCountOfElements();
-  qDebug() << fileloader->ReadElement();
+  fileloader->ReadElement();
   //    fileloader.PrintOutputValues();  // вывод результирующего вектора
   //  fileloader->PrintInputValues(false);  // вывод значениями
   //    fileloader.PrintInputValues(true);   // вывод звёздочками
@@ -31,7 +31,7 @@ void Model::loadNextDataset() {
   fileloader->ReadElement();
   input = fileloader->GetInputValues();
   normalizeInput();
-  qDebug() << fileloader->GetOutputValues();
+//  qDebug() << fileloader->GetOutputValues();
   correct = fileloader->GetOutputValues();
 }
 
@@ -63,8 +63,8 @@ void Model::teachNetwork() {
   for (int i = 0; i < correct.size(); i++) {
     err[i] = (pow(out[i] - correct[i], 2));
   }
-  qDebug() << "out: " << out;
-  qDebug() << "correct: " << correct;
+//  qDebug() << "out: " << out;
+//  qDebug() << "correct: " << correct;
 
   network_->teachNetwork(correct);
 }
