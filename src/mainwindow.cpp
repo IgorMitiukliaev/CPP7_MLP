@@ -5,7 +5,10 @@
 using s21::Controller;
 
 MainWindow::MainWindow(s21::Controller *controller, QWidget *parent)
-    : c(controller), QMainWindow(parent), ui(new Ui::MainWindow) {
+    : c(controller),
+      QMainWindow(parent),
+      ui(new Ui::MainWindow),
+      paintWindow(new PaintWindow) {
   ui->setupUi(this);
 }
 
@@ -18,7 +21,15 @@ void MainWindow::on_btnLoadImage_clicked() {
   QString fileName = dialog.getOpenFileName(this, tr("Open File"), "/home",
                                             tr("Images (*.bmp)"));
   qDebug() << fileName;
+  QImage image(fileName);
+  QGraphicsScene *scene = new QGraphicsScene();
+  scene->addPixmap(QPixmap::fromImage(image));
+  scene->setSceneRect(0,0,image.width(),image.height());
+  ui->graphicsView->setScene(scene);
 }
+
+// C:\msys64\home\buste\mlp\CPP7_MLP-0\misc\images
+
 
 void MainWindow::on_sizeLayer1_valueChanged(int arg1) {
   qDebug() << arg1;
@@ -52,6 +63,8 @@ void MainWindow::on_sizeLayer1_valueChanged(int arg1) {
     ui->lblLayer5->setDisabled(false);
   }
 }
+
+void MainWindow::on_btnInit_clicked(s21::initConfig config) {}
 
 void MainWindow::on_btnLoadDataset_clicked() {
   QString fileName;
@@ -130,3 +143,26 @@ void MainWindow::on_btnInit_clicked() {
   qDebug() << config.is_graph;
   c->InitNetwork(config);
 }
+
+void MainWindow::on_pushButton_draw_clicked()
+{
+    paintWindow->show();
+}
+
+
+void MainWindow::on_pushButton_8_clicked()
+{
+  auto _vector = paintWindow->GetVectorPixels();
+  std::cout << _vector.size() << std::endl;
+  for (int i = 0; i < 28; ++i) {
+    for (int j = 0; j < 28; ++j) {
+      if (_vector[i * 28 + j] > 0) {
+        std::cout << "#" << " ";
+      } else {
+        std::cout << "  ";
+      }
+    }
+    std::cout << std::endl;
+  } 
+}
+

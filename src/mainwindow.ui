@@ -28,14 +28,14 @@
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>0</y>
+      <x>30</x>
+      <y>50</y>
       <width>1200</width>
       <height>770</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tabInit">
      <attribute name="title">
@@ -47,7 +47,7 @@
         <x>20</x>
         <y>20</y>
         <width>161</width>
-        <height>86</height>
+        <height>107</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -276,7 +276,7 @@
             </font>
            </property>
            <property name="minimum">
-            <number>2</number>
+            <number>100</number>
            </property>
            <property name="maximum">
             <number>1000</number>
@@ -652,7 +652,7 @@
         <x>20</x>
         <y>520</y>
         <width>401</width>
-        <height>32</height>
+        <height>42</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout">
@@ -766,7 +766,7 @@
         <x>20</x>
         <y>440</y>
         <width>402</width>
-        <height>28</height>
+        <height>35</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_9">
@@ -872,7 +872,7 @@
         <x>30</x>
         <y>380</y>
         <width>391</width>
-        <height>29</height>
+        <height>35</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
@@ -1124,7 +1124,7 @@
         </widget>
        </item>
        <item row="0" column="2">
-        <widget class="QPushButton" name="pushButton_6">
+        <widget class="QPushButton" name="pushButton_draw">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -1182,7 +1182,7 @@
      <x>0</x>
      <y>0</y>
      <width>1200</width>
-     <height>24</height>
+     <height>32</height>
     </rect>
    </property>
   </widget>

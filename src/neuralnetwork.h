@@ -19,6 +19,31 @@ struct InitConfig {
 struct LearnConfig {
   unsigned int num_cross_validation_group;
   unsigned int num_epochs;
+  bool isGraph;
+};
+
+class Neuron {
+ private:
+  std::vector<double> w;
+  std::vector<Neuron *> n;
+  double res;
+  double sigmoid(double x);
+
+ public:
+  double activate(double input = 1);
+  double getResponse();
+};
+
+class NeuronGraph : public s21::Neuron {
+ public:
+  NeuronGraph();
+  NeuronGraph(std::vector<NeuronGraph> *n);
+  std::vector<double> getWeights();
+
+ private:
+  std::vector<double> w;
+  std::vector<NeuronGraph *> n;
+  double res;
 };
 
 class NeuralNetwork {
@@ -33,10 +58,14 @@ class NeuralNetwork {
   virtual void activate(std::vector<double> &input){};
   virtual std::vector<double> getOutput() { return std::vector<double>(1); };
   virtual void teachNetwork(std::vector<double> err) {};
-
  protected:
   unsigned int num_layers_hidden, num_neurons_hidden, num_neurons_input,
       num_neurons_out;
+  //  std::vector<s21::NeuronGraph> layer;
+ private:
+  std::vector<NeuronGraph> input_layer;
+  std::vector<NeuronGraph> out_layer;
+  std::vector<NeuronGraph> hidden_layer[5];
 };
 
 }  // namespace s21

@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <string>
 #include <cmath>
+
 #include "fileloader.h"
 #include "neuralnetwork.h"
 
@@ -13,8 +14,9 @@ class Model {
  private:
   s21::FileLoader *fileloader;
   s21::NeuralNetwork *network_;
-  std::vector<double> input;
-  std::vector<double> out, correct;
+  std::vector<double> input, out, correct;
+  s21::NeuralNetwork *nn;
+  std::vector<double> input_value;
   unsigned int num_images, num_layers_hidden, num_neurons_hidden;
   unsigned int const num_neurons_input = 28 * 28, num_neurons_out = 26;
   void normalizeInput();
@@ -30,6 +32,7 @@ class Model {
   int getCountOfElements();
   void loadNextDataset();
   void teachNetwork();
+  void createNetwork(InitConfig config);
 };
 
 }  // namespace s21

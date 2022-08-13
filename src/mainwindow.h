@@ -5,8 +5,10 @@
 #include <QFileDialog>
 #include <QMainWindow>
 #include <QPixmap>
-
 #include "controller.h"
+#include "paintwindow.h"
+
+#include <iostream>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -18,6 +20,7 @@ class MainWindow : public QMainWindow {
   Q_OBJECT
  private:
   Ui::MainWindow *ui;
+  PaintWindow *paintWindow;
   s21::Controller *c;
   qint16 num_images = 0, num_curr_image = 0;
   void drawPreview(int img_num = 0);
@@ -31,9 +34,11 @@ class MainWindow : public QMainWindow {
  private slots:
   void on_btnLoadImage_clicked();
   void on_sizeLayer1_valueChanged(int arg1);
-  void on_btnInit_clicked();
+  void on_btnInit_clicked(s21::initConfig config);
   void on_btnLoadDataset_clicked();
   void on_inpNumCurrImg_textChanged(const QString &arg1);
   void on_btnImgUp_clicked();
+  void on_pushButton_draw_clicked();
+  void on_pushButton_8_clicked();
 };
 #endif  // MAINWINDOW_H
