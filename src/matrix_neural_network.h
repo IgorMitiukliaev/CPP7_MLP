@@ -12,21 +12,20 @@ class MatrixNeuralNetwork : public NeuralNetwork {
   void InitNetwork(InitConfig* config) override;  // Инициализация весов
   void Activate(std::vector<double> &input) override;  //  Прямое распространение сигнала
   std::vector<double> getOutput() override;
-  void CalcError(const std::vector<double> &output);
-  void CalcNewWeights(const std::vector<double> &output);
-  void CalcOutputError(const std::vector<double> &output);
-  void CalcHiddenErrors();
-  void CalcDeltaWeights();
-  void CalcWeights();
-  void PrintOutputValues(); 
- private:
-  std::vector<Matrix> weights_;
-  std::vector<Matrix> delta_weights_;
-  std::vector<Matrix> neurons_errors_;
-  std::vector<Matrix> neurons_values_;
-  std::vector<double> errors_;
-  void InitWeights();
+  void teachNetwork(const std::vector<double> &correct) override;
+  void PrintOutputValues();
   
+ private:
+  Matrix * weights_;
+  double **neurons_val_;
+  double **neurons_err_;
+  void InitWeights();
+  void InitNeuronsValues();
+  void InitNeuronsErrors();
+  void Sigmoid(double *a, int n);
+  double DerSigmoid(double a);
+  void BackPropagationSignal(const std::vector<double>& correct);
+  void CalcWeights(double learning_rate);
 };
 }  // namespace s21
 #endif  // MATRIXNEURALNETWORK_H
