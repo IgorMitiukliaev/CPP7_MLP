@@ -2,7 +2,6 @@
 
 #include "graphneuralnetwork.h"
 #include "mainwindow.h"
-#include "neuralnetwork.h"
 
 int main(int argc, char* argv[]) {
   s21::Model m;

@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-
+#include "paintwindow.h"
 #include "./ui_mainwindow.h"
 
 using s21::Controller;
@@ -29,9 +29,6 @@ void MainWindow::on_btnLoadImage_clicked() {
 }
 
 // C:\msys64\home\buste\mlp\CPP7_MLP-0\misc\images
-
-
-void MainWindow::on_btnInit_clicked(s21::initConfig config) {}
 
 void MainWindow::on_btnLoadDataset_clicked() {
   QString fileName;

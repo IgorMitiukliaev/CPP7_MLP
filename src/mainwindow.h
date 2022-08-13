@@ -1,14 +1,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
 #include <QDebug>
 #include <QFileDialog>
 #include <QMainWindow>
 #include <QPixmap>
+#include <iostream>
+
 #include "controller.h"
 #include "paintwindow.h"
-
-#include <iostream>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -26,7 +25,7 @@ class MainWindow : public QMainWindow {
   void drawPreview(int img_num = 0);
   void on_Data_Loaded();
   void updatePreviewLabel();
-   void       UpdateMLPState();
+  void UpdateMLPState();
 
  public:
   MainWindow(s21::Controller *c, QWidget *parent = nullptr);
@@ -34,11 +33,11 @@ class MainWindow : public QMainWindow {
 
  private slots:
   void on_btnLoadImage_clicked();
-  void on_btnInit_clicked(s21::InitConfig config);
   void on_btnLoadDataset_clicked();
   void on_inpNumCurrImg_textChanged(const QString &arg1);
   void on_btnImgUp_clicked();
   void on_pushButton_draw_clicked();
   void on_pushButton_8_clicked();
+  void on_btnInit_clicked();
 };
 #endif  // MAINWINDOW_H

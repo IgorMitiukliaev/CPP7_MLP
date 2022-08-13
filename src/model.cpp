@@ -35,8 +35,6 @@ std::vector<double> Model::getInputValues(int img_num) { return input; };
 std::vector<double> Model::getOutValues(){ return out; };
 std::vector<double> Model::getCorrectValue(int img_num) { return correct; };
 
-std::vector<double> Model::getInputValues(int img_num) { return input; };
-
 void Model::normalizeInput() {
   double max = *max_element(input.begin(), input.end());
   double min = *min_element(input.begin(), input.end());

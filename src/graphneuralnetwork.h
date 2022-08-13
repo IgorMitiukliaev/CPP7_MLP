@@ -5,7 +5,7 @@
 #include "neuralnetwork.h"
 
 namespace s21 {
-class Neuron {
+class Neuron  {
  public:
   std::vector<double> w;
   std::vector<double> dw;

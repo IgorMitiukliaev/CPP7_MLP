@@ -32,6 +32,9 @@ set(PROJECT_SOURCES
         graphneuralnetwork.cpp
         matrix.h
         matrix.cpp
+        paintwindow.cpp
+        paintwindow.h
+        paintwindow.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
