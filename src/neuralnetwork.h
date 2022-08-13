@@ -50,14 +50,13 @@ class NeuralNetwork {
  public:
   NeuralNetwork(){};
   ~NeuralNetwork(){};
-  //  NeuralNetwork(InitConfig config);
   virtual void InitNetwork(InitConfig *config){};  //инициализация из конфига
   //  virtual void LearningNetwork(LearnConfig *config);
   //  virtual int Predicate(std::vector<double> input);
   //  virtual void SaveWeights(std::string *filename);
   virtual void activate(std::vector<double> &input){};
   virtual std::vector<double> getOutput() { return std::vector<double>(1); };
-  virtual void teachNetwork(std::vector<double> err) {};
+  virtual void teachNetwork(std::vector<double> &e) {};
  protected:
   unsigned int num_layers_hidden, num_neurons_hidden, num_neurons_input,
       num_neurons_out;

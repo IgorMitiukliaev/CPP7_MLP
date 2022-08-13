@@ -1,8 +1,8 @@
 #ifndef MODEL_H
 #define MODEL_H
 #include <QDebug>
-#include <string>
 #include <cmath>
+#include <string>
 
 #include "fileloader.h"
 #include "neuralnetwork.h"
@@ -33,7 +33,7 @@ class Model {
   void loadNextDataset();
   void teachNetwork();
   void createNetwork(InitConfig config);
+  std::vector<double> getOutValues();
 };
-
 }  // namespace s21
 #endif  // MODEL_H

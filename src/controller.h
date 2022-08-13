@@ -16,6 +16,8 @@ class Controller {
   int getCountOfElements();
   void loadNextDataset();
   void InitNetwork(InitConfig &config);
+  std::vector<double> getOutValues();
+    unsigned getCorrectValue();
 };
 }  // namespace s21
 #endif  // CONTROLLER_H

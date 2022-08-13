@@ -31,39 +31,6 @@ void MainWindow::on_btnLoadImage_clicked() {
 // C:\msys64\home\buste\mlp\CPP7_MLP-0\misc\images
 
 
-void MainWindow::on_sizeLayer1_valueChanged(int arg1) {
-  qDebug() << arg1;
-  if (arg1 < 3) {
-    ui->sizeLayer3->setDisabled(true);
-    ui->sizeLayer4->setDisabled(true);
-    ui->sizeLayer5->setDisabled(true);
-    ui->lblLayer3->setDisabled(true);
-    ui->lblLayer4->setDisabled(true);
-    ui->lblLayer5->setDisabled(true);
-  } else if (arg1 == 3) {
-    ui->sizeLayer3->setDisabled(false);
-    ui->sizeLayer4->setDisabled(true);
-    ui->sizeLayer5->setDisabled(true);
-    ui->lblLayer3->setDisabled(false);
-    ui->lblLayer4->setDisabled(true);
-    ui->lblLayer5->setDisabled(true);
-  } else if (arg1 == 4) {
-    ui->sizeLayer3->setDisabled(false);
-    ui->sizeLayer4->setDisabled(false);
-    ui->sizeLayer5->setDisabled(true);
-    ui->lblLayer3->setDisabled(false);
-    ui->lblLayer4->setDisabled(false);
-    ui->lblLayer5->setDisabled(true);
-  } else if (arg1 == 5) {
-    ui->sizeLayer3->setDisabled(false);
-    ui->sizeLayer4->setDisabled(false);
-    ui->sizeLayer5->setDisabled(false);
-    ui->lblLayer3->setDisabled(false);
-    ui->lblLayer4->setDisabled(false);
-    ui->lblLayer5->setDisabled(false);
-  }
-}
-
 void MainWindow::on_btnInit_clicked(s21::initConfig config) {}
 
 void MainWindow::on_btnLoadDataset_clicked() {
@@ -91,6 +58,7 @@ void MainWindow::on_btnLoadDataset_clicked() {
   on_Data_Loaded();
   drawPreview();
   updatePreviewLabel();
+  UpdateMLPState();
 }
 
 void MainWindow::on_Data_Loaded() {
@@ -122,15 +90,34 @@ void MainWindow::updatePreviewLabel() {
   QString lbl = " of " + QString::number(num_images);
   ui->lblTotalImgs->setText(lbl);
   ui->inpNumCurrImg->setText(QString::number(num_curr_image));
+  std::vector<double> out = c->getOutValues();
+  int num_letter = c->getCorrectValue() + 65;
+  ui->lblLetter->setText(QString(QChar::fromLatin1(num_letter)));
+}
+
+void MainWindow::UpdateMLPState() {
+  std::vector<double> out = c->getOutValues();
+  for (int i{0}; i < ui->gridMLP->rowCount(); ++i) {
+    for (int j{0}; j < ui->gridMLP->columnCount(); ++j) {
+      auto *label =
+          static_cast<QLabel *>(ui->gridMLP->itemAtPosition(i, j)->widget());
+      QString text = QString(QChar::fromLatin1(j * 13 + i + 65));
+      text += ": " + QString::number(out[j * 13 + i] * 100, 'f', 2) + "%";
+      label->setText(text);
+    }
+  }
 }
 
 void MainWindow::on_inpNumCurrImg_textChanged(const QString &arg1) {}
 
 void MainWindow::on_btnImgUp_clicked() {
-  num_curr_image++;
-  c->loadNextDataset();
-  drawPreview();
-  updatePreviewLabel();
+  for (int i = 0; i < ui->spnEpoch->text().toInt(); i++) {
+    num_curr_image++;
+    c->loadNextDataset();
+    drawPreview();
+    updatePreviewLabel();
+    UpdateMLPState();
+  }
 }
 
 void MainWindow::on_btnInit_clicked() {
@@ -138,7 +125,7 @@ void MainWindow::on_btnInit_clicked() {
   config.is_graph = ui->rbtnGraph->isChecked();
   config.num_layers_hidden = ui->num_layers_hidden->value();
   config.num_neurons_hidden = ui->num_neurons_hidden->value();
-  config.num_neurons_input = pow(ui->num_neurons_input->text().toInt(),2);
+  config.num_neurons_input = pow(ui->num_neurons_input->text().toInt(), 2);
   config.num_neurons_out = ui->num_neurons_out->text().toInt();
   qDebug() << config.is_graph;
   c->InitNetwork(config);

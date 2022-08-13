@@ -3,15 +3,16 @@
 using s21::NeuralNetwork, s21::Neuron, s21::GraphNeuralNetwork;
 
 double Neuron::sigmoid(double x) { return 1 / (1 + exp(-x)); }
+double Neuron::dsigmoid(double x) { return sigmoid(x) * (1 - sigmoid(x)); }
 
 void Neuron::activate(const double input = 1) {
-  for (int i = 0, sum = 0; i < n.size(); i++) {
-    sum += w[i] * (n[i] != nullptr ? n[i]->getResponse() : input);
+  sum = 0;
+  for (int i = 0; i < n.size(); i++) {
+    sum += w[i] * ((n[i] == nullptr) ? input : n[i]->getResponse());
   }
   out = sigmoid(sum);
+  dout = dsigmoid(sum);
 }
-
-double Neuron::getResponse() { return out; }
 
 void GraphNeuralNetwork::InitNetwork(InitConfig *config) {
   num_layers_hidden = config->num_layers_hidden;
@@ -32,18 +33,46 @@ void GraphNeuralNetwork::InitNetwork(InitConfig *config) {
   for (unsigned int i = 0; i < config->num_neurons_out; i++) {
     out_layer.push_back(Neuron(&hidden_layer[num_layers_hidden - 1]));
   }
+
+  for (unsigned int i = 0; i < num_neurons_input; i++) {
+    input_layer[i].p.clear();
+    for (unsigned int j = 0; j < num_neurons_hidden; j++) {
+      input_layer[i].p.push_back(&hidden_layer[0][j]);
+    }
+  }
+
+  for (unsigned int i = 0; i < num_neurons_hidden; i++) {
+    hidden_layer[num_layers_hidden - 1][i].p.clear();
+    for (unsigned int j = 0; j < num_neurons_out; j++) {
+      hidden_layer[num_layers_hidden - 1][i].p.push_back(&out_layer[j]);
+    }
+  }
+
+  for (unsigned int i = 0; i < num_layers_hidden - 1; i++) {
+    for (unsigned int j = 0; j < num_neurons_hidden; j++) {
+      hidden_layer[i][j].p.clear();
+      for (unsigned int k = 0; k < num_neurons_hidden; k++) {
+        hidden_layer[i][j].p.push_back(&hidden_layer[i + 1][k]);
+      }
+    }
+  }
 };
 
 Neuron::Neuron()
-    : w(std::vector<double>(1)), n(std::vector<Neuron *>(1)), sum(.0) {
+    : w(std::vector<double>(1)),
+      dw(std::vector<double>(1)),
+      n(std::vector<Neuron *>(1)),
+      p(std::vector<Neuron *>(1)) {
   n[0] = nullptr;
   w[0] = 1;
+  p[0] = nullptr;
 };
 
-Neuron::Neuron(std::vector<Neuron> *input_layer) {
-  n = std::vector<Neuron *>(input_layer->size());
+Neuron::Neuron(std::vector<Neuron> *input_layer) : Neuron() {
+  n.resize(input_layer->size());
+  w.resize(input_layer->size());
+  dw.resize(input_layer->size());
   for (int i = 0; i < n.size(); i++) n[i] = &(*input_layer)[i];
-  w = std::vector<double>(input_layer->size());
   std::random_device rd;
   std::default_random_engine eng(rd());
   std::uniform_real_distribution<double> distr(-1, 1);
@@ -60,6 +89,9 @@ void GraphNeuralNetwork::activate(std::vector<double> &input) {
       hidden_layer[i][j].activate();
     }
   }
+  for (unsigned int i = 0; i < num_neurons_out; i++) {
+    out_layer[i].activate();
+  }
 };
 
 std::vector<double> GraphNeuralNetwork::getOutput() {
@@ -69,4 +101,44 @@ std::vector<double> GraphNeuralNetwork::getOutput() {
   return res;
 };
 
-void GraphNeuralNetwork::teachNetwork(std::vector<double> err) {  qDebug() << "err: " << err;};
+void Neuron::evaluateErr(unsigned int num_pos = 0, double correct = 0) {
+  delta_ = 0;
+  if (p[0] == nullptr) {
+    delta_ = (correct - out) * dout;
+  } else {
+    std::for_each(p.begin(), p.end(), [&](Neuron *el) {
+      delta_ = el->getWeight(num_pos) * el->getDelta();
+    });
+    delta_ *= dout;
+  }
+};
+
+void Neuron::refreshWeight(double const &a_, double const &g_) {
+  for (unsigned int i = 0; i < dw.size(); i++) {
+    dw[i] *= g_;
+    dw[i] += a_ * delta_ * n[i]->getResponse();
+    w[i] += dw[i];
+  }
+};
+
+void GraphNeuralNetwork::teachNetwork(std::vector<double> &correct) {
+  for (unsigned int i = 0; i < num_neurons_out; i++) {
+    out_layer[i].evaluateErr(i, correct[i]);
+  }
+  for (int i = num_layers_hidden - 1; i >= 0; i--) {
+    for (unsigned int j = 0; j < num_neurons_hidden; j++) {
+      hidden_layer[i][j].evaluateErr(j, 0);
+    }
+  }
+  for (unsigned int i = 0; i < num_neurons_input; i++) {
+    input_layer[i].evaluateErr(i, 0);
+  }
+  for (unsigned int i = 0; i < num_neurons_out; i++) {
+    out_layer[i].refreshWeight(a_, g_);
+  }
+  for (int i = num_layers_hidden - 1; i >= 0; i--) {
+    for (unsigned int j = 0; j < num_neurons_hidden; j++) {
+      hidden_layer[i][j].refreshWeight(a_, g_);
+    }
+  }
+};

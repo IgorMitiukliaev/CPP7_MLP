@@ -26,6 +26,7 @@ class MainWindow : public QMainWindow {
   void drawPreview(int img_num = 0);
   void on_Data_Loaded();
   void updatePreviewLabel();
+   void       UpdateMLPState();
 
  public:
   MainWindow(s21::Controller *c, QWidget *parent = nullptr);
@@ -33,8 +34,7 @@ class MainWindow : public QMainWindow {
 
  private slots:
   void on_btnLoadImage_clicked();
-  void on_sizeLayer1_valueChanged(int arg1);
-  void on_btnInit_clicked(s21::initConfig config);
+  void on_btnInit_clicked(s21::InitConfig config);
   void on_btnLoadDataset_clicked();
   void on_inpNumCurrImg_textChanged(const QString &arg1);
   void on_btnImgUp_clicked();
