@@ -30,7 +30,7 @@ class NeuralNetwork {
   //  virtual void LearningNetwork(LearnConfig *config);
   //  virtual int Predicate(std::vector<double> input);
   //  virtual void SaveWeights(std::string *filename);
-  virtual void activate(std::vector<double> &input){};
+  virtual void Activate(std::vector<double> &input){};
   virtual std::vector<double> getOutput() { return std::vector<double>(1); };
   virtual void teachNetwork(std::vector<double> &e){};
 

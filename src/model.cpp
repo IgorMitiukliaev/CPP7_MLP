@@ -1,7 +1,7 @@
 #include "model.h"
 
 #include "graphneuralnetwork.h"
-#include "matrixneuralnetwork.h"
+#include "matrix_neural_network.h"
 
 using s21::Model;
 s21::Model::Model() { fileloader = new FileLoader; }
@@ -50,7 +50,7 @@ void Model::normalizeInput() {
 int Model::getCountOfElements() { return num_images; }
 
 void Model::activate(std::vector<double> input) {
-  network_->activate(input);
+  network_->Activate(input);
   out = network_->getOutput();
 };
 

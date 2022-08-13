@@ -80,7 +80,7 @@ Neuron::Neuron(std::vector<Neuron> *input_layer) : Neuron() {
                 [&distr, &eng](double &el) { el = distr(eng); });
 };
 
-void GraphNeuralNetwork::activate(std::vector<double> &input) {
+void GraphNeuralNetwork::Activate(std::vector<double> &input) {
   for (unsigned int i = 0; i < num_neurons_input; i++) {
     input_layer[i].activate(input[i]);
   }
