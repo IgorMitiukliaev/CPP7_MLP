@@ -1,6 +1,7 @@
 #include "mainwindow.h"
-#include "paintwindow.h"
+
 #include "./ui_mainwindow.h"
+#include "paintwindow.h"
 
 using s21::Controller;
 
@@ -24,7 +25,7 @@ void MainWindow::on_btnLoadImage_clicked() {
   QImage image(fileName);
   QGraphicsScene *scene = new QGraphicsScene();
   scene->addPixmap(QPixmap::fromImage(image));
-  scene->setSceneRect(0,0,image.width(),image.height());
+  scene->setSceneRect(0, 0, image.width(), image.height());
   ui->graphicsView->setScene(scene);
 }
 
@@ -128,25 +129,20 @@ void MainWindow::on_btnInit_clicked() {
   c->InitNetwork(config);
 }
 
-void MainWindow::on_pushButton_draw_clicked()
-{
-    paintWindow->show();
-}
+void MainWindow::on_pushButton_draw_clicked() { paintWindow->show(); }
 
-
-void MainWindow::on_pushButton_8_clicked()
-{
+void MainWindow::on_pushButton_8_clicked() {
   auto _vector = paintWindow->GetVectorPixels();
   std::cout << _vector.size() << std::endl;
   for (int i = 0; i < 28; ++i) {
     for (int j = 0; j < 28; ++j) {
       if (_vector[i * 28 + j] > 0) {
-        std::cout << "#" << " ";
+        std::cout << "#"
+                  << " ";
       } else {
         std::cout << "  ";
       }
     }
     std::cout << std::endl;
-  } 
+  }
 }
-
