@@ -41,7 +41,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tabInit">
      <attribute name="title">
@@ -468,7 +468,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QPushButton" name="btnMLPLoad">
+     <widget class="QPushButton" name="btnLoadNetworkConfiguration">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -489,10 +489,10 @@
        </font>
       </property>
       <property name="text">
-       <string>Load learning data</string>
+       <string>Load network configuration</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="btnMLPSave">
+     <widget class="QPushButton" name="btnSaveNetworkConfiguration">
       <property name="enabled">
        <bool>false</bool>
       </property>
@@ -516,7 +516,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Save learning results</string>
+       <string>Save network configuration</string>
       </property>
      </widget>
      <widget class="QWidget" name="layoutWidget_6">

@@ -50,3 +50,16 @@ void Controller::TeachNetwork(LearnConfig &learn_config) {
     }
   m->TeachNetwork();
 };
+
+void Controller::SaveConfiguration(const std::string& filename) {
+  m->SaveConfiguration(filename);
+}
+
+void Controller::LoadConfiguration(const std::string& filename, bool is_graph) {
+  m->LoadConfiguration(filename, is_graph);
+}
+
+s21::InitConfig Controller::GetConfiguration() {
+  return m->GetConfiguration();
+}
+

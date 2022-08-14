@@ -22,6 +22,7 @@ class Controller : public QObject {
   void InitNetwork(InitConfig &config);
   std::vector<double> getOutValues();
   unsigned getCorrectValue();
+
   void TeachNetwork(LearnConfig &learn_config);
 
   // simple functions
@@ -31,6 +32,11 @@ class Controller : public QObject {
 
  signals:
   void progressChanged_(int value, int value2);
+
+  void SaveConfiguration(const std::string& filename);
+  void LoadConfiguration(const std::string& filename, bool is_graph);
+  InitConfig GetConfiguration();
+
 };
 }  // namespace s21
 #endif  // CONTROLLER_H
