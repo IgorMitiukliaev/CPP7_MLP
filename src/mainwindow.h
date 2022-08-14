@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QFileDialog>
 #include <QMainWindow>
+#include <QProgressBar>
 #include <QPixmap>
 #include <iostream>
 
@@ -45,5 +46,6 @@ class MainWindow : public QMainWindow {
   void on_valEpochNum_valueChanged(int arg1);
   void on_valBatchNum_valueChanged(int arg1);
   void on_tabWidget_tabBarClicked(int index);
+  void on_progressChanged_(int value, int value2);
 };
 #endif  // MAINWINDOW_H

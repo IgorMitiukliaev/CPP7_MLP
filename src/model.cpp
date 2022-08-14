@@ -39,7 +39,12 @@ void Model::loadDataset(string const &path) {
 };
 
 void Model::loadNextDataset() {
-  fileloader_->ReadElement();
+  bool check = fileloader_->ReadElement();
+  if (!check) {
+    fileloader_->StartReadElements();
+    check = fileloader_->ReadElement();
+  }
+  if (!check) throw std::runtime_error("Error reading file: rewind failed");
   input_ = fileloader_->GetInputValues();
   normalizeInput();
   correct_ = fileloader_->GetOutputValues();
@@ -63,7 +68,7 @@ void Model::activate(std::vector<double> input_) {
   out_ = network_->getOutput();
 };
 
-void Model::TeachNetwork() { network_->teachNetwork(); }
+void Model::TeachNetwork() { network_->teachNetwork(correct_); }
 
 void Model::TeachNetwork(LearnConfig &learn_config) {
   num_epochs_ = learn_config.num_epochs,

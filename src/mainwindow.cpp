@@ -11,6 +11,10 @@ MainWindow::MainWindow(s21::Controller *controller, QWidget *parent)
       ui(new Ui::MainWindow),
       paintWindow(new PaintWindow) {
   ui->setupUi(this);
+  ui->barLearnProgress->setRange(0, 100);
+  QObject::connect(qobject_cast<QObject *>(c),
+                   SIGNAL(progressChanged_(int, int)), this,
+                   SLOT(on_progressChanged_(int, int)));
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -150,10 +154,20 @@ void MainWindow::on_pushButton_8_clicked() {
 }
 
 void MainWindow::on_btnStartLearn_clicked() {
-  s21::LearnConfig learn_config;
-  learn_config.num_batches = ui->valBatchNum->text().toInt();
-  learn_config.num_epochs = ui->valEpochNum->text().toInt();
-  c->TeachNetwork(learn_config);
+  if (c->stop_) {
+    c->StopTeachLoop(false);
+    qDebug() << c->stop_;
+    s21::LearnConfig learn_config;
+    ui->btnStartLearn->setText("Stop");
+    learn_config.num_batches = ui->valBatchNum->text().toInt();
+    learn_config.num_epochs = ui->valEpochNum->text().toInt();
+    c->TeachNetwork(learn_config);
+    ui->btnStartLearn->setText("Start");
+  } else {
+    c->StopTeachLoop(true);
+    qDebug() << c->stop_;
+    ui->btnStartLearn->setText("Start");
+  }
 }
 
 void MainWindow::on_valEpochNum_valueChanged(int arg1) {
@@ -194,3 +208,14 @@ bool MainWindow::enableButtons() {
   ui->btnStartLearn->setEnabled(res);
   return res;
 };
+
+void MainWindow::on_progressChanged_(int i, int percentage) {
+  ui->barLearnProgress->setValue(percentage);
+  num_curr_image =
+      (num_curr_image + i >= num_images ? num_curr_image + i - num_images
+                                        : num_curr_image + i);
+  drawPreview();
+  updatePreviewLabel();
+  UpdateMLPState();
+  QCoreApplication::processEvents();
+}

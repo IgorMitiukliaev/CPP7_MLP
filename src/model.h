@@ -41,6 +41,7 @@ class Model {
   auto getOutValues() -> std::vector<double> { return out_; };
   auto getCorrectValue(int img_num) -> std::vector<double> { return correct_; };
   auto getCountOfElements() -> int { return num_images_; }
+//  auto GetCurrentImageNumber() -> unsigned int;
 };
 }  // namespace s21
 #endif  // MODEL_H

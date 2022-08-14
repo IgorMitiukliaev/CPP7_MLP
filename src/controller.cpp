@@ -35,6 +35,18 @@ unsigned Controller::getCorrectValue() {
 };
 
 void Controller::TeachNetwork(LearnConfig &learn_config) {
-  m->TeachNetwork(learn_config);
+  unsigned int num_epochs_ = learn_config.num_epochs;
+  unsigned int num_batches_ = learn_config.num_batches;
+  unsigned int const &num_images_ = m->getCountOfElements();
+  m->activate(m->getInputValues());
+  if (num_batches_ == 1)
+    for (unsigned int i = 0; (i < num_epochs_ * num_images_) & !stop_; i++) {
+      m->TeachNetwork();
+      loadNextDataset();
+      m->activate(m->getInputValues());
+      if (i % 100 == 0) {
+        emit progressChanged_(100, 100 * i / (num_epochs_ * num_images_));
+      }
+    }
+  m->TeachNetwork();
 };
-
