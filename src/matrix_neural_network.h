@@ -13,8 +13,9 @@ class MatrixNeuralNetwork : public NeuralNetwork {
   void Activate(std::vector<double> &input) override;  //  Прямое распространение сигнала
   std::vector<double> getOutput() override;
   void teachNetwork(const std::vector<double> &correct) override;
-  void SaveWeights(const std::string& filename) override;
-  void LoadWeights(const std::string& filename) override;
+  void SaveConfiguration(const std::string& filename) override;
+  void LoadConfiguration(const std::string& filename) override;
+  InitConfig GetConfiguration() override;
   void PrintOutputValues();
   
  private:

@@ -26,12 +26,15 @@ class MainWindow : public QMainWindow {
   void on_Data_Loaded();
   void updatePreviewLabel();
   void UpdateMLPState();
+  void UpdateConfigurationView();
 
  public:
   MainWindow(s21::Controller *c, QWidget *parent = nullptr);
   ~MainWindow();
 
- private slots:
+private slots:
+  void on_btnSaveNetworkConfiguration_clicked();
+  void on_btnLoadNetworkConfiguration_clicked();
   void on_btnLoadImage_clicked();
   void on_btnLoadDataset_clicked();
   void on_inpNumCurrImg_textChanged(const QString &arg1);

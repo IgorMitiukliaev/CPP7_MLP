@@ -113,13 +113,9 @@ void s21::MatrixNeuralNetwork::PrintOutputValues() {
   std::cout << std::endl;
 }
 
-void s21::MatrixNeuralNetwork::SaveWeights(const std::string& filename) {
+void s21::MatrixNeuralNetwork::SaveConfiguration(const std::string& filename) {
   std::ofstream out(filename, std::ios::binary|std::ios::out);
-  s21::InitConfig config = {.num_neurons_input = num_neurons_input,
-                           .num_layers_hidden = num_layers_hidden,
-                           .num_neurons_hidden = num_neurons_hidden,
-                           .num_neurons_out = num_neurons_out,
-                           .is_graph = false};
+  InitConfig config = GetConfiguration();
   out.write((char*)&config, sizeof(config));
   
   for (auto i = 0; i < num_layers_hidden + 1; i++) {
@@ -128,14 +124,22 @@ void s21::MatrixNeuralNetwork::SaveWeights(const std::string& filename) {
   out.close();
 }
   
-void s21::MatrixNeuralNetwork::LoadWeights(const std::string& filename) {
+void s21::MatrixNeuralNetwork::LoadConfiguration(const std::string& filename) {
   std::ifstream in(filename, std::ios::binary|std::ios::in);
   s21::InitConfig config;
   in.read((char*)&config, sizeof(config));
   InitNetwork(&config);
   for (auto i = 0; i < num_layers_hidden + 1; i++) {
     weights_[i].Load(in);
-    weights_[i].PrintMatrix();
   }
   in.close();
+}
+
+s21::InitConfig s21::MatrixNeuralNetwork::GetConfiguration() {
+  InitConfig config = {.num_neurons_input = num_neurons_input,
+                       .num_layers_hidden = num_layers_hidden,
+                       .num_neurons_hidden = num_neurons_hidden,
+                       .num_neurons_out = num_neurons_out,
+                       .is_graph = false};
+  return config;
 }
