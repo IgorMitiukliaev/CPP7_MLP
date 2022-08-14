@@ -1,27 +1,24 @@
 #include <vector>
 #include <cmath>
+#include <fstream>
 
 namespace s21{
 class Matrix {
   public:
-    Matrix(int rows, int columns, bool rand);
-    Matrix(std::vector<double> values);
-    Matrix(Matrix&& other);
-    Matrix(const Matrix& other);
-
-    double Sigmoid(double value);
-    Matrix ForwardSignal(Matrix& m);
-    Matrix BackSignalError(Matrix& err, Matrix& w);
-    void CalcDeltaWeights(Matrix& m, Matrix& o, Matrix& s);
-    void CalcWeights(Matrix& w, Matrix& d);
-    std::vector<double> ToVector();
-    void PrintMatrix();
+    Matrix() {};
     ~Matrix(){};
+    void InitRand(int rows, int columns);
+    static void Mult(const Matrix&m, const double*b, double *c);
+    static void TransposeMult(const Matrix&m, const double*b, double *c);
+    double& operator ()(int i, int j);
+    void Save(std::ofstream& out);
+    void Load(std::ifstream& in);
+    void PrintMatrix();
 
   private:
     int rows_;
     int columns_;
-    std::vector<std::vector<double>> matrix_;
+    double **matrix_;
 };
 
 };

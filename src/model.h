@@ -42,6 +42,10 @@ class Model {
   auto getCorrectValue(int img_num) -> std::vector<double> { return correct_; };
   auto getCountOfElements() -> int { return num_images_; }
 //  auto GetCurrentImageNumber() -> unsigned int;
+  std::vector<double> getOutValues();
+  void SaveConfiguration(const std::string& filename);
+  void LoadConfiguration(const std::string& filename, bool is_graph);
+  InitConfig GetConfiguration();
 };
 }  // namespace s21
 #endif  // MODEL_H
