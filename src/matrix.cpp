@@ -14,7 +14,7 @@ void s21::Matrix::Matrix::InitRand(int rows, int columns) {
   for (auto i = 0; i < rows_; i++) {
     for (auto j = 0; j < columns_; j++) {
       matrix_[i][j] = -1+0.01*(std::rand()%201);
-      }
+    }
   }
 }
 
@@ -37,7 +37,23 @@ void s21::Matrix::TransposeMult(const Matrix&m, const double*b, double *c){
 }
 
 double& s21::Matrix::operator ()(int i, int j) {
-    return matrix_[i][j];
+  return matrix_[i][j];
+}
+
+void s21::Matrix::Save(std::ofstream& out) {
+  for (auto i = 0; i < rows_; i++) {
+    for (auto j = 0; j < columns_; j++) {
+      out.write((char*)&(matrix_[i][j]), sizeof(double));
+    }
+  }
+}
+
+void s21::Matrix::Load(std::ifstream& in) {
+  for (auto i = 0; i < rows_; i++) {
+    for (auto j = 0; j < columns_; j++) {
+      in.read((char*)&(matrix_[i][j]), sizeof(double));
+    }
+  }
 }
 
 void s21::Matrix::PrintMatrix() {

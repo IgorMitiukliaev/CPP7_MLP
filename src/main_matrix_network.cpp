@@ -9,21 +9,23 @@ int main() {
                            .is_graph = false};
   s21::MatrixNeuralNetwork network;
   network.InitNetwork(&init);
-  s21::FileLoader loader;
-  loader.SetFileStream("../datasets/emnist-letters-train.csv");
-  loader.StartReadElements();
-  while(loader.ReadElement()) {
-    auto input = loader.GetInputValues(); 
-    network.Activate(input);
-    network.teachNetwork(loader.GetOutputValues());
-  }
+  //network.SaveWeights("w.bin");
+  network.LoadWeights("w.bin");
+  // s21::FileLoader loader;
+  // loader.SetFileStream("../datasets/emnist-letters-train.csv");
+  // loader.StartReadElements();
+  // while(loader.ReadElement()) {
+  //   auto input = loader.GetInputValues(); 
+  //   network.Activate(input);
+  //   network.teachNetwork(loader.GetOutputValues());
+  // }
   
-  loader.SetFileStream("../datasets/emnist-letters-test.csv");
-  loader.StartReadElements();
-  while(loader.ReadElement()) {
-    auto input = loader.GetInputValues(); 
-    network.Activate(input);
-    loader.PrintOutputValues();
-    network.PrintOutputValues();
-  }
+  // loader.SetFileStream("../datasets/emnist-letters-test.csv");
+  // loader.StartReadElements();
+  // while(loader.ReadElement()) {
+  //   auto input = loader.GetInputValues(); 
+  //   network.Activate(input);
+  //   loader.PrintOutputValues();
+  //   network.PrintOutputValues();
+  // }
 }

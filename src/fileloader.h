@@ -15,6 +15,7 @@ class FileLoader {
   int GetCountOfElements();
   bool ReadElement();
   void StartReadElements();
+  void SetPosition(int pos); // нумерация строк с нуля
   void PrintOutputValues();  //  потом удалить
   void PrintInputValues(bool view);  //  потом удалить
  private:

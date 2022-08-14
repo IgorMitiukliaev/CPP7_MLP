@@ -29,7 +29,8 @@ class NeuralNetwork {
   virtual void InitNetwork(InitConfig *config){};  //инициализация из конфига
   //  virtual void LearningNetwork(LearnConfig *config);
   //  virtual int Predicate(std::vector<double> input);
-  //  virtual void SaveWeights(std::string *filename);
+  virtual void SaveWeights(const std::string& filename) {};
+  virtual void LoadWeights(const std::string& filename) {};
   virtual void Activate(std::vector<double> &input){};
   virtual std::vector<double> getOutput() { return std::vector<double>(1); };
   virtual void teachNetwork(const std::vector<double> &e){};
