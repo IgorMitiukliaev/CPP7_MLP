@@ -29,10 +29,12 @@ class NeuralNetwork {
   virtual void InitNetwork(InitConfig *config){};  //инициализация из конфига
   //  virtual void LearningNetwork(LearnConfig *config);
   //  virtual int Predicate(std::vector<double> input);
-  //  virtual void SaveWeights(std::string *filename);
+  virtual void SaveConfiguration(const std::string& filename) {};
+  virtual void LoadConfiguration(const std::string& filename) {};
+  virtual InitConfig GetConfiguration() {InitConfig config;return config;};
   virtual void Activate(std::vector<double> &input){};
   virtual std::vector<double> getOutput() { return std::vector<double>(1); };
-  virtual void teachNetwork(std::vector<double> &e){};
+  virtual void teachNetwork(const std::vector<double> &e){};
 
  protected:
   unsigned int num_layers_hidden, num_neurons_hidden, num_neurons_input,

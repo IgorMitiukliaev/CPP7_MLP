@@ -34,6 +34,9 @@ class Model {
   void teachNetwork();
   void createNetwork(InitConfig config);
   std::vector<double> getOutValues();
+  void SaveConfiguration(const std::string& filename);
+  void LoadConfiguration(const std::string& filename, bool is_graph);
+  InitConfig GetConfiguration();
 };
 }  // namespace s21
 #endif  // MODEL_H

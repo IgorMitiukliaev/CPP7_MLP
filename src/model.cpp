@@ -61,3 +61,20 @@ void Model::teachNetwork() {
   }
   network_->teachNetwork(err);
 }
+
+void Model::SaveConfiguration(const std::string& filename) {
+  network_->SaveConfiguration(filename);
+}
+
+void Model::LoadConfiguration(const std::string& filename, bool is_graph) {
+  if (is_graph) {
+    network_ = new GraphNeuralNetwork();
+  } else {
+    network_ = new MatrixNeuralNetwork();
+  }
+  network_->LoadConfiguration(filename);
+}
+
+s21::InitConfig Model::GetConfiguration() {
+  return network_->GetConfiguration();
+}

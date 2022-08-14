@@ -121,7 +121,7 @@ void Neuron::refreshWeight(double const &a_, double const &g_) {
   }
 };
 
-void GraphNeuralNetwork::teachNetwork(std::vector<double> &correct) {
+void GraphNeuralNetwork::teachNetwork(const std::vector<double> &correct) {
   for (unsigned int i = 0; i < num_neurons_out; i++) {
     out_layer[i].evaluateErr(i, correct[i]);
   }

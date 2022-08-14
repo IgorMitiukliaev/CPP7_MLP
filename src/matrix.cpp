@@ -3,123 +3,66 @@
 #include <cstdlib>
 #include <iostream>
 
-s21::Matrix::Matrix(int rows, int columns, bool rand): rows_(rows), columns_(columns){
-  if(rand) { 
-    std::srand(time(NULL));
-    for (auto i = 0; i < rows_; i++) {
-      std::vector<double> row;
-      for (auto j = 0; j < columns_; j++) {
-        row.push_back(-1+0.00001*(std::rand()%200001));
-      }
-      matrix_.push_back(row);
-    }
-  } else {
-    for (auto i = 0; i < rows_; i++) {
-      std::vector<double> row;
-      for (auto j = 0; j < columns_; j++) {
-        row.push_back(0);
-      }
-      matrix_.push_back(row);
-    }
-  }
-
-}
-
-s21::Matrix::Matrix(std::vector<double> values) {
-  rows_ = 1;
-  columns_ = values.size();
-  std::vector<double> row;
-  for (auto i = 0; i < columns_; i++) {
-    row.push_back(values[i]);
-  }  
-  matrix_.push_back(values);
-}
-
-s21::Matrix::Matrix(const s21::Matrix& other) {
-    rows_ = other.rows_;
-    columns_ = other.columns_;
-    for (auto i = 0; i < rows_; i++) {
-      std::vector<double> row;
-      for (auto j = 0; j < columns_; j++) {
-        row.push_back(other.matrix_[i][j]);
-      }
-      matrix_.push_back(row);
-    }
-
-}
-
-s21::Matrix::Matrix(s21::Matrix&& other) {
-    if (&other != this) {
-        rows_ = other.rows_;
-        columns_ = other.columns_;
-        matrix_ = other.matrix_;
-        other.rows_ = 0;
-    }
-}
-
-
-s21::Matrix s21::Matrix::ForwardSignal(s21::Matrix& m) {
-  Matrix res(rows_, m.columns_, false);
+void s21::Matrix::Matrix::InitRand(int rows, int columns) {
+  rows_ = rows;
+  columns_ = columns;
+  std::srand(time(NULL));
+  matrix_ = new double* [rows_];
   for (auto i = 0; i < rows_; i++) {
-    for (auto j = 0; j < m.columns_; j++) {
-      for (auto k = 0; k < columns_; k++) {
-        res.matrix_[i][j] += matrix_[i][k]*m.matrix_[k][j];
-      }
-      res.matrix_[i][j] = Sigmoid(res.matrix_[i][j]);
+    matrix_[i] = new double[columns_];
+  }
+  for (auto i = 0; i < rows_; i++) {
+    for (auto j = 0; j < columns_; j++) {
+      matrix_[i][j] = -1+0.01*(std::rand()%201);
     }
   }
-  return res;
+}
+
+void s21::Matrix::Mult(const Matrix&m, const double*b, double *c){
+    for (auto i = 0; i < m.rows_; i++) {
+        c[i] = 0;
+        for (auto j = 0; j < m.columns_; j++) {
+            c[i] += m.matrix_[i][j]*b[j];
+        }
+    }
+}
+
+void s21::Matrix::TransposeMult(const Matrix&m, const double*b, double *c){
+    for (auto i = 0; i < m.columns_; i++) {
+        c[i] = 0;
+        for (auto j = 0; j < m.rows_; j++) {
+            c[i] += m.matrix_[j][i]*b[j];
+        }
+    }
+}
+
+double& s21::Matrix::operator ()(int i, int j) {
+  return matrix_[i][j];
+}
+
+void s21::Matrix::Save(std::ofstream& out) {
+  for (auto i = 0; i < rows_; i++) {
+    for (auto j = 0; j < columns_; j++) {
+      out.write((char*)&(matrix_[i][j]), sizeof(double));
+    }
+  }
+}
+
+void s21::Matrix::Load(std::ifstream& in) {
+  for (auto i = 0; i < rows_; i++) {
+    for (auto j = 0; j < columns_; j++) {
+      in.read((char*)&(matrix_[i][j]), sizeof(double));
+    }
+  }
 }
 
 void s21::Matrix::PrintMatrix() {
   std::cout << std::endl << std::endl;
   std::cout << "Rows: " <<rows_ <<" Columns:" << columns_ << std::endl;
-  for(auto row : matrix_) {
-    for(auto element : row) {
-      std::cout << element <<" ";
+  for (auto i = 0; i < rows_; i++) {
+    for (auto j = 0; j < columns_; j++) {
+      std::cout << matrix_[i][j]<< " ";
     }
     std::cout << std::endl;
-  }
-}
-
-double s21::Matrix::Sigmoid(double value) {
-  return 1/(1+exp(-value));
-}
-
-std::vector<double> s21::Matrix::ToVector() {
-  return matrix_[0];
-}
-
-s21::Matrix s21::Matrix::BackSignalError(s21::Matrix& err, s21::Matrix& w) {
-  Matrix res(rows_, w.rows_, false);
-  for (auto i = 0; i < res.rows_; i++) {
-     for (auto j = 0; j < res.columns_; j++) {
-       for (auto k = 0; k < w.columns_; k++) {
-         res.matrix_[i][j] += err.matrix_[i][k]*w.matrix_[k][j];
-       }
-       res.matrix_[i][j] = matrix_[i][j]*(1-matrix_[i][j])*res.matrix_[i][j];
-   }
-  }
-  return res;
-}
-
-void s21::Matrix::CalcDeltaWeights(s21::Matrix& w, s21::Matrix& o, s21::Matrix& s) {
-  double inertia_coeff = 0.1;
-  double learning_rate = 0.1;
-
-  for (auto i = 0; i < rows_; i++) {
-    for (auto j = 0; j < columns_; j++) {
-      matrix_[i][j] = inertia_coeff*w.matrix_[i][j]
-                    + (1-inertia_coeff)*learning_rate
-                    * o.matrix_[0][i] * s.matrix_[0][i];
-    }
-  }
-}
-
-void s21::Matrix::CalcWeights(s21::Matrix& w, s21::Matrix& d) {
-  for (auto i = 0; i < rows_; i++) {
-    for (auto j = 0; j < columns_; j++) {
-      matrix_[i][j] = w.matrix_[i][j] - d.matrix_[i][j];
-    }
   }
 }
