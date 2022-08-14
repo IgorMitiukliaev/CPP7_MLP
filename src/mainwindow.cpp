@@ -133,7 +133,7 @@ void MainWindow::on_btnInit_clicked() {
   config.num_neurons_hidden = ui->num_neurons_hidden->value();
   config.num_neurons_input = pow(ui->num_neurons_input->text().toInt(), 2);
   config.num_neurons_out = ui->num_neurons_out->text().toInt();
-  qDebug() << config.is_graph;
+  qDebug() << "Is Graph - " << config.is_graph;
   c->InitNetwork(config);
 }
 

@@ -52,7 +52,7 @@ class GraphNeuralNetwork : public NeuralNetwork {
   //  void SaveWeights(std::string *filename);
   void Activate(std::vector<double> &input) override;
   std::vector<double> getOutput() override;
-  void teachNetwork(const std::vector<double> &correct) override;
+  void teachNetwork(std::vector<double> &correct) override;
   s21::InitConfig GetConfiguration() override {
     s21::InitConfig config;
     return config;

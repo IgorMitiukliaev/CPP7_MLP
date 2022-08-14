@@ -68,7 +68,9 @@ void Model::activate(std::vector<double> input_) {
   out_ = network_->getOutput();
 };
 
-void Model::TeachNetwork() { network_->teachNetwork(correct_); }
+void Model::TeachNetwork() {
+  network_->teachNetwork(correct_);
+}
 
 void Model::TeachNetwork(LearnConfig &learn_config) {
   num_epochs_ = learn_config.num_epochs,
@@ -82,11 +84,11 @@ void Model::TeachNetwork(LearnConfig &learn_config) {
   }
 }
 
-void Model::SaveConfiguration(const std::string& filename) {
+void Model::SaveConfiguration(const std::string &filename) {
   network_->SaveConfiguration(filename);
 }
 
-void Model::LoadConfiguration(const std::string& filename, bool is_graph) {
+void Model::LoadConfiguration(const std::string &filename, bool is_graph) {
   if (is_graph) {
     network_ = new GraphNeuralNetwork();
   } else {
