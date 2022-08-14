@@ -17,7 +17,10 @@ class Controller {
   void loadNextDataset();
   void InitNetwork(InitConfig &config);
   std::vector<double> getOutValues();
-    unsigned getCorrectValue();
+  unsigned getCorrectValue();
+  void SaveConfiguration(const std::string& filename);
+  void LoadConfiguration(const std::string& filename, bool is_graph);
+  InitConfig GetConfiguration();
 };
 }  // namespace s21
 #endif  // CONTROLLER_H

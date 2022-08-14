@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include <QDebug>
 
 #include "./ui_mainwindow.h"
 #include "paintwindow.h"
@@ -145,4 +146,27 @@ void MainWindow::on_pushButton_8_clicked() {
     }
     std::cout << std::endl;
   }
+}
+
+void MainWindow::on_btnSaveNetworkConfiguration_clicked() {
+  QString q_filename = QFileDialog::getSaveFileName(this,
+                     "Save configuration", ".", "conf (*.bin)");
+  if (!q_filename.isEmpty()) {
+    c->SaveConfiguration(q_filename.toStdString());
+  }
+}
+
+void MainWindow::on_btnLoadNetworkConfiguration_clicked()  {
+  QString q_filename = QFileDialog::getOpenFileName(this,
+                       "Load configuration", ".", "conf (*.bin)");
+  if (!q_filename.isEmpty()) {
+    c->LoadConfiguration(q_filename.toStdString(), ui->rbtnGraph->isChecked());
+    UpdateConfigurationView();
+  }
+}
+
+void MainWindow::UpdateConfigurationView() {
+  s21::InitConfig config = c->GetConfiguration();
+  ui->num_layers_hidden->setValue(config.num_layers_hidden);
+  ui->num_neurons_hidden->setValue(config.num_neurons_hidden);
 }
