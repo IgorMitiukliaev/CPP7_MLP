@@ -5,7 +5,7 @@
 #include "neuralnetwork.h"
 
 namespace s21 {
-class Neuron  {
+class Neuron {
  public:
   std::vector<double> w;
   std::vector<double> dw;
@@ -26,7 +26,7 @@ class Neuron  {
   double getInput() { return sum; };
   void evaluateErr(unsigned int i, double correct);
   void refreshWeight(double const &a_, double const &g_);
-//  void refreshWeight(double value) { delta_ = value; };
+  //  void refreshWeight(double value) { delta_ = value; };
   double getDelta() { return delta_; };
   std::vector<double> getWeights();
   double getWeight(int i) {
@@ -53,6 +53,10 @@ class GraphNeuralNetwork : public NeuralNetwork {
   void Activate(std::vector<double> &input) override;
   std::vector<double> getOutput() override;
   void teachNetwork(const std::vector<double> &correct) override;
+  InitConfig GetConfiguration() override {
+    InitConfig config;
+    return config;
+  };
 };
 };      // namespace s21
 #endif  // GRAPHNEURALNETWORK_H
