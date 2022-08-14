@@ -4,7 +4,7 @@
 
 #include "model.h"
 
-using s21::Controller, s21::Model;
+using s21::Controller, s21::InitConfig, s21::Model;
 
 void Controller::loadDataset(string const &path) {
   m->loadDataset(path);
@@ -24,7 +24,7 @@ void Controller::loadNextDataset() {
   m->activate(m->getInputValues());
 }
 
-void Controller::InitNetwork(InitConfig &config) { m->InitNetwork(config); };
+void Controller::InitNetwork(s21::InitConfig &config) { m->InitNetwork(config); };
 
 unsigned Controller::getCorrectValue() {
   std::vector<double> const &correct = m->getCorrectValue(0);
@@ -51,15 +51,4 @@ void Controller::TeachNetwork(LearnConfig &learn_config) {
   m->TeachNetwork();
 };
 
-void Controller::SaveConfiguration(const std::string& filename) {
-  m->SaveConfiguration(filename);
-}
-
-void Controller::LoadConfiguration(const std::string& filename, bool is_graph) {
-  m->LoadConfiguration(filename, is_graph);
-}
-
-s21::InitConfig Controller::GetConfiguration() {
-  return m->GetConfiguration();
-}
 

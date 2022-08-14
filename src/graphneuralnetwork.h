@@ -53,8 +53,8 @@ class GraphNeuralNetwork : public NeuralNetwork {
   void Activate(std::vector<double> &input) override;
   std::vector<double> getOutput() override;
   void teachNetwork(const std::vector<double> &correct) override;
-  InitConfig GetConfiguration() override {
-    InitConfig config;
+  s21::InitConfig GetConfiguration() override {
+    s21::InitConfig config;
     return config;
   };
 };

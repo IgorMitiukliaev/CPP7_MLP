@@ -8,7 +8,7 @@
 #include <vector>
 
 namespace s21 {
-struct InitConfig {
+struct InitConfig{
   unsigned int num_neurons_input;
   unsigned int num_layers_hidden;
   unsigned int num_neurons_hidden;

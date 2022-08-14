@@ -29,14 +29,16 @@ class Controller : public QObject {
   auto CheckNetworkReady() -> bool { return m->CheckNetworkReady(); };
   auto CheckDataReady() -> bool { return m->CheckDataReady(); };
   auto StopTeachLoop(bool val) -> void { stop_ = val; };
+  auto SaveConfiguration(const std::string &filename) -> void {
+    m->SaveConfiguration(filename);
+  };
+  auto LoadConfiguration(const std::string &filename, bool is_graph) -> void {
+    m->LoadConfiguration(filename, is_graph);
+  };
+  auto GetConfiguration() -> s21::InitConfig { return m->GetConfiguration(); };
 
  signals:
   void progressChanged_(int value, int value2);
-
-  void SaveConfiguration(const std::string& filename);
-  void LoadConfiguration(const std::string& filename, bool is_graph);
-  InitConfig GetConfiguration();
-
 };
 }  // namespace s21
 #endif  // CONTROLLER_H

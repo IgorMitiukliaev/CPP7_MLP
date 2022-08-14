@@ -141,6 +141,7 @@ void GraphNeuralNetwork::teachNetwork(const std::vector<double> &correct) {
       hidden_layer[i][j].refreshWeight(a_, g_);
     }
   }
+  qDebug() << "here";
 };
 
 bool GraphNeuralNetwork::CheckNetworkReady() { return true; };

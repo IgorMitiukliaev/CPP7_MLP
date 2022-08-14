@@ -15,7 +15,7 @@ class MatrixNeuralNetwork : public NeuralNetwork {
   void teachNetwork(const std::vector<double> &correct) override;
   void SaveConfiguration(const std::string& filename) override;
   void LoadConfiguration(const std::string& filename) override;
-  InitConfig GetConfiguration() override;
+  s21::InitConfig GetConfiguration() override;
   void PrintOutputValues();
   
  private:
