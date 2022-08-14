@@ -57,6 +57,7 @@ void MainWindow::on_btnLoadDataset_clicked() {
   drawPreview();
   updatePreviewLabel();
   UpdateMLPState();
+  enableButtons();
 }
 
 void MainWindow::on_Data_Loaded() {
@@ -91,6 +92,7 @@ void MainWindow::updatePreviewLabel() {
   std::vector<double> out = c->getOutValues();
   int num_letter = c->getCorrectValue() + 65;
   ui->lblLetter->setText(QString(QChar::fromLatin1(num_letter)));
+  updateBatchLabel();
 }
 
 void MainWindow::UpdateMLPState() {
@@ -109,7 +111,7 @@ void MainWindow::UpdateMLPState() {
 void MainWindow::on_inpNumCurrImg_textChanged(const QString &arg1) {}
 
 void MainWindow::on_btnImgUp_clicked() {
-  for (int i = 0; i < ui->spnEpoch->text().toInt(); i++) {
+  for (int i = 0; i < ui->valEpochNum->text().toInt(); i++) {
     num_curr_image++;
     c->loadNextDataset();
     drawPreview();
@@ -146,3 +148,49 @@ void MainWindow::on_pushButton_8_clicked() {
     std::cout << std::endl;
   }
 }
+
+void MainWindow::on_btnStartLearn_clicked() {
+  s21::LearnConfig learn_config;
+  learn_config.num_batches = ui->valBatchNum->text().toInt();
+  learn_config.num_epochs = ui->valEpochNum->text().toInt();
+  c->TeachNetwork(learn_config);
+}
+
+void MainWindow::on_valEpochNum_valueChanged(int arg1) {
+  qDebug() << arg1;
+  if (arg1 == 1) {
+    ui->valBatchNum->setEnabled(true);
+    updateBatchLabel();
+  } else {
+    ui->valBatchNum->setEnabled(false);
+    ui->lblBatchLen->setText("");
+  }
+}
+
+void MainWindow::updateBatchLabel() {
+  if (num_images > 0) {
+    unsigned int batch_len = num_images / ui->valBatchNum->text().toInt();
+    QString lbl = QString::number(batch_len) + " images / batch";
+    ui->lblBatchLen->setText(lbl);
+  }
+}
+
+void MainWindow::on_valBatchNum_valueChanged(int arg1) { updateBatchLabel(); }
+
+void MainWindow::on_tabWidget_tabBarClicked(int index) {
+  if (c->CheckNetworkReady()) {
+    ui->tabLearn->setEnabled(true);
+    ui->tabTest->setEnabled(true);
+  } else {
+    ui->tabLearn->setEnabled(false);
+    ui->tabTest->setEnabled(false);
+  };
+}
+
+bool MainWindow::enableButtons() {
+  bool res = c->CheckDataReady();
+  ui->btnImgDown->setEnabled(res);
+  ui->btnImgUp->setEnabled(res);
+  ui->btnStartLearn->setEnabled(res);
+  return res;
+};

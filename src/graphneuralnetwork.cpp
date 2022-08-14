@@ -142,3 +142,5 @@ void GraphNeuralNetwork::teachNetwork(std::vector<double> &correct) {
     }
   }
 };
+
+bool GraphNeuralNetwork::CheckNetworkReady() { return true; };

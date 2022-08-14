@@ -46,6 +46,7 @@ class GraphNeuralNetwork : public NeuralNetwork {
   GraphNeuralNetwork(){};
   ~GraphNeuralNetwork(){};
   void InitNetwork(InitConfig *config) override;
+  bool CheckNetworkReady() override;
   //  void LearningNetwork(LearnConfig *config);
   //  int Predicate(std::vector<double> input);
   //  void SaveWeights(std::string *filename);

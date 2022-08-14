@@ -25,7 +25,9 @@ class MainWindow : public QMainWindow {
   void drawPreview(int img_num = 0);
   void on_Data_Loaded();
   void updatePreviewLabel();
+  void updateBatchLabel();
   void UpdateMLPState();
+  bool enableButtons();
 
  public:
   MainWindow(s21::Controller *c, QWidget *parent = nullptr);
@@ -39,5 +41,9 @@ class MainWindow : public QMainWindow {
   void on_pushButton_draw_clicked();
   void on_pushButton_8_clicked();
   void on_btnInit_clicked();
+  void on_btnStartLearn_clicked();
+  void on_valEpochNum_valueChanged(int arg1);
+  void on_valBatchNum_valueChanged(int arg1);
+  void on_tabWidget_tabBarClicked(int index);
 };
 #endif  // MAINWINDOW_H

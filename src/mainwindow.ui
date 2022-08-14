@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -26,12 +29,15 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTabWidget" name="tabWidget">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>50</y>
-      <width>1200</width>
-      <height>770</height>
+      <x>10</x>
+      <y>10</y>
+      <width>600</width>
+      <height>741</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -368,14 +374,17 @@
      </widget>
     </widget>
     <widget class="QWidget" name="tabLearn">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <attribute name="title">
       <string>Learn</string>
      </attribute>
-     <widget class="QProgressBar" name="progressBar">
+     <widget class="QProgressBar" name="barLearnProgress">
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>490</y>
+        <y>540</y>
         <width>400</width>
         <height>23</height>
        </rect>
@@ -388,14 +397,17 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>520</y>
+        <y>570</y>
         <width>401</width>
         <height>42</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="0">
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="btnStartLearn">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -413,7 +425,10 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="btnPauseLearn">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -431,7 +446,10 @@
         </widget>
        </item>
        <item row="0" column="2">
-        <widget class="QPushButton" name="pushButton_7">
+        <widget class="QPushButton" name="pushClerLearn">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -450,11 +468,11 @@
        </item>
       </layout>
      </widget>
-     <widget class="QPushButton" name="pushButton_5">
+     <widget class="QPushButton" name="btnMLPLoad">
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>610</y>
+        <y>660</y>
         <width>402</width>
         <height>30</height>
        </rect>
@@ -474,11 +492,14 @@
        <string>Load learning data</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_9">
+     <widget class="QPushButton" name="btnMLPSave">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>570</y>
+        <y>620</y>
         <width>402</width>
         <height>30</height>
        </rect>
@@ -512,7 +533,7 @@
         <number>10</number>
        </property>
        <item>
-        <widget class="QLabel" name="label_11">
+        <widget class="QLabel" name="lblEpochNum">
          <property name="minimumSize">
           <size>
            <width>310</width>
@@ -525,12 +546,12 @@
           </font>
          </property>
          <property name="text">
-          <string>Set epoch:</string>
+          <string>Set number of epochs:</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spnEpoch">
+        <widget class="QSpinBox" name="valEpochNum">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -558,7 +579,7 @@
           <enum>QAbstractSpinBox::AdaptiveDecimalStepType</enum>
          </property>
          <property name="value">
-          <number>10</number>
+          <number>1</number>
          </property>
         </widget>
        </item>
@@ -616,6 +637,9 @@
       <layout class="QGridLayout" name="grdPreviewLabel">
        <item row="0" column="4">
         <widget class="QPushButton" name="btnImgUp">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -703,6 +727,9 @@
        </item>
        <item row="0" column="0">
         <widget class="QPushButton" name="btnImgDown">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -760,8 +787,117 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="layoutWidget_7">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>480</y>
+        <width>562</width>
+        <height>35</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_11">
+       <property name="spacing">
+        <number>10</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="lblBatchNum">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>310</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>310</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Set number of batches (k):</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="valBatchNum">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>80</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>100000</number>
+         </property>
+         <property name="stepType">
+          <enum>QAbstractSpinBox::AdaptiveDecimalStepType</enum>
+         </property>
+         <property name="value">
+          <number>1</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lblBatchLen">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>150</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
     <widget class="QWidget" name="tabTest">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <attribute name="title">
       <string>Test</string>
      </attribute>
@@ -871,6 +1007,9 @@
        </item>
        <item row="0" column="3">
         <widget class="QPushButton" name="pushButton_8">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -907,6 +1046,9 @@
       <layout class="QGridLayout" name="grdPreviewLabel2">
        <item row="0" column="4">
         <widget class="QPushButton" name="btnImgUp_2">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -994,6 +1136,9 @@
        </item>
        <item row="0" column="0">
         <widget class="QPushButton" name="btnImgDown_2">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -1056,17 +1201,17 @@
    <widget class="QWidget" name="wgMLP" native="true">
     <property name="geometry">
      <rect>
-      <x>620</x>
-      <y>0</y>
-      <width>571</width>
-      <height>750</height>
+      <x>670</x>
+      <y>20</y>
+      <width>271</width>
+      <height>471</height>
      </rect>
     </property>
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
-       <x>160</x>
-       <y>130</y>
+       <x>10</x>
+       <y>0</y>
        <width>248</width>
        <height>464</height>
       </rect>
