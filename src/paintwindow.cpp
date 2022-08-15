@@ -15,7 +15,7 @@ PaintWindow::PaintWindow(QWidget *parent) : QDialog(parent),
 void PaintWindow::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     painter.drawImage(QPoint(0, 0), _image);
-    update();
+//    update();
 }
 
 void PaintWindow::mouseMoveEvent(QMouseEvent *event) {
@@ -44,17 +44,8 @@ void PaintWindow::mouseReleaseEvent(QMouseEvent *event) {
     }
 }
 
-std::vector<double>& PaintWindow::GetVectorPixels() {
-    if (!_vectorPixels.empty()) {
-        _vectorPixels.clear();
-    }
-    QImage smallImage(_image.scaled(_countNeurons, _countNeurons));
-    for (int i = 0; i < _countNeurons; ++i) {
-        for (int j = 0; j < _countNeurons; ++j) {
-            _vectorPixels.push_back(!smallImage.pixelColor(j, i).blackF());
-        }
-    }
-    return _vectorPixels;
+QImage& PaintWindow::GetImage() {
+    return _image;
 }
 
 PaintWindow::~PaintWindow() {

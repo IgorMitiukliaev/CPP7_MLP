@@ -1,6 +1,7 @@
 #include "fileloader.h"
 
 bool s21::FileLoader::SetFileStream(std::string filename) {
+  if (filestream_.good()) filestream_.close();
   filestream_.open(filename);
   ReadCountOfElements();
   StartReadElements();
@@ -118,11 +119,16 @@ void s21::FileLoader::ReadCountOfElements() {
   }
 }
 
-int s21::FileLoader::GetCountOfElements() {
+long s21::FileLoader::GetCountOfElements() {
   return count_of_elements_;
 }
 
 void s21::FileLoader::StartReadElements() {
   filestream_.clear();
   filestream_.seekg(0, std::ios::beg);
+}
+
+void s21::FileLoader::SetPosition(int pos) {
+  StartReadElements();
+  for (auto i = 0; i < pos; i++) GetLine();
 }

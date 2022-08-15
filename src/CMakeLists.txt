@@ -15,13 +15,13 @@ find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 
 set(PROJECT_SOURCES
+        graphwindow.h
+        graphwindow.cpp
+        graphwindow.ui
         main.cpp
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
-        paintwindow.cpp
-        paintwindow.h
-        paintwindow.ui
         controller.h
         controller.cpp
         model.h
@@ -29,7 +29,15 @@ set(PROJECT_SOURCES
         fileloader.cpp
         fileloader.h
         neuralnetwork.h
-        neuralnetwork.cpp
+        matrix_neural_network.h
+        matrix_neural_network.cpp
+        graphneuralnetwork.h
+        graphneuralnetwork.cpp
+        matrix.h
+        matrix.cpp
+        paintwindow.cpp
+        paintwindow.h
+        paintwindow.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
