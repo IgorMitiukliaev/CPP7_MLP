@@ -17,15 +17,15 @@ class Controller : public QObject {
 
   void loadDataset(string const &path);
   std::vector<double> getInputValues(int img_num = 0);
-  int getCountOfElements();
+
   void loadNextDataset();
   void InitNetwork(InitConfig &config);
   std::vector<double> getOutValues();
-  unsigned getCorrectValue();
-
+  auto getCorrectValue() -> unsigned;
   void TeachNetwork(LearnConfig &learn_config);
 
   // simple functions
+  auto getCountOfElements() -> long { return m->getCountOfElements(); }
   auto CheckNetworkReady() -> bool { return m->CheckNetworkReady(); };
   auto CheckDataReady() -> bool { return m->CheckDataReady(); };
   auto StopTeachLoop(bool val) -> void { stop_ = val; };
@@ -36,6 +36,8 @@ class Controller : public QObject {
     m->LoadConfiguration(filename, is_graph);
   };
   auto GetConfiguration() -> s21::InitConfig { return m->GetConfiguration(); };
+  auto getErr() -> s21::ErrorData & { return m->getErr(); }
+  auto resetErr() -> void { m->resetErr(); }
 
  signals:
   void progressChanged_(int value, int value2);

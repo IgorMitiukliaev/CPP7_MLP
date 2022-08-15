@@ -36,6 +36,7 @@ void Model::loadDataset(string const &path) {
   correct_ = fileloader_->GetOutputValues();
   input_value_ = fileloader_->GetOutputValues();
   normalizeInput();
+  err_ = {0};
 };
 
 void Model::loadNextDataset() {
@@ -66,11 +67,10 @@ void Model::normalizeInput() {
 void Model::activate(std::vector<double> input_) {
   network_->Activate(input_);
   out_ = network_->getOutput();
+  UpdateErrData();
 };
 
-void Model::TeachNetwork() {
-  network_->teachNetwork(correct_);
-}
+void Model::TeachNetwork() { network_->teachNetwork(correct_); }
 
 void Model::TeachNetwork(LearnConfig &learn_config) {
   num_epochs_ = learn_config.num_epochs,
@@ -99,4 +99,16 @@ void Model::LoadConfiguration(const std::string &filename, bool is_graph) {
 
 s21::InitConfig Model::GetConfiguration() {
   return network_->GetConfiguration();
+}
+
+void Model::UpdateErrData() {
+  err_.count++;
+  for (int i = 0; i < out_.size(); i++)
+    err_.sum_sqr_err += pow(correct_[i] - out_[i], 2);
+  err_.average_sq_err = std::sqrt(err_.sum_sqr_err / err_.count);
+  int correctLetterIndex =
+      std::max_element(correct_.begin(), correct_.end()) - correct_.begin();
+  int answerLetterIndex =
+      std::max_element(out_.begin(), out_.end()) - out_.begin();
+  if (correctLetterIndex == answerLetterIndex) err_.count_success++;
 }

@@ -119,7 +119,7 @@ void s21::FileLoader::ReadCountOfElements() {
   }
 }
 
-int s21::FileLoader::GetCountOfElements() {
+long s21::FileLoader::GetCountOfElements() {
   return count_of_elements_;
 }
 

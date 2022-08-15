@@ -17,8 +17,6 @@ std::vector<double> Controller::getInputValues(int img_num) {
 
 std::vector<double> Controller::getOutValues() { return m->getOutValues(); };
 
-int Controller::getCountOfElements() { return m->getCountOfElements(); }
-
 void Controller::loadNextDataset() {
   m->loadNextDataset();
   m->activate(m->getInputValues());
@@ -52,3 +50,4 @@ void Controller::TeachNetwork(LearnConfig &learn_config) {
     }
   m->TeachNetwork();
 };
+

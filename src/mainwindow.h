@@ -22,14 +22,14 @@ class MainWindow : public QMainWindow {
   Ui::MainWindow *ui;
   PaintWindow *paintWindow;
   s21::Controller *c;
-  qint16 num_images = 0, num_curr_image = 0;
+  long num_images = 0, num_curr_image = 0;
   void drawPreview(int img_num = 0);
-  void on_Data_Loaded();
   void updatePreviewLabel();
   void updateBatchLabel();
   void UpdateMLPState();
   bool enableButtons();
   void UpdateConfigurationView();
+    void UpdateAnswerLabel();
 
  public:
   MainWindow(s21::Controller *c, QWidget *parent = nullptr);
@@ -40,7 +40,6 @@ private slots:
   void on_btnLoadNetworkConfiguration_clicked();
   void on_btnLoadImage_clicked();
   void on_btnLoadDataset_clicked();
-  void on_inpNumCurrImg_textChanged(const QString &arg1);
   void on_btnImgUp_clicked();
   void on_pushButton_draw_clicked();
   void on_pushButton_8_clicked();

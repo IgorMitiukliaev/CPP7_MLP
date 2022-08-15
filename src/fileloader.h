@@ -12,7 +12,7 @@ class FileLoader {
   bool SetFileStream(std::string filename);
   std::vector<double> GetOutputValues();
   std::vector<double> GetInputValues();
-  int GetCountOfElements();
+  long GetCountOfElements();
   bool ReadElement();
   void StartReadElements();
   void SetPosition(int pos); // нумерация строк с нуля
@@ -22,7 +22,7 @@ class FileLoader {
   std::ifstream filestream_;
   std::vector<double> output_values_;
   std::vector<double> input_values_;
-  int count_of_elements_;
+  long count_of_elements_;
   void SetOutputValues(int value);
   void ClearData();
   std::string GetLine();

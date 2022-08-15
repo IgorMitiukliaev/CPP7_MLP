@@ -59,15 +59,11 @@ void MainWindow::on_btnLoadDataset_clicked() {
   c->loadDataset(fileName.toStdString());
   num_images = c->getCountOfElements();
   num_curr_image = 0;
-  on_Data_Loaded();
   drawPreview();
   updatePreviewLabel();
+  UpdateAnswerLabel();
   UpdateMLPState();
   enableButtons();
-}
-
-void MainWindow::on_Data_Loaded() {
-  //  std::vector<double> input = c->getInputValues();
 }
 
 void MainWindow::drawPreview(int img_num) {
@@ -103,24 +99,31 @@ void MainWindow::updatePreviewLabel() {
 
 void MainWindow::UpdateMLPState() {
   std::vector<double> out = c->getOutValues();
+  QString text;
   for (int i{0}; i < ui->gridMLP->rowCount(); ++i) {
     for (int j{0}; j < ui->gridMLP->columnCount(); ++j) {
       auto *label =
           static_cast<QLabel *>(ui->gridMLP->itemAtPosition(i, j)->widget());
-      QString text = QString(QChar::fromLatin1(j * 13 + i + 65));
+      text = QString(QChar::fromLatin1(j * 13 + i + 65));
       text += ": " + QString::number(out[j * 13 + i] * 100, 'f', 2) + "%";
       label->setText(text);
     }
   }
+  //  double success_rate =
+  //      c->getErr().count > 0 ? c->getErr().count_success /
+  //      c->getErr().count : 0;
+  //  text = "Success rate " + QString::number(success_rate * 100, 'f', 1) +
+  //  "%";
+  text = "Success count " + QString::number(c->getErr().count_success, 'f', 0);
+  ui->lblError->setText(text);
 }
-
-void MainWindow::on_inpNumCurrImg_textChanged(const QString &arg1) {}
 
 void MainWindow::on_btnImgUp_clicked() {
   for (int i = 0; i < ui->valEpochNum->text().toInt(); i++) {
     num_curr_image++;
     c->loadNextDataset();
     drawPreview();
+    UpdateAnswerLabel();
     updatePreviewLabel();
     UpdateMLPState();
   }
@@ -218,6 +221,7 @@ void MainWindow::on_progressChanged_(int i, int percentage) {
                                         : num_curr_image + i);
   drawPreview();
   updatePreviewLabel();
+  UpdateAnswerLabel();
   UpdateMLPState();
   QCoreApplication::processEvents();
 }
@@ -243,4 +247,11 @@ void MainWindow::UpdateConfigurationView() {
   s21::InitConfig config = c->GetConfiguration();
   ui->num_layers_hidden->setValue(config.num_layers_hidden);
   ui->num_neurons_hidden->setValue(config.num_neurons_hidden);
+}
+
+void MainWindow::UpdateAnswerLabel() {
+  std::vector<double> out = c->getOutValues();
+  qDebug() << out;
+  int maxElementIndex = std::max_element(out.begin(), out.end()) - out.begin();
+  ui->lblAnswer->setText(QString(QChar::fromLatin1(maxElementIndex + 65)));
 }

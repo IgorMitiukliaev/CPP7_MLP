@@ -58,5 +58,6 @@ class GraphNeuralNetwork : public NeuralNetwork {
     return config;
   };
 };
+
 };      // namespace s21
 #endif  // GRAPHNEURALNETWORK_H
