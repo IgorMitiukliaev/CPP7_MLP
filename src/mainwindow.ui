@@ -41,7 +41,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tabInit">
      <attribute name="title">
@@ -926,20 +926,6 @@
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QPushButton" name="CreateGraph">
-      <property name="geometry">
-       <rect>
-        <x>370</x>
-        <y>20</y>
-        <width>141</width>
-        <height>31</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Create Graph</string>
-      </property>
-     </widget>
->>>>>>> 84c0892171247b8126baf786ee9b5111804a04c6
     </widget>
     <widget class="QWidget" name="tabTest">
      <property name="enabled">
@@ -969,33 +955,6 @@
         <height>512</height>
        </size>
       </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="interactive">
-       <bool>true</bool>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>512</width>
-        <height>512</height>
-       </size>
-      </property>
-<<<<<<< HEAD
-=======
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="interactive">
-       <bool>true</bool>
-      </property>
->>>>>>> 84c0892171247b8126baf786ee9b5111804a04c6
      </widget>
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
@@ -1082,7 +1041,7 @@
        <item row="0" column="3">
         <widget class="QPushButton" name="pushButton_8">
          <property name="enabled">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1114,7 +1073,7 @@
         <x>80</x>
         <y>590</y>
         <width>391</width>
-        <height>35</height>
+        <height>29</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="grdPreviewLabel2">
@@ -1286,7 +1245,7 @@
       <rect>
        <x>10</x>
        <y>0</y>
-       <width>249</width>
+       <width>248</width>
        <height>381</height>
       </rect>
      </property>
@@ -1314,6 +1273,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1351,6 +1311,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1388,6 +1349,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1425,6 +1387,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1462,6 +1425,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1499,6 +1463,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1536,6 +1501,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1573,6 +1539,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1610,6 +1577,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1647,6 +1615,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1684,6 +1653,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1721,6 +1691,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1758,6 +1729,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1795,6 +1767,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1838,6 +1811,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1875,6 +1849,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1912,6 +1887,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1949,6 +1925,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1986,6 +1963,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -2023,6 +2001,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -2060,6 +2039,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -2097,6 +2077,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -2134,6 +2115,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -2171,6 +2153,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -2208,6 +2191,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -2245,6 +2229,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>

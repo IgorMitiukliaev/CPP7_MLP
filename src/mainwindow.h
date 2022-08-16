@@ -2,16 +2,15 @@
 #define MAINWINDOW_H
 #include <QDebug>
 #include <QFileDialog>
+#include <QLabel>
 #include <QMainWindow>
-#include <QProgressBar>
 #include <QPixmap>
+#include <QProgressBar>
 #include <iostream>
 
 #include "controller.h"
+#include "graphwindow.h"
 #include "paintwindow.h"
-#include "controller.h"
-
-#include <iostream>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -25,8 +24,8 @@ class MainWindow : public QMainWindow {
   Ui::MainWindow *ui;
   PaintWindow *paintWindow;
   GraphWindow *_graphWindow;
-  
-  s21::Controller *_controller;
+
+  s21::Controller *controller_;
   long num_images = 0, num_curr_image = 0;
   std::vector<double> _vectorPixels;
   QImage _graphics_view_image;
@@ -34,11 +33,6 @@ class MainWindow : public QMainWindow {
 
   void drawPreview(int img_num = 0);
   void updatePreviewLabel();
-  void updateBatchLabel();
-  void UpdateMLPState();
-  bool enableButtons();
-  void UpdateConfigurationView();
-    void UpdateAnswerLabel();
   void updateBatchLabel();
   void UpdateMLPState();
   bool enableButtons();
@@ -51,7 +45,7 @@ class MainWindow : public QMainWindow {
   MainWindow(s21::Controller *c, QWidget *parent = nullptr);
   ~MainWindow();
 
-private slots:
+ private slots:
   void on_btnSaveNetworkConfiguration_clicked();
   void on_btnLoadNetworkConfiguration_clicked();
   void on_btnLoadImage_clicked();
