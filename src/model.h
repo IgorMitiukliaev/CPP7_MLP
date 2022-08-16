@@ -51,6 +51,10 @@ class Model {
   auto getCountOfElements() -> long { return num_images_; }
   auto resetErr() -> void { err_ = {0}; }
   auto getErr() -> s21::ErrorData & { return err_; }
+  
+  auto SetVectorPixelsOfImage(std::vector<double> &vector_pixels) -> void {
+    input_ = vector_pixels;
+  }
   //  auto GetCurrentImageNumber() -> unsigned int;
 
   void SaveConfiguration(const std::string &filename);

@@ -19,7 +19,7 @@ class PaintWindow : public QDialog {
   explicit PaintWindow(QWidget *parent = nullptr);
   ~PaintWindow();
 
-  std::vector<double> &GetVectorPixels();
+  QImage& GetImage();
 
  protected:
   virtual void paintEvent(QPaintEvent *p) override;
@@ -32,8 +32,6 @@ class PaintWindow : public QDialog {
   QPoint _lastPoint;
   QImage _image;
   bool _isLeftButtonPressed = false;
-  std::vector<double> _vectorPixels;
-  const int _countNeurons = 28;
   const int _penWidth = 24;
 };
 

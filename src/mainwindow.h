@@ -9,6 +9,9 @@
 
 #include "controller.h"
 #include "paintwindow.h"
+#include "controller.h"
+
+#include <iostream>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -21,8 +24,14 @@ class MainWindow : public QMainWindow {
  private:
   Ui::MainWindow *ui;
   PaintWindow *paintWindow;
-  s21::Controller *c;
+  GraphWindow *_graphWindow;
+  
+  s21::Controller *_controller;
   long num_images = 0, num_curr_image = 0;
+  std::vector<double> _vectorPixels;
+  QImage _graphics_view_image;
+  const int _countNeurons = 28;
+
   void drawPreview(int img_num = 0);
   void updatePreviewLabel();
   void updateBatchLabel();
@@ -30,6 +39,13 @@ class MainWindow : public QMainWindow {
   bool enableButtons();
   void UpdateConfigurationView();
     void UpdateAnswerLabel();
+  void updateBatchLabel();
+  void UpdateMLPState();
+  bool enableButtons();
+  void UpdateConfigurationView();
+  void UpdateAnswerLabel();
+  void CreateVectorPixels(QImage &image);
+  void GraphicsViewUpdate(QImage &image);
 
  public:
   MainWindow(s21::Controller *c, QWidget *parent = nullptr);
@@ -49,5 +65,6 @@ private slots:
   void on_valBatchNum_valueChanged(int arg1);
   void on_tabWidget_tabBarClicked(int index);
   void on_progressChanged_(int value, int value2);
+  void on_CreateGraph_clicked();
 };
 #endif  // MAINWINDOW_H

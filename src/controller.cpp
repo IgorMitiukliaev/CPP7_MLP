@@ -4,7 +4,7 @@
 
 #include "model.h"
 
-using s21::Controller, s21::InitConfig, s21::Model;
+using s21::Controller, s21::InitConfig, s21::InitConfig, s21::Model;
 
 void Controller::loadDataset(string const &path) {
   m->loadDataset(path);
@@ -50,5 +50,4 @@ void Controller::TeachNetwork(LearnConfig &learn_config) {
     }
   m->TeachNetwork();
 };
-
 
