@@ -13,7 +13,7 @@ void s21::MatrixNeuralNetwork::InitNetwork(s21::InitConfig* config) {
 }
 
 void s21::MatrixNeuralNetwork::InitWeights() {
-  weights_ = new Matrix[num_layers_hidden + 1];
+  weights_.resize(num_layers_hidden+1);
   weights_[0].InitRand(num_neurons_hidden, num_neurons_input);
   for (auto i = 1; i <= num_layers_hidden - 1; i++) {
     weights_[i].InitRand(num_neurons_hidden, num_neurons_hidden);
@@ -22,22 +22,23 @@ void s21::MatrixNeuralNetwork::InitWeights() {
 }
 
 void s21::MatrixNeuralNetwork::InitNeuronsValues() {
-  neurons_val_ = new double*[num_layers_hidden + 2];
-  neurons_val_[0] = new double[num_neurons_input];
+  neurons_val_.resize(num_layers_hidden + 2);
+  neurons_val_[0].resize(num_neurons_input);
   for (auto i = 1; i <= num_layers_hidden; i++)
-    neurons_val_[i] = new double[num_neurons_hidden];
-  neurons_val_[num_layers_hidden + 1] = new double[num_neurons_out];
+    neurons_val_[i].resize(num_neurons_hidden);
+  neurons_val_[num_layers_hidden + 1].resize(num_neurons_out);
 }
 
 void s21::MatrixNeuralNetwork::InitNeuronsErrors() {
-  neurons_err_ = new double*[num_layers_hidden + 2];
-  neurons_err_[0] = new double[num_neurons_input];
-  for (auto i = 1; i <= num_layers_hidden; i++)
-    neurons_err_[i] = new double[num_neurons_hidden];
-  neurons_err_[num_layers_hidden + 1] = new double[num_neurons_out];
+  neurons_err_.resize(num_layers_hidden + 2);
+  neurons_err_[0].resize(num_neurons_input);
+  for (auto i = 1; i <= num_layers_hidden; i++) {
+    neurons_err_[i].resize(num_neurons_hidden);
+  }
+  neurons_err_[num_layers_hidden + 1].resize(num_neurons_out);
 }
 
-void s21::MatrixNeuralNetwork::Sigmoid(double* a, int n) {
+void s21::MatrixNeuralNetwork::Sigmoid(std::vector<double> &a, int n) {
   for (auto i = 0; i < n; i++) a[i] = 1 / (1 + exp(-a[i]));
 }
 
@@ -61,7 +62,7 @@ void s21::MatrixNeuralNetwork::Activate(std::vector<double>& input) {
 std::vector<double> s21::MatrixNeuralNetwork::getOutput() {
   std::vector<double> out;
   for (auto i = 0; i < num_neurons_out; i++)
-    out.push_back(neurons_val_[num_neurons_hidden + 1][i]);
+    out.push_back(neurons_val_[num_layers_hidden + 1][i]);
   return out;
 }
 
