@@ -38,6 +38,11 @@ class Controller : public QObject {
   auto GetConfiguration() -> s21::InitConfig { return m->GetConfiguration(); };
   auto getErr() -> s21::ErrorData & { return m->getErr(); }
   auto resetErr() -> void { m->resetErr(); }
+  
+  auto SetVectorPixelsOfImage(std::vector<double> &vector_pixels) -> void {
+    m->SetVectorPixelsOfImage(vector_pixels);
+    m->activate(vector_pixels);
+  }
 
  signals:
   void progressChanged_(int value, int value2);

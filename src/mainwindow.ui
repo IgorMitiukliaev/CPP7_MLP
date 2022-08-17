@@ -41,7 +41,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tabInit">
      <attribute name="title">
@@ -494,7 +494,7 @@
      </widget>
      <widget class="QPushButton" name="btnSaveNetworkConfiguration">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="geometry">
        <rect>
@@ -926,6 +926,19 @@
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
+     <widget class="QPushButton" name="CreateGraph">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>20</y>
+        <width>141</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Create Graph</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tabTest">
      <property name="enabled">
@@ -954,6 +967,15 @@
         <width>512</width>
         <height>512</height>
        </size>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="interactive">
+       <bool>true</bool>
       </property>
      </widget>
      <widget class="QWidget" name="layoutWidget">
@@ -1041,7 +1063,7 @@
        <item row="0" column="3">
         <widget class="QPushButton" name="pushButton_8">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1073,7 +1095,7 @@
         <x>80</x>
         <y>590</y>
         <width>391</width>
-        <height>29</height>
+        <height>35</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="grdPreviewLabel2">
@@ -1245,7 +1267,7 @@
       <rect>
        <x>10</x>
        <y>0</y>
-       <width>248</width>
+       <width>249</width>
        <height>381</height>
       </rect>
      </property>
