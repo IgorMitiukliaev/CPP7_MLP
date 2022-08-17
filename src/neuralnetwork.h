@@ -24,7 +24,7 @@ struct LearnConfig {
 class NeuralNetwork {
  public:
   NeuralNetwork(){};
-  ~NeuralNetwork(){};
+  virtual ~NeuralNetwork(){};
   //  NeuralNetwork(InitConfig config);
   virtual void InitNetwork(InitConfig *config){};  //инициализация из конфига
   //  virtual void LearningNetwork(LearnConfig *config);
