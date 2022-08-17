@@ -18,7 +18,7 @@ void s21::Matrix::Matrix::InitRand(int rows, int columns) {
   }
 }
 
-void s21::Matrix::Mult(const Matrix&m, const double*b, double *c){
+void s21::Matrix::Mult(const Matrix&m, const std::vector<double> &b, std::vector<double> &c){
     for (auto i = 0; i < m.rows_; i++) {
         c[i] = 0;
         for (auto j = 0; j < m.columns_; j++) {
@@ -27,7 +27,7 @@ void s21::Matrix::Mult(const Matrix&m, const double*b, double *c){
     }
 }
 
-void s21::Matrix::TransposeMult(const Matrix&m, const double*b, double *c){
+void s21::Matrix::TransposeMult(const Matrix&m, const std::vector<double> &b, std::vector<double> &c){
     for (auto i = 0; i < m.columns_; i++) {
         c[i] = 0;
         for (auto j = 0; j < m.rows_; j++) {

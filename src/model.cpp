@@ -20,6 +20,7 @@ void Model::InitNetwork(s21::InitConfig &config) {
   num_neurons_hidden_ = config.num_neurons_hidden,
   num_neurons_input_ = config.num_neurons_input,
   num_neurons_out_ = config.num_neurons_out;
+  if (network_) delete network_;
   if (config.is_graph) {
     network_ = new GraphNeuralNetwork();
   } else {
@@ -89,6 +90,7 @@ void Model::SaveConfiguration(const std::string &filename) {
 }
 
 void Model::LoadConfiguration(const std::string &filename, bool is_graph) {
+  if (network_) delete network_;
   if (is_graph) {
     network_ = new GraphNeuralNetwork();
   } else {

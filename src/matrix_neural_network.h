@@ -19,13 +19,13 @@ class MatrixNeuralNetwork : public NeuralNetwork {
   void PrintOutputValues();
   
  private:
-  Matrix * weights_;
-  double **neurons_val_;
-  double **neurons_err_;
+  std::vector<Matrix> weights_;
+  std::vector<std::vector<double>> neurons_val_;
+  std::vector<std::vector<double>> neurons_err_;
   void InitWeights();
   void InitNeuronsValues();
   void InitNeuronsErrors();
-  void Sigmoid(double *a, int n);
+  void Sigmoid(std::vector<double> &a, int n);
   double DerSigmoid(double a);
   void BackPropagationSignal(const std::vector<double>& correct);
   void CalcWeights(double learning_rate);
