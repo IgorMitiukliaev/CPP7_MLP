@@ -2,9 +2,10 @@
 #define MAINWINDOW_H
 #include <QDebug>
 #include <QFileDialog>
+#include <QLabel>
 #include <QMainWindow>
-#include <QProgressBar>
 #include <QPixmap>
+#include <QProgressBar>
 #include <iostream>
 
 #include "controller.h"
@@ -44,7 +45,7 @@ class MainWindow : public QMainWindow {
   MainWindow(s21::Controller *c, QWidget *parent = nullptr);
   ~MainWindow();
 
-private slots:
+ private slots:
   void on_btnSaveNetworkConfiguration_clicked();
   void on_btnLoadNetworkConfiguration_clicked();
   void on_btnLoadImage_clicked();
