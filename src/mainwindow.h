@@ -9,8 +9,8 @@
 #include <iostream>
 
 #include "controller.h"
-#include "graphwindow.h"
 #include "paintwindow.h"
+#include "graphwindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -24,8 +24,8 @@ class MainWindow : public QMainWindow {
   Ui::MainWindow *ui;
   PaintWindow *paintWindow;
   GraphWindow *_graphWindow;
-
-  s21::Controller *controller_;
+  
+  s21::Controller *_controller;
   long num_images = 0, num_curr_image = 0;
   std::vector<double> _vectorPixels;
   QImage _graphics_view_image;
