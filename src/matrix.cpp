@@ -7,10 +7,7 @@ void s21::Matrix::Matrix::InitRand(int rows, int columns) {
   rows_ = rows;
   columns_ = columns;
   std::srand(time(NULL));
-  matrix_ = new double* [rows_];
-  for (auto i = 0; i < rows_; i++) {
-    matrix_[i] = new double[columns_];
-  }
+  Resize();
   for (auto i = 0; i < rows_; i++) {
     for (auto j = 0; j < columns_; j++) {
       matrix_[i][j] = -1+0.01*(std::rand()%201);
@@ -63,6 +60,33 @@ void s21::Matrix::Load(std::ifstream& in) {
       in.read((char*)&(matrix_[i][j]), sizeof(double));
     }
   }
+}
+
+void s21::Matrix::Resize() {
+  matrix_.resize(rows_);
+  for (auto i = 0; i < rows_; i++) {
+    matrix_[i].resize(columns_);
+  }
+}
+
+s21::Matrix::Matrix(int rows, int columns): rows_(rows), columns_(columns) {
+  Resize();
+}
+
+double s21::Matrix::SumRow(int row) {
+  double res = 0;
+  for (auto i = 0; i < columns_; i++) {
+    res += matrix_[row][i];
+  }
+  return res;
+}
+
+double s21::Matrix::SumColumn(int column) {
+  double res = 0;
+  for (auto i = 0; i < rows_; i++) {
+    res += matrix_[i][column];
+  }
+  return res;
 }
 
 void s21::Matrix::PrintMatrix() {
