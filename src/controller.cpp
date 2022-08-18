@@ -44,9 +44,10 @@ void Controller::TeachNetwork(LearnConfig &learn_config) {
     for (unsigned int i = 0; (i < max_count) & !stop_; i++) {
       m->TeachNetwork();
       loadNextDataset();
-      m->activate(m->getInputValues());
-      if (i % 100 == 0) {
-        emit progressChanged_(100, 100 * i / max_count);
+      if (i % 250 == 0 && i > 0) {
+        m->EvaluateErr();
+        emit progressChanged_(250, 100 * i / max_count);
+        m->resetErr();
       }
     }
   } else {
@@ -59,24 +60,24 @@ void Controller::TeachNetwork(LearnConfig &learn_config) {
         m->TeachNetwork();
         teach_count++;
       } else {
-        m->EvaluateErr();
         eval_count++;
       }
       if (eval_count >= num_images_ / num_batches_) {
         eval_count = 0;
         teach_on = true;
+        m->EvaluateErr();
+        emit progressChanged_(0, 100 * i / max_count);
+        m->resetErr();
       }
       if (teach_count >= num_images_) {
         teach_count = 0;
         teach_on = false;
       }
       loadNextDataset();
-      m->activate(m->getInputValues());
-      if (i % 100 == 0) {
-        emit progressChanged_(100, 100 * i / max_count);
+      if (i % 250 == 0 && i > 0) {
+        emit progressChanged_(250, 100 * i / max_count);
       }
     }
   }
-  emit progressChanged_(100, 100);
-  m->TeachNetwork();
+  emit progressChanged_(250, 100);
 };

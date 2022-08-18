@@ -173,6 +173,7 @@ void s21::GraphNeuralNetwork::LoadConfiguration(const std::string &filename) {
 
   std::for_each(out_layer.begin(), out_layer.end(),
                 [&](Neuron &el) { LoadWeight(in, el.w); });
+
   in.close();
 }
 

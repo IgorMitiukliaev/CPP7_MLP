@@ -99,10 +99,18 @@ void Model::LoadConfiguration(const std::string &filename, bool is_graph) {
     network_ = new MatrixNeuralNetwork();
   }
   network_->LoadConfiguration(filename);
+  resetErr();
 }
 
 s21::InitConfig Model::GetConfiguration() {
   return network_->GetConfiguration();
+}
+
+void Model::resetErr() {
+  if (err_.confusion_matrix) delete err_.confusion_matrix;
+  err_ = {0};
+  int size = network_->GetConfiguration().num_neurons_out;
+  err_.confusion_matrix = new s21::Matrix(size, size);
 }
 
 void Model::UpdateErrData() {
@@ -118,4 +126,26 @@ void Model::UpdateErrData() {
   ((*err_.confusion_matrix)(answerLetterIndex, correctLetterIndex))++;
 }
 
-void Model::EvaluateErr(){};
+void Model::EvaluateErr() {
+  err_.precision = err_.recall = 0;
+  long count_p = 0, count_r = 0;
+  for (int i = 0; i < num_neurons_out_; i++) {
+    int __sum = (*err_.confusion_matrix).SumColumn(i);
+    if (__sum > 0)
+      err_.precision += (*err_.confusion_matrix)(i, i) /
+                        (*err_.confusion_matrix).SumColumn(i);
+    else
+      count_p++;
+    __sum = (*err_.confusion_matrix).SumRow(i);
+    if (__sum > 0)
+      err_.recall +=
+          (*err_.confusion_matrix)(i, i) / (*err_.confusion_matrix).SumRow(i);
+    else
+      count_r++;
+  }
+  err_.precision /= (num_neurons_out_ - count_p);
+  err_.recall /= (num_neurons_out_ - count_r);
+  err_.accuracy = (double)err_.count_success / err_.count;
+  err_.f_measure =
+      2 * (err_.precision * err_.recall) / (err_.precision + err_.recall);
+};

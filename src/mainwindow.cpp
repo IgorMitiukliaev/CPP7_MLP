@@ -119,7 +119,16 @@ void MainWindow::UpdateMLPState() {
   //  text = "Success rate " + QString::number(success_rate * 100, 'f', 1) +
   //  "%";
   text = "Success count " +
-         QString::number(_controller->getErr().count_success, 'f', 0);
+         QString::number(_controller->getErr().count_success, 'f', 0) + "\n";
+  text += "Accuracy " +
+         QString::number(_controller->getErr().accuracy*100, 'f', 2) + "%\n";
+  text += "Precision " +
+         QString::number(_controller->getErr().precision*100, 'f', 2) + "%\n";
+  text += "Recall " +
+         QString::number(_controller->getErr().recall*100, 'f', 2) + "%\n";
+  text += "f-measure " +
+         QString::number(_controller->getErr().f_measure*100, 'f', 2) + "%\n";
+
   ui->lblError->setText(text);
 }
 
@@ -244,7 +253,8 @@ void MainWindow::on_valBatchNum_valueChanged(int arg1) {
   } else {
     ui->valEpochNum->setEnabled(false);
   }
-  updateBatchLabel(); }
+  updateBatchLabel();
+}
 
 void MainWindow::on_tabWidget_tabBarClicked(int index) {
   if (_controller->CheckNetworkReady()) {
