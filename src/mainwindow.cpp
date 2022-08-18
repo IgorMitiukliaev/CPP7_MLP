@@ -236,7 +236,15 @@ void MainWindow::updateBatchLabel() {
   }
 }
 
-void MainWindow::on_valBatchNum_valueChanged(int arg1) { updateBatchLabel(); }
+void MainWindow::on_valBatchNum_valueChanged(int arg1) {
+  qDebug() << arg1;
+  if (arg1 == 1) {
+    ui->valEpochNum->setEnabled(true);
+    updateBatchLabel();
+  } else {
+    ui->valEpochNum->setEnabled(false);
+  }
+  updateBatchLabel(); }
 
 void MainWindow::on_tabWidget_tabBarClicked(int index) {
   if (_controller->CheckNetworkReady()) {

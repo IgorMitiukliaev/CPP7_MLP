@@ -117,3 +117,5 @@ void Model::UpdateErrData() {
   if (correctLetterIndex == answerLetterIndex) err_.count_success++;
   ((*err_.confusion_matrix)(answerLetterIndex, correctLetterIndex))++;
 }
+
+void Model::EvaluateErr(){};

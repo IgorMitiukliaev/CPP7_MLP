@@ -75,7 +75,7 @@ Neuron::Neuron(std::vector<Neuron> *input_layer) : Neuron() {
   for (int i = 0; i < n.size(); i++) n[i] = &(*input_layer)[i];
   std::random_device rd;
   std::default_random_engine eng(rd());
-  std::uniform_real_distribution<double> distr(-1, 1);
+  std::uniform_real_distribution<double> distr(-0.5, 0.5);
   std::for_each(w.begin(), w.end(),
                 [&distr, &eng](double &el) { el = distr(eng); });
 };

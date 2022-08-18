@@ -42,6 +42,7 @@ class Model {
   void TeachNetwork(LearnConfig &learn_config);
   void createNetwork(InitConfig config);
   void UpdateErrData();
+  void EvaluateErr();
 
   // simple functions
   auto CheckNetworkReady() -> bool { return network_ != nullptr; };
