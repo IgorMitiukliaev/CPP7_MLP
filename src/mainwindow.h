@@ -6,6 +6,7 @@
 #include <QMainWindow>
 #include <QPixmap>
 #include <QProgressBar>
+#include <QRegularExpression>
 #include <iostream>
 
 #include "controller.h"

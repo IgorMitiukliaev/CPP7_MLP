@@ -269,18 +269,24 @@ void MainWindow::on_progressChanged_(int i, int percentage) {
 }
 
 void MainWindow::on_btnSaveNetworkConfiguration_clicked() {
-  QString filters("Conf files (*.bin);;All files (*.*)");
-  QString q_filename =
-      QFileDialog::getSaveFileName(this, "Save configuration", ".", filters);
+  QFileDialog dialog;
+  QRegularExpression rx("\\..+$");
+  QString filters("Conf files (*.bin)");
+  dialog.setDefaultSuffix(".bin");
+  QString q_filename = dialog.getSaveFileName(this, "Save configuration", ".",
+                                              filters, &filters);
+  qDebug() << rx.match(q_filename);
+  if (!rx.match(q_filename).hasMatch()) q_filename += ".bin";
+  qDebug() << q_filename;
   if (!q_filename.isEmpty()) {
     _controller->SaveConfiguration((q_filename).toStdString());
   }
 }
 
 void MainWindow::on_btnLoadNetworkConfiguration_clicked() {
-  QString filters("Conf files (*.bin);;All files (*.*)");
-  QString q_filename =
-      QFileDialog::getOpenFileName(this, "Load configuration", ".", filters);
+  QString filters("Conf files (*.bin);;All files (*)");
+  QString q_filename = QFileDialog::getOpenFileName(
+      this, tr("Load configuration"), ".", filters);
   if (!q_filename.isEmpty()) {
     _controller->LoadConfiguration(q_filename.toStdString(),
                                    ui->rbtnGraph->isChecked());
