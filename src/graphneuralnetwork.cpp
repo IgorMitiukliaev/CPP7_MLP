@@ -188,11 +188,11 @@ s21::InitConfig s21::GraphNeuralNetwork::GetConfiguration() {
 void s21::GraphNeuralNetwork::SaveWeight(std::ofstream &out,
                                          std::vector<double> &weight) {
   std::for_each(weight.begin(), weight.end(),
-                [&out](double w) { out.write((char *)&(w), sizeof(double)); });
+                [&out](double &w) { out.write((char *)&(w), sizeof(double)); });
 };
 
 void s21::GraphNeuralNetwork::LoadWeight(std::ifstream &in,
                                          std::vector<double> &weight) {
   std::for_each(weight.begin(), weight.end(),
-                [&in](double w) { in.read((char *)&(w), sizeof(double)); });
+                [&in](double &w) { in.read((char *)&(w), sizeof(double)); });
 };
