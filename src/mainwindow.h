@@ -41,6 +41,9 @@ class MainWindow : public QMainWindow {
   void UpdateAnswerLabel();
   void CreateVectorPixels(QImage &image);
   void GraphicsViewUpdate(QImage &image);
+  QString GetDatasetFileName();
+  QPixmap GetPreviewPicture(int img_num);
+  void DrawTestPreview(int img_num = 0);
 
  public:
   MainWindow(s21::Controller *c, QWidget *parent = nullptr);
@@ -61,5 +64,6 @@ class MainWindow : public QMainWindow {
   void on_tabWidget_tabBarClicked(int index);
   void on_progressChanged_(int value, int value2);
   void on_CreateGraph_clicked();
+  void on_btnLoadDatasetTest_clicked();
 };
 #endif  // MAINWINDOW_H
