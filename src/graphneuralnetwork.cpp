@@ -144,3 +144,55 @@ void GraphNeuralNetwork::teachNetwork(const std::vector<double> &correct) {
 };
 
 bool GraphNeuralNetwork::CheckNetworkReady() { return true; };
+
+void s21::GraphNeuralNetwork::SaveConfiguration(const std::string &filename) {
+  std::ofstream out(filename, std::ios::binary | std::ios::out);
+  s21::InitConfig config = GetConfiguration();
+  out.write((char *)&config, sizeof(config));
+
+  for (unsigned i = 0; i < num_layers_hidden; i++) {
+    std::for_each(hidden_layer[i].begin(), hidden_layer[i].end(),
+                  [&](Neuron &el) { SaveWeight(out, el.w); });
+  }
+
+  std::for_each(out_layer.begin(), out_layer.end(),
+                [&](Neuron &el) { SaveWeight(out, el.w); });
+
+  out.close();
+}
+
+void s21::GraphNeuralNetwork::LoadConfiguration(const std::string &filename) {
+  std::ifstream in(filename, std::ios::binary | std::ios::in);
+  s21::InitConfig config;
+  in.read((char *)&config, sizeof(config));
+  InitNetwork(&config);
+  for (unsigned i = 0; i < num_layers_hidden; i++) {
+    std::for_each(hidden_layer[i].begin(), hidden_layer[i].end(),
+                  [&](Neuron &el) { LoadWeight(in, el.w); });
+  }
+
+  std::for_each(out_layer.begin(), out_layer.end(),
+                [&](Neuron &el) { LoadWeight(in, el.w); });
+  in.close();
+}
+
+s21::InitConfig s21::GraphNeuralNetwork::GetConfiguration() {
+  s21::InitConfig config = {.num_neurons_input = num_neurons_input,
+                            .num_layers_hidden = num_layers_hidden,
+                            .num_neurons_hidden = num_neurons_hidden,
+                            .num_neurons_out = num_neurons_out,
+                            .is_graph = false};
+  return config;
+}
+
+void s21::GraphNeuralNetwork::SaveWeight(std::ofstream &out,
+                                         std::vector<double> &weight) {
+  std::for_each(weight.begin(), weight.end(),
+                [&out](double w) { out.write((char *)&(w), sizeof(double)); });
+};
+
+void s21::GraphNeuralNetwork::LoadWeight(std::ifstream &in,
+                                         std::vector<double> &weight) {
+  std::for_each(weight.begin(), weight.end(),
+                [&in](double w) { in.read((char *)&(w), sizeof(double)); });
+};

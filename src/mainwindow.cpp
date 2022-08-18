@@ -114,8 +114,8 @@ void MainWindow::UpdateMLPState() {
     }
   }
   //  double success_rate =
-  //      _controller->getErr().count > 0 ? _controller->getErr().count_success /
-  //      _controller->getErr().count : 0;
+  //      _controller->getErr().count > 0 ? _controller->getErr().count_success
+  //      / _controller->getErr().count : 0;
   //  text = "Success rate " + QString::number(success_rate * 100, 'f', 1) +
   //  "%";
   text = "Success count " +
@@ -269,18 +269,21 @@ void MainWindow::on_progressChanged_(int i, int percentage) {
 }
 
 void MainWindow::on_btnSaveNetworkConfiguration_clicked() {
-  QString q_filename = QFileDialog::getSaveFileName(this, "Save configuration",
-                                                    ".", "conf (*.bin)");
+  QString filters("Conf files (*.bin);;All files (*.*)");
+  QString q_filename =
+      QFileDialog::getSaveFileName(this, "Save configuration", ".", filters);
   if (!q_filename.isEmpty()) {
-    _controller->SaveConfiguration(q_filename.toStdString());
+    _controller->SaveConfiguration((q_filename).toStdString());
   }
 }
 
 void MainWindow::on_btnLoadNetworkConfiguration_clicked() {
-  QString q_filename = QFileDialog::getOpenFileName(this, "Load configuration",
-                                                    ".", "conf (*.bin)");
+  QString filters("Conf files (*.bin);;All files (*.*)");
+  QString q_filename =
+      QFileDialog::getOpenFileName(this, "Load configuration", ".", filters);
   if (!q_filename.isEmpty()) {
-    _controller->LoadConfiguration(q_filename.toStdString(), ui->rbtnGraph->isChecked());
+    _controller->LoadConfiguration(q_filename.toStdString(),
+                                   ui->rbtnGraph->isChecked());
     UpdateConfigurationView();
   }
 }
@@ -298,10 +301,8 @@ void MainWindow::UpdateAnswerLabel() {
   ui->lblAnswer->setText(QString(QChar::fromLatin1(maxElementIndex + 65)));
 }
 
-void MainWindow::on_CreateGraph_clicked()
-{
-    _graphWindow->show();
-    std::vector<double> v;
-    _graphWindow->DrawGraph(v);
+void MainWindow::on_CreateGraph_clicked() {
+  _graphWindow->show();
+  std::vector<double> v;
+  _graphWindow->DrawGraph(v);
 }
-

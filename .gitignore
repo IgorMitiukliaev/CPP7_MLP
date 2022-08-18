@@ -53,3 +53,4 @@ datasets/
 build-src-Desktop-Debug
 .vscode/settings.json
 src/MLP/CMakeLists.txt.user
+src/CMakeLists.txt.user

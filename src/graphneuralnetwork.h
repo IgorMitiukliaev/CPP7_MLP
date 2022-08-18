@@ -45,18 +45,20 @@ class GraphNeuralNetwork : public NeuralNetwork {
  public:
   GraphNeuralNetwork(){};
   ~GraphNeuralNetwork(){};
-  void InitNetwork(InitConfig *config) override;
-  bool CheckNetworkReady() override;
+  auto InitNetwork(InitConfig *config) -> void override;
+  auto CheckNetworkReady() -> bool override;
+  auto Activate(std::vector<double> &input) -> void override;
+  auto getOutput() -> std::vector<double> override;
+  auto teachNetwork(const std::vector<double> &correct) -> void override;
+  auto SaveConfiguration(const std::string &filename) -> void override;
+  auto LoadConfiguration(const std::string &filename) -> void override;
+  auto GetConfiguration() -> s21::InitConfig override;
+  auto SaveWeight(std::ofstream& out, std::vector<double> &weight) -> void;
+  auto LoadWeight(std::ifstream& in, std::vector<double> &weight) -> void;
+
   //  void LearningNetwork(LearnConfig *config);
   //  int Predicate(std::vector<double> input);
   //  void SaveWeights(std::string *filename);
-  void Activate(std::vector<double> &input) override;
-  std::vector<double> getOutput() override;
-  void teachNetwork(const std::vector<double> &correct) override;
-  s21::InitConfig GetConfiguration() override {
-    s21::InitConfig config;
-    return config;
-  };
 };
 
 };      // namespace s21

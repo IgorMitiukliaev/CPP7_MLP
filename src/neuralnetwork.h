@@ -6,6 +6,7 @@
 #include <iostream>
 #include <random>
 #include <vector>
+#include <fstream>
 
 namespace s21 {
 struct InitConfig{

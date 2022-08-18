@@ -1,7 +1,5 @@
 #include "matrix_neural_network.h"
 
-#include <fstream>
-
 void s21::MatrixNeuralNetwork::InitNetwork(s21::InitConfig* config) {
   num_layers_hidden = config->num_layers_hidden;
   num_neurons_hidden = config->num_neurons_hidden;
