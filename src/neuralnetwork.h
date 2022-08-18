@@ -38,7 +38,7 @@ class NeuralNetwork {
   virtual void Activate(std::vector<double> &input){};
   virtual std::vector<double> getOutput() { return std::vector<double>(1); };
   virtual void teachNetwork(){};
-  virtual void teachNetwork(std::vector<double> &e){};
+//  virtual void teachNetwork(std::vector<double> &e){};
   virtual bool CheckNetworkReady() { return true; };
   virtual void teachNetwork(const std::vector<double> &e){};
 
