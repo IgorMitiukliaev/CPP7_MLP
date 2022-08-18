@@ -18,6 +18,15 @@ void s21::Matrix::Matrix::InitRand(int rows, int columns) {
   }
 }
 
+s21::Matrix::Matrix(int rows, int columns) {
+  rows_ = rows;
+  columns_ = columns;
+  matrix_ = new double* [rows_];
+  for (auto i = 0; i < rows_; i++) {
+      matrix_[i] = new double[columns_]{0};
+  }
+}
+
 void s21::Matrix::Mult(const Matrix&m, const std::vector<double> &b, std::vector<double> &c){
     for (auto i = 0; i < m.rows_; i++) {
         c[i] = 0;

@@ -7,6 +7,7 @@
 #include <random>
 #include <vector>
 #include <fstream>
+#include "matrix.h"
 
 namespace s21 {
 struct InitConfig{

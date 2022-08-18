@@ -13,6 +13,7 @@ s21::Model::Model() {
 s21::Model::~Model() {
   delete fileloader_;
   delete network_;
+  delete err_.confusion_matrix;
 }
 
 void Model::InitNetwork(s21::InitConfig &config) {
@@ -27,6 +28,8 @@ void Model::InitNetwork(s21::InitConfig &config) {
     network_ = new MatrixNeuralNetwork();
   }
   network_->InitNetwork(&config);
+  err_ = {0};
+  err_.confusion_matrix = new Matrix(num_neurons_out_, num_neurons_out_);
 }
 
 void Model::loadDataset(string const &path) {
@@ -37,7 +40,6 @@ void Model::loadDataset(string const &path) {
   correct_ = fileloader_->GetOutputValues();
   input_value_ = fileloader_->GetOutputValues();
   normalizeInput();
-  err_ = {0};
 };
 
 void Model::loadNextDataset() {
@@ -113,4 +115,5 @@ void Model::UpdateErrData() {
   int answerLetterIndex =
       std::max_element(out_.begin(), out_.end()) - out_.begin();
   if (correctLetterIndex == answerLetterIndex) err_.count_success++;
+  ((*err_.confusion_matrix)(answerLetterIndex, correctLetterIndex))++;
 }

@@ -48,6 +48,6 @@ void Controller::TeachNetwork(LearnConfig &learn_config) {
         emit progressChanged_(100, 100 * i / (num_epochs_ * num_images_));
       }
     }
+  emit progressChanged_(100, 100);
   m->TeachNetwork();
 };
-

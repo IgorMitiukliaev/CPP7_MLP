@@ -15,6 +15,7 @@ struct ErrorData {
   double sum_sqr_err;
   double average_sq_err;
   long count_success;
+  s21::Matrix* confusion_matrix;
 };
 
 class Model {
