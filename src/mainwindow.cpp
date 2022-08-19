@@ -93,13 +93,15 @@ void MainWindow::UpdateMLPState() {
   text = "Success count " +
          QString::number(_controller->getErr().count_success, 'f', 0) + "\n";
   text += "Accuracy " +
-         QString::number(_controller->getErr().accuracy*100, 'f', 2) + "%\n";
+          QString::number(_controller->getErr().accuracy * 100, 'f', 2) + "%\n";
   text += "Precision " +
-         QString::number(_controller->getErr().precision*100, 'f', 2) + "%\n";
+          QString::number(_controller->getErr().precision * 100, 'f', 2) +
+          "%\n";
   text += "Recall " +
-         QString::number(_controller->getErr().recall*100, 'f', 2) + "%\n";
+          QString::number(_controller->getErr().recall * 100, 'f', 2) + "%\n";
   text += "f-measure " +
-         QString::number(_controller->getErr().f_measure*100, 'f', 2) + "%\n";
+          QString::number(_controller->getErr().f_measure * 100, 'f', 2) +
+          "%\n";
 
   ui->lblError->setText(text);
 }
@@ -110,7 +112,6 @@ void MainWindow::on_btnImgUp_clicked() {
       num_curr_image++;
       _controller->loadNextDataset();
       drawPreview();
-      UpdateAnswerLabel();
       UpdateAnswerLabel();
       updatePreviewLabel();
       UpdateMLPState();
@@ -149,7 +150,10 @@ void MainWindow::on_pushButton_8_clicked() {
   }
   CreateVectorPixels(_graphics_view_image);
   _controller->SetVectorPixelsOfImage(_vectorPixels);
+  UpdateMLPState();
+  drawPreview();
 
+  UpdateAnswerLabel();
   // auto _vector = _vectorPixels;
   // if (_vector.size() > 0) {
   //     std::cout << _vector.size() << std::endl;
@@ -344,7 +348,7 @@ QPixmap MainWindow::GetPreviewPicture(int img_num) {
     pData.insert(0, (1 - value) * 255);
   });
   const unsigned char *imageData =
-  reinterpret_cast<const unsigned char *>(pData.constData());
+      reinterpret_cast<const unsigned char *>(pData.constData());
   QImage qim = QImage(imageData, 28, 28, QImage::Format_ARGB32_Premultiplied);
   qim = qim.transformed(QTransform().rotate(90)).scaled(280, 280);
   qim = qim.mirrored(false, true);

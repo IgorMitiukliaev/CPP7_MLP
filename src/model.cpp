@@ -114,16 +114,18 @@ void Model::resetErr() {
 }
 
 void Model::UpdateErrData() {
-  err_.count++;
-  for (int i = 0; i < out_.size(); i++)
-    err_.sum_sqr_err += pow(correct_[i] - out_[i], 2);
-  err_.average_sq_err = std::sqrt(err_.sum_sqr_err / err_.count);
-  int correctLetterIndex =
-      std::max_element(correct_.begin(), correct_.end()) - correct_.begin();
-  int answerLetterIndex =
-      std::max_element(out_.begin(), out_.end()) - out_.begin();
-  if (correctLetterIndex == answerLetterIndex) err_.count_success++;
-  ((*err_.confusion_matrix)(answerLetterIndex, correctLetterIndex))++;
+  if (correct_.size() > 0) {
+    err_.count++;
+    for (int i = 0; i < out_.size(); i++)
+      err_.sum_sqr_err += pow(correct_[i] - out_[i], 2);
+    err_.average_sq_err = std::sqrt(err_.sum_sqr_err / err_.count);
+    int correctLetterIndex =
+        std::max_element(correct_.begin(), correct_.end()) - correct_.begin();
+    int answerLetterIndex =
+        std::max_element(out_.begin(), out_.end()) - out_.begin();
+    if (correctLetterIndex == answerLetterIndex) err_.count_success++;
+    ((*err_.confusion_matrix)(answerLetterIndex, correctLetterIndex))++;
+  }
 }
 
 void Model::EvaluateErr() {
