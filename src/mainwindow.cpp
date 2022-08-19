@@ -20,6 +20,9 @@ MainWindow::MainWindow(s21::Controller *controller, QWidget *parent)
   QObject::connect(qobject_cast<QObject *>(_controller),
                    SIGNAL(progressChanged_(int, int)), this,
                    SLOT(on_progressChanged_(int, int)));
+  QObject::connect(qobject_cast<QObject *>(_controller),
+                   SIGNAL(progressTestChanged_(int, int)), this,
+                   SLOT(on_progressTestChanged_(int, int)));
 }
 
 MainWindow::~MainWindow() {
@@ -240,6 +243,19 @@ void MainWindow::on_progressChanged_(int i, int percentage) {
   QCoreApplication::processEvents();
 }
 
+void MainWindow::on_progressTestChanged_(int i, int percentage) {
+  ui->barTestProgress->setValue(percentage);
+  num_curr_image =
+      (num_curr_image + i >= num_images ? num_curr_image + i - num_images
+                                        : num_curr_image + i);
+  UpdateTestSheet();
+  if (_controller->stop_) {
+      ui->btnStartLearn->setEnabled(true);
+      ui->btnStartTest->setText("Start");
+  }
+  QCoreApplication::processEvents();
+}
+
 void MainWindow::on_btnSaveNetworkConfiguration_clicked() {
   QFileDialog dialog;
   QRegularExpression rx("\\..+$");
@@ -288,18 +304,10 @@ void MainWindow::on_CreateGraph_clicked() {
 QString MainWindow::GetDatasetFileName() {
   QString file_name = "";
   QFileDialog *fileDialog = new QFileDialog(this);
-  // определить заголовок файла
   fileDialog->setWindowTitle(tr("Open dataset"));
-  // Установить путь к файлу по умолчанию
   fileDialog->setDirectory(".");
-  // Установить фильтр файлов
-  // fileDialog->setNameFilter(tr("Images(*.png *.jpg *.jpeg *.bmp)"));
-  // Настройка позволяет выбрать несколько файлов, по умолчанию используется
-  // только один файл QFileDialog :: ExistingFiles
   fileDialog->setFileMode(QFileDialog::ExistingFile);
-  // Установить режим просмотра
   fileDialog->setViewMode(QFileDialog::Detail);
-  // выводим путь ко всем выбранным файлам
   if (fileDialog->exec()) {
     file_name = fileDialog->selectedFiles()[0];
   }
@@ -312,7 +320,7 @@ void MainWindow::on_btnLoadDatasetTest_clicked() {
     _controller->loadDataset(file_name.toStdString());
     num_images = _controller->getCountOfElements();
     num_curr_image = 0;
-    DrawTestPreview();
+    UpdateTestSheet();
   }
 }
 
@@ -339,3 +347,39 @@ void MainWindow::DrawTestPreview(int img_num) {
   QImage image = pixmap.toImage();
   GraphicsViewUpdate(image);
 }
+
+void MainWindow::UpdateTestPreviewLabel() {
+  QString lbl = " of " + QString::number(num_images);
+  ui->lblTotalImgsTest->setText(lbl);
+  ui->inpNumCurrImgTest->setText(QString::number(num_curr_image));
+  std::vector<double> out = _controller->getOutValues();
+  int num_letter = _controller->getCorrectValue() + 65;
+  ui->lblLetterTest->setText(QString(QChar::fromLatin1(num_letter)));
+}
+
+void MainWindow::on_btnImgUpTest_clicked() {
+  num_curr_image++;
+  _controller->loadNextDataset();
+  UpdateTestSheet();
+}
+
+void MainWindow::UpdateTestSheet() {
+  DrawTestPreview();
+  UpdateTestPreviewLabel();
+  UpdateAnswerLabel();
+  UpdateMLPState();
+}
+
+void MainWindow::on_btnStartTest_clicked() {
+  if (_controller->stop_) {
+    _controller->StopTeachLoop(false);
+    ui->btnStartTest->setText("Stop");
+    _controller->TestNetwork(ui->valTestPercentage->value());
+    ui->btnStartTest->setText("Start");
+  } else {
+    _controller->StopTeachLoop(true);
+    ui->btnStartTest->setText("Start");
+  }
+  ui->btnStartLearn->setEnabled(_controller->stop_);
+}
+

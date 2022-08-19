@@ -25,7 +25,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>MLP</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTabWidget" name="tabWidget">
@@ -953,13 +953,13 @@
        <rect>
         <x>14</x>
         <y>20</y>
-        <width>521</width>
+        <width>605</width>
         <height>32</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0">
-        <widget class="QPushButton" name="btnLoadImage">
+       <item row="0" column="2">
+        <widget class="QPushButton" name="pushButton_draw">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -978,7 +978,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Load .bmp</string>
+          <string>Draw</string>
          </property>
         </widget>
        </item>
@@ -1006,8 +1006,8 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="2">
-        <widget class="QPushButton" name="pushButton_draw">
+       <item row="0" column="0">
+        <widget class="QPushButton" name="btnLoadImage">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -1026,7 +1026,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Draw</string>
+          <string>Load .bmp</string>
          </property>
         </widget>
        </item>
@@ -1064,15 +1064,120 @@
        <rect>
         <x>20</x>
         <y>580</y>
-        <width>341</width>
-        <height>35</height>
+        <width>482</width>
+        <height>63</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="grdPreviewLabel2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="lblLetterTest">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>image</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="6">
+        <widget class="QPushButton" name="btnStartTest">
+         <property name="text">
+          <string>Start</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLabel" name="lblTotalImgsTest">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string> of </string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="4">
-        <widget class="QPushButton" name="btnImgUp_2">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Percentage</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="inpNumCurrImgTest">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>80</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>0</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="5">
+        <widget class="QSpinBox" name="valTestPercentage">
+         <property name="suffix">
+          <string>%</string>
+         </property>
+         <property name="maximum">
+          <number>100</number>
+         </property>
+         <property name="value">
+          <number>100</number>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QPushButton" name="btnImgUpTest">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1108,150 +1213,14 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QLabel" name="lblLetter_2">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>100</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>11</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>image</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="3">
-        <widget class="QLabel" name="lblTotalImgs_2">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>200</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>11</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string> of </string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QPushButton" name="btnImgDown_2">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>50</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>50</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>11</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>&lt;&lt;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
-        <widget class="QLineEdit" name="inpNumCurrImg_2">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>80</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>11</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>0</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
+       <item row="1" column="0" colspan="7">
+        <widget class="QProgressBar" name="barTestProgress">
+         <property name="value">
+          <number>0</number>
          </property>
         </widget>
        </item>
       </layout>
-     </widget>
-     <widget class="QSpinBox" name="spinBox">
-      <property name="geometry">
-       <rect>
-        <x>470</x>
-        <y>580</y>
-        <width>61</width>
-        <height>26</height>
-       </rect>
-      </property>
-      <property name="suffix">
-       <string>%</string>
-      </property>
-      <property name="maximum">
-       <number>100</number>
-      </property>
-      <property name="value">
-       <number>100</number>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_2">
-      <property name="geometry">
-       <rect>
-        <x>380</x>
-        <y>580</y>
-        <width>91</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Percentage</string>
-      </property>
      </widget>
     </widget>
    </widget>
@@ -1259,7 +1228,7 @@
     <property name="geometry">
      <rect>
       <x>630</x>
-      <y>40</y>
+      <y>200</y>
       <width>271</width>
       <height>391</height>
      </rect>
@@ -1297,6 +1266,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1334,6 +1304,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1371,6 +1342,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1408,6 +1380,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1445,6 +1418,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1482,6 +1456,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1519,6 +1494,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1556,6 +1532,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1593,6 +1570,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1630,6 +1608,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1667,6 +1646,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1704,6 +1684,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1741,6 +1722,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1778,6 +1760,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1821,6 +1804,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1858,6 +1842,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1895,6 +1880,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1932,6 +1918,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -1969,6 +1956,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -2006,6 +1994,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -2043,6 +2032,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -2080,6 +2070,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -2117,6 +2108,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -2154,6 +2146,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -2191,6 +2184,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -2228,6 +2222,7 @@
         <property name="font">
          <font>
           <pointsize>13</pointsize>
+          <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
@@ -2248,9 +2243,9 @@
    <widget class="QLabel" name="lblError">
     <property name="geometry">
      <rect>
-      <x>930</x>
-      <y>210</y>
-      <width>230</width>
+      <x>640</x>
+      <y>590</y>
+      <width>261</width>
       <height>30</height>
      </rect>
     </property>
@@ -2266,8 +2261,8 @@
    <widget class="QLabel" name="lblAnswer">
     <property name="geometry">
      <rect>
-      <x>920</x>
-      <y>140</y>
+      <x>660</x>
+      <y>40</y>
       <width>111</width>
       <height>151</height>
      </rect>

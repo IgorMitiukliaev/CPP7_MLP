@@ -44,6 +44,8 @@ class MainWindow : public QMainWindow {
   QString GetDatasetFileName();
   QPixmap GetPreviewPicture(int img_num);
   void DrawTestPreview(int img_num = 0);
+  void UpdateTestPreviewLabel();
+  void UpdateTestSheet();
 
  public:
   MainWindow(s21::Controller *c, QWidget *parent = nullptr);
@@ -63,7 +65,10 @@ class MainWindow : public QMainWindow {
   void on_valBatchNum_valueChanged(int arg1);
   void on_tabWidget_tabBarClicked(int index);
   void on_progressChanged_(int value, int value2);
+  void on_progressTestChanged_(int value, int value2);
   void on_CreateGraph_clicked();
   void on_btnLoadDatasetTest_clicked();
+  void on_btnImgUpTest_clicked();
+  void on_btnStartTest_clicked();
 };
 #endif  // MAINWINDOW_H

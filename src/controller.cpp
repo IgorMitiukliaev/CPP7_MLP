@@ -51,3 +51,20 @@ void Controller::TeachNetwork(LearnConfig &learn_config) {
   m->TeachNetwork();
 };
 
+void Controller::TestNetwork(unsigned int percent) {
+  unsigned int const &num_images_ = m->getCountOfElements();
+  auto num_test_images = num_images_* percent / 100;
+  m->activate(m->getInputValues());
+  unsigned int i;
+  for (i = 1; (i < num_test_images) & !stop_; i++) {
+    loadNextDataset();
+    m->activate(m->getInputValues());
+    if (i % 100 == 0) {
+      emit progressTestChanged_(100, 100 * i / num_test_images);
+    }
+  }
+  if (i == num_test_images) {
+      stop_ = true;
+      emit progressTestChanged_(100, 100);
+  }
+};
