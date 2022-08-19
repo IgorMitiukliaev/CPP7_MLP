@@ -179,7 +179,7 @@ void MainWindow::CreateVectorPixels(QImage &image) {
     QImage smallImage(image.scaled(_countNeurons, _countNeurons));
     for (int i = 0; i < _countNeurons; ++i) {
       for (int j = 0; j < _countNeurons; ++j) {
-        _vectorPixels.push_back(!smallImage.pixelColor(j, i).blackF());
+        _vectorPixels.push_back(smallImage.pixelColor(i, j).blackF());
       }
     }
   }
@@ -361,3 +361,25 @@ void MainWindow::DrawTestPreview(int img_num) {
   QImage image = pixmap.toImage();
   GraphicsViewUpdate(image);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -99,6 +99,11 @@ void Model::LoadConfiguration(const std::string &filename, bool is_graph) {
     network_ = new MatrixNeuralNetwork();
   }
   network_->LoadConfiguration(filename);
+  InitConfig config = network_->GetConfiguration();
+  num_layers_hidden_ = config.num_layers_hidden;
+  num_neurons_hidden_ = config.num_neurons_hidden;
+  num_neurons_input_ = config.num_neurons_input;
+  num_neurons_out_ = config.num_neurons_out;
   resetErr();
 }
 
