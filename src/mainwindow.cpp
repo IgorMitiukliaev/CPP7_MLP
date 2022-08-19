@@ -42,51 +42,23 @@ void MainWindow::on_btnLoadImage_clicked() {
 }
 
 void MainWindow::on_btnLoadDataset_clicked() {
-  QString fileName;
-  QFileDialog *fileDialog = new QFileDialog(this);
-  // определить заголовок файла
-  fileDialog->setWindowTitle(tr("Open dataset"));
-  // Установить путь к файлу по умолчанию
-  fileDialog->setDirectory(".");
-  // Установить фильтр файлов
-  // fileDialog->setNameFilter(tr("Images(*.png *.jpg *.jpeg *.bmp)"));
-  // Настройка позволяет выбрать несколько файлов, по умолчанию используется
-  // только один файл QFileDialog :: ExistingFiles
-  fileDialog->setFileMode(QFileDialog::ExistingFile);
-  // Установить режим просмотра
-  fileDialog->setViewMode(QFileDialog::Detail);
-  // выводим путь ко всем выбранным файлам
-  if (fileDialog->exec()) {
-    fileName = fileDialog->selectedFiles()[0];
+  QString file_name = GetDatasetFileName();
+  qDebug() << file_name;
+  if (!file_name.isEmpty()) {
+    _controller->loadDataset(file_name.toStdString());
+    num_images = _controller->getCountOfElements();
+    num_curr_image = 0;
+    drawPreview();
+    updatePreviewLabel();
+    UpdateAnswerLabel();
+    UpdateMLPState();
+    enableButtons();
   }
-  qDebug() << fileName;
-  _controller->loadDataset(fileName.toStdString());
-  num_images = _controller->getCountOfElements();
-  num_curr_image = 0;
-  drawPreview();
-  updatePreviewLabel();
-  UpdateAnswerLabel();
-  UpdateMLPState();
-  enableButtons();
 }
 
 void MainWindow::drawPreview(int img_num) {
-  QPixmap p;
-  QByteArray pData;
   QLabel *wg = (QLabel *)ui->lblPreview;
-  std::vector<double> input = _controller->getInputValues(img_num);
-  std::for_each(input.begin(), input.end(), [&pData](double const &value) {
-    pData.insert(0, ~0);
-    pData.insert(0, (1 - value) * 255);
-    pData.insert(0, (1 - value) * 255);
-    pData.insert(0, (1 - value) * 255);
-  });
-  const unsigned char *imageData =
-      reinterpret_cast<const unsigned char *>(pData.constData());
-  QImage qim = QImage(imageData, 28, 28, QImage::Format_ARGB32_Premultiplied);
-  qim = qim.transformed(QTransform().rotate(90)).scaled(280, 280);
-  qim = qim.mirrored(false, true);
-  QPixmap pixmap = QPixmap::fromImage(qim);
+  QPixmap pixmap = GetPreviewPicture(img_num);
   wg->setPixmap(pixmap);
   wg->show();
 }
@@ -311,4 +283,59 @@ void MainWindow::on_CreateGraph_clicked() {
   _graphWindow->show();
   std::vector<double> v;
   _graphWindow->DrawGraph(v);
+}
+
+QString MainWindow::GetDatasetFileName() {
+  QString file_name = "";
+  QFileDialog *fileDialog = new QFileDialog(this);
+  // определить заголовок файла
+  fileDialog->setWindowTitle(tr("Open dataset"));
+  // Установить путь к файлу по умолчанию
+  fileDialog->setDirectory(".");
+  // Установить фильтр файлов
+  // fileDialog->setNameFilter(tr("Images(*.png *.jpg *.jpeg *.bmp)"));
+  // Настройка позволяет выбрать несколько файлов, по умолчанию используется
+  // только один файл QFileDialog :: ExistingFiles
+  fileDialog->setFileMode(QFileDialog::ExistingFile);
+  // Установить режим просмотра
+  fileDialog->setViewMode(QFileDialog::Detail);
+  // выводим путь ко всем выбранным файлам
+  if (fileDialog->exec()) {
+    file_name = fileDialog->selectedFiles()[0];
+  }
+  return file_name;
+}
+
+void MainWindow::on_btnLoadDatasetTest_clicked() {
+  QString file_name = GetDatasetFileName();
+  if (!file_name.isEmpty()) {
+    _controller->loadDataset(file_name.toStdString());
+    num_images = _controller->getCountOfElements();
+    num_curr_image = 0;
+    DrawTestPreview();
+  }
+}
+
+QPixmap MainWindow::GetPreviewPicture(int img_num) {
+  QByteArray pData;
+  std::vector<double> input = _controller->getInputValues(img_num);
+  std::for_each(input.begin(), input.end(), [&pData](double const &value) {
+    pData.insert(0, ~0);
+    pData.insert(0, (1 - value) * 255);
+    pData.insert(0, (1 - value) * 255);
+    pData.insert(0, (1 - value) * 255);
+  });
+  const unsigned char *imageData =
+  reinterpret_cast<const unsigned char *>(pData.constData());
+  QImage qim = QImage(imageData, 28, 28, QImage::Format_ARGB32_Premultiplied);
+  qim = qim.transformed(QTransform().rotate(90)).scaled(280, 280);
+  qim = qim.mirrored(false, true);
+  QPixmap pixmap = QPixmap::fromImage(qim);
+  return pixmap;
+}
+
+void MainWindow::DrawTestPreview(int img_num) {
+  QPixmap pixmap = GetPreviewPicture(img_num);
+  QImage image = pixmap.toImage();
+  GraphicsViewUpdate(image);
 }
