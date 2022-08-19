@@ -28,7 +28,8 @@ private:
     QImage _image;
     const int _width = 512;
     const int _height = 512;
-    const int _penWidth = 5;
+    const int _penWidthForAxis = 1;
+    const int _penWidthForLine = 2;
 };
 
 #endif // GRAPHWINDOW_H

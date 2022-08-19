@@ -8,6 +8,7 @@
 #include <QProgressBar>
 #include <QRegularExpression>
 #include <iostream>
+#include <ctime>
 
 #include "controller.h"
 #include "paintwindow.h"
@@ -41,9 +42,10 @@ class MainWindow : public QMainWindow {
   void UpdateAnswerLabel();
   void CreateVectorPixels(QImage &image);
   void GraphicsViewUpdate(QImage &image);
-  QString GetDatasetFileName();
-  QPixmap GetPreviewPicture(int img_num);
-  void DrawTestPreview(int img_num = 0);
+  // методы для исследования
+  auto ResearchInitGraphPerceptron() -> void;
+  auto ResearchInitMatrixPerceptron() -> void;
+  auto ResearchTestingTime(const int count) -> double;
 
  public:
   MainWindow(s21::Controller *c, QWidget *parent = nullptr);
@@ -64,6 +66,10 @@ class MainWindow : public QMainWindow {
   void on_tabWidget_tabBarClicked(int index);
   void on_progressChanged_(int value, int value2);
   void on_CreateGraph_clicked();
-  void on_btnLoadDatasetTest_clicked();
+  void on_btnLoadImage_2_clicked();
+  void on_btnLoadImage_2_clicked(bool checked);
+  void on_pushButton_clicked();
+  void on_pushButtonResearch_clicked();
+  void on_pushClerLearn_clicked();
 };
 #endif  // MAINWINDOW_H

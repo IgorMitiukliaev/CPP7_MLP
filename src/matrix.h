@@ -1,9 +1,6 @@
-#ifndef MATRIX_H
-#define MATRIX_H
-
+#include <vector>
 #include <cmath>
 #include <fstream>
-#include <vector>
 
 namespace s21{
 class Matrix {
@@ -29,5 +26,4 @@ class Matrix {
     void Resize();
 };
 
-};  // namespace s21
-#endif  // MATRIX_H
+};
