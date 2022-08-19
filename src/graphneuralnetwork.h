@@ -37,7 +37,7 @@ class Neuron {
 
 class GraphNeuralNetwork : public NeuralNetwork {
  private:
-  float const a_ = 0.05, g_ = 0.03;
+  float const a_ = 0.5, g_ = 0;
   std::vector<Neuron> input_layer;
   std::vector<Neuron> out_layer;
   std::vector<Neuron> hidden_layer[5];
