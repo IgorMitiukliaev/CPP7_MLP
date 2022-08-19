@@ -94,7 +94,18 @@ void MainWindow::UpdateMLPState() {
   //  text = "Success rate " + QString::number(success_rate * 100, 'f', 1) +
   //  "%";
   text = "Success count " +
-         QString::number(_controller->getErr().count_success, 'f', 0);
+         QString::number(_controller->getErr().count_success, 'f', 0) + "\n";
+  text += "Accuracy " +
+          QString::number(_controller->getErr().accuracy * 100, 'f', 2) + "%\n";
+  text += "Precision " +
+          QString::number(_controller->getErr().precision * 100, 'f', 2) +
+          "%\n";
+  text += "Recall " +
+          QString::number(_controller->getErr().recall * 100, 'f', 2) + "%\n";
+  text += "f-measure " +
+          QString::number(_controller->getErr().f_measure * 100, 'f', 2) +
+          "%\n";
+
   ui->lblError->setText(text);
 }
 
@@ -104,7 +115,6 @@ void MainWindow::on_btnImgUp_clicked() {
       num_curr_image++;
       _controller->loadNextDataset();
       drawPreview();
-      UpdateAnswerLabel();
       UpdateAnswerLabel();
       updatePreviewLabel();
       UpdateMLPState();
@@ -143,7 +153,10 @@ void MainWindow::on_pushButton_8_clicked() {
   }
   CreateVectorPixels(_graphics_view_image);
   _controller->SetVectorPixelsOfImage(_vectorPixels);
+  UpdateMLPState();
+  drawPreview();
 
+  UpdateAnswerLabel();
   // auto _vector = _vectorPixels;
   // if (_vector.size() > 0) {
   //     std::cout << _vector.size() << std::endl;
@@ -169,7 +182,7 @@ void MainWindow::CreateVectorPixels(QImage &image) {
     QImage smallImage(image.scaled(_countNeurons, _countNeurons));
     for (int i = 0; i < _countNeurons; ++i) {
       for (int j = 0; j < _countNeurons; ++j) {
-        _vectorPixels.push_back(!smallImage.pixelColor(j, i).blackF());
+        _vectorPixels.push_back(smallImage.pixelColor(i, j).blackF());
       }
     }
   }
@@ -211,7 +224,16 @@ void MainWindow::updateBatchLabel() {
   }
 }
 
-void MainWindow::on_valBatchNum_valueChanged(int arg1) { updateBatchLabel(); }
+void MainWindow::on_valBatchNum_valueChanged(int arg1) {
+  qDebug() << arg1;
+  if (arg1 == 1) {
+    ui->valEpochNum->setEnabled(true);
+    updateBatchLabel();
+  } else {
+    ui->valEpochNum->setEnabled(false);
+  }
+  updateBatchLabel();
+}
 
 void MainWindow::on_tabWidget_tabBarClicked(int index) {
   if (_controller->CheckNetworkReady()) {
@@ -334,7 +356,7 @@ QPixmap MainWindow::GetPreviewPicture(int img_num) {
     pData.insert(0, (1 - value) * 255);
   });
   const unsigned char *imageData =
-  reinterpret_cast<const unsigned char *>(pData.constData());
+      reinterpret_cast<const unsigned char *>(pData.constData());
   QImage qim = QImage(imageData, 28, 28, QImage::Format_ARGB32_Premultiplied);
   qim = qim.transformed(QTransform().rotate(90)).scaled(280, 280);
   qim = qim.mirrored(false, true);

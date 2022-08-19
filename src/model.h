@@ -15,6 +15,8 @@ struct ErrorData {
   double sum_sqr_err;
   double average_sq_err;
   long count_success;
+  double precision, recall, f_measure, accuracy;
+  s21::Matrix* confusion_matrix;
 };
 
 class Model {
@@ -23,7 +25,6 @@ class Model {
   s21::NeuralNetwork *network_;
   std::vector<double> input_, out_, correct_, sum_err_;
   ErrorData err_;
-  s21::NeuralNetwork *nn_;
   std::vector<double> input_value_;
   long num_images_;
   unsigned int num_layers_hidden_, num_neurons_hidden_, num_neurons_input_,
@@ -41,6 +42,7 @@ class Model {
   void TeachNetwork(LearnConfig &learn_config);
   void createNetwork(InitConfig config);
   void UpdateErrData();
+  void EvaluateErr();
 
   // simple functions
   auto CheckNetworkReady() -> bool { return network_ != nullptr; };
@@ -49,7 +51,7 @@ class Model {
   auto getOutValues() -> std::vector<double> { return out_; }
   auto getCorrectValue(int img_num) -> std::vector<double> { return correct_; }
   auto getCountOfElements() -> long { return num_images_; }
-  auto resetErr() -> void { err_ = {0}; }
+  auto resetErr() -> void;
   auto getErr() -> s21::ErrorData & { return err_; }
   
   auto SetVectorPixelsOfImage(std::vector<double> &vector_pixels) -> void {

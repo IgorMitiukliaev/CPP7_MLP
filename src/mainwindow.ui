@@ -41,7 +41,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tabInit">
      <attribute name="title">
@@ -285,7 +285,7 @@
             </font>
            </property>
            <property name="minimum">
-            <number>100</number>
+            <number>50</number>
            </property>
            <property name="maximum">
             <number>1000</number>
@@ -953,13 +953,13 @@
        <rect>
         <x>14</x>
         <y>20</y>
-        <width>605</width>
+        <width>521</width>
         <height>32</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="2">
-        <widget class="QPushButton" name="pushButton_draw">
+       <item row="0" column="0">
+        <widget class="QPushButton" name="btnLoadImage">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -978,7 +978,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Draw</string>
+          <string>Load .bmp</string>
          </property>
         </widget>
        </item>
@@ -1006,8 +1006,8 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="QPushButton" name="btnLoadImage">
+       <item row="0" column="2">
+        <widget class="QPushButton" name="pushButton_draw">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -1026,7 +1026,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Load .bmp</string>
+          <string>Draw</string>
          </property>
         </widget>
        </item>
@@ -1227,7 +1227,7 @@
    <widget class="QWidget" name="wgMLP" native="true">
     <property name="geometry">
      <rect>
-      <x>630</x>
+      <x>640</x>
       <y>200</y>
       <width>271</width>
       <height>391</height>
@@ -2243,10 +2243,10 @@
    <widget class="QLabel" name="lblError">
     <property name="geometry">
      <rect>
-      <x>640</x>
+      <x>680</x>
       <y>590</y>
-      <width>261</width>
-      <height>30</height>
+      <width>391</width>
+      <height>131</height>
      </rect>
     </property>
     <property name="font">
@@ -2261,8 +2261,8 @@
    <widget class="QLabel" name="lblAnswer">
     <property name="geometry">
      <rect>
-      <x>660</x>
-      <y>40</y>
+      <x>670</x>
+      <y>30</y>
       <width>111</width>
       <height>151</height>
      </rect>

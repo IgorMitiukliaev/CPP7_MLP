@@ -13,6 +13,7 @@ s21::Model::Model() {
 s21::Model::~Model() {
   delete fileloader_;
   delete network_;
+  delete err_.confusion_matrix;
 }
 
 void Model::InitNetwork(s21::InitConfig &config) {
@@ -27,6 +28,8 @@ void Model::InitNetwork(s21::InitConfig &config) {
     network_ = new MatrixNeuralNetwork();
   }
   network_->InitNetwork(&config);
+  err_ = {0};
+  err_.confusion_matrix = new Matrix(num_neurons_out_, num_neurons_out_);
 }
 
 void Model::loadDataset(string const &path) {
@@ -37,7 +40,6 @@ void Model::loadDataset(string const &path) {
   correct_ = fileloader_->GetOutputValues();
   input_value_ = fileloader_->GetOutputValues();
   normalizeInput();
-  err_ = {0};
 };
 
 void Model::loadNextDataset() {
@@ -97,20 +99,60 @@ void Model::LoadConfiguration(const std::string &filename, bool is_graph) {
     network_ = new MatrixNeuralNetwork();
   }
   network_->LoadConfiguration(filename);
+  InitConfig config = network_->GetConfiguration();
+  num_layers_hidden_ = config.num_layers_hidden;
+  num_neurons_hidden_ = config.num_neurons_hidden;
+  num_neurons_input_ = config.num_neurons_input;
+  num_neurons_out_ = config.num_neurons_out;
+  resetErr();
 }
 
 s21::InitConfig Model::GetConfiguration() {
   return network_->GetConfiguration();
 }
 
-void Model::UpdateErrData() {
-  err_.count++;
-  for (int i = 0; i < out_.size(); i++)
-    err_.sum_sqr_err += pow(correct_[i] - out_[i], 2);
-  err_.average_sq_err = std::sqrt(err_.sum_sqr_err / err_.count);
-  int correctLetterIndex =
-      std::max_element(correct_.begin(), correct_.end()) - correct_.begin();
-  int answerLetterIndex =
-      std::max_element(out_.begin(), out_.end()) - out_.begin();
-  if (correctLetterIndex == answerLetterIndex) err_.count_success++;
+void Model::resetErr() {
+  if (err_.confusion_matrix) delete err_.confusion_matrix;
+  err_ = {0};
+  int size = network_->GetConfiguration().num_neurons_out;
+  err_.confusion_matrix = new s21::Matrix(size, size);
 }
+
+void Model::UpdateErrData() {
+  if (correct_.size() > 0) {
+    err_.count++;
+    for (int i = 0; i < out_.size(); i++)
+      err_.sum_sqr_err += pow(correct_[i] - out_[i], 2);
+    err_.average_sq_err = std::sqrt(err_.sum_sqr_err / err_.count);
+    int correctLetterIndex =
+        std::max_element(correct_.begin(), correct_.end()) - correct_.begin();
+    int answerLetterIndex =
+        std::max_element(out_.begin(), out_.end()) - out_.begin();
+    if (correctLetterIndex == answerLetterIndex) err_.count_success++;
+    ((*err_.confusion_matrix)(answerLetterIndex, correctLetterIndex))++;
+  }
+}
+
+void Model::EvaluateErr() {
+  err_.precision = err_.recall = 0;
+  long count_p = 0, count_r = 0;
+  for (int i = 0; i < num_neurons_out_; i++) {
+    int __sum = (*err_.confusion_matrix).SumColumn(i);
+    if (__sum > 0)
+      err_.precision += (*err_.confusion_matrix)(i, i) /
+                        (*err_.confusion_matrix).SumColumn(i);
+    else
+      count_p++;
+    __sum = (*err_.confusion_matrix).SumRow(i);
+    if (__sum > 0)
+      err_.recall +=
+          (*err_.confusion_matrix)(i, i) / (*err_.confusion_matrix).SumRow(i);
+    else
+      count_r++;
+  }
+  err_.precision /= (num_neurons_out_ - count_p);
+  err_.recall /= (num_neurons_out_ - count_r);
+  err_.accuracy = (double)err_.count_success / err_.count;
+  err_.f_measure =
+      2 * (err_.precision * err_.recall) / (err_.precision + err_.recall);
+};
