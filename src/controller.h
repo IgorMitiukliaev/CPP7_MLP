@@ -23,6 +23,7 @@ class Controller : public QObject {
   std::vector<double> getOutValues();
   auto getCorrectValue() -> unsigned;
   void TeachNetwork(LearnConfig &learn_config);
+  void TestNetwork(unsigned int percent);
 
   // simple functions
   auto getCountOfElements() -> long { return m->getCountOfElements(); }
@@ -46,6 +47,7 @@ class Controller : public QObject {
 
  signals:
   void progressChanged_(int value, int value2);
+  void progressTestChanged_(int value, int value2);
 };
 }  // namespace s21
 #endif  // CONTROLLER_H
