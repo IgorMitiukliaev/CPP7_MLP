@@ -76,5 +76,10 @@ class MainWindow : public QMainWindow {
   void on_btnLoadDatasetTest_clicked();
   void on_btnImgUpTest_clicked();
   void on_btnStartTest_clicked();
+  void on_MainWindow_destroyed();
+  void on_rbtnGraph_clicked();
+  void on_rbtnMatrix_clicked();
+  void on_num_layers_hidden_valueChanged(int arg1);
+  void on_num_neurons_hidden_valueChanged(int arg1);
 };
 #endif  // MAINWINDOW_H

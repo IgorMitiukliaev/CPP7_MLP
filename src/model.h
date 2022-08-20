@@ -53,6 +53,7 @@ class Model {
   auto getCountOfElements() -> long { return num_images_; }
   auto resetErr() -> void;
   auto getErr() -> s21::ErrorData & { return err_; }
+  auto ResetNetworkConfiguration() -> void {if(network_) delete network_; network_ = nullptr;};
   
   auto SetVectorPixelsOfImage(std::vector<double> &vector_pixels) -> void {
     input_ = vector_pixels;

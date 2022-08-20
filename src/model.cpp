@@ -40,6 +40,7 @@ void Model::loadDataset(string const &path) {
   correct_ = fileloader_->GetOutputValues();
   input_value_ = fileloader_->GetOutputValues();
   normalizeInput();
+  resetErr();
 };
 
 void Model::loadNextDataset() {
