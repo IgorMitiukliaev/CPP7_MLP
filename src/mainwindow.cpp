@@ -7,8 +7,6 @@
 
 using s21::Controller;
 
-// C:\msys64\home\buste\mlp\CPP7_MLP-0\misc\images
-
 MainWindow::MainWindow(s21::Controller *controller, QWidget *parent)
     : _controller(controller),
       QMainWindow(parent),
@@ -236,6 +234,7 @@ void MainWindow::on_valBatchNum_valueChanged(int arg1) {
 }
 
 void MainWindow::on_tabWidget_tabBarClicked(int index) {
+  ui->tabInit->setEnabled(_controller->stop_);
   if (_controller->CheckNetworkReady()) {
     ui->tabLearn->setEnabled(true);
     ui->tabTest->setEnabled(true);

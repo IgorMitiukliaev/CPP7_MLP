@@ -89,7 +89,6 @@ void Controller::TestNetwork(unsigned int percent) {
   unsigned int i;
   for (i = 1; (i < num_test_images) & !stop_; i++) {
     loadNextDataset();
-    m->activate(m->getInputValues());
     if (i % 100 == 0) {
       m->EvaluateErr();
       emit progressTestChanged_(100, 100 * i / num_test_images);
@@ -97,7 +96,6 @@ void Controller::TestNetwork(unsigned int percent) {
   }
   if (i == num_test_images) {
       stop_ = true;
-      m->EvaluateErr();
       emit progressTestChanged_(100, 100);
   }
 };

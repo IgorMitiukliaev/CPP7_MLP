@@ -32,7 +32,7 @@ class PaintWindow : public QDialog {
   QPoint _lastPoint;
   QImage _image;
   bool _isLeftButtonPressed = false;
-  const int _penWidth = 24;
+  const int _penWidth = 70;
 };
 
 #endif  // PAINTWINDOW_H
