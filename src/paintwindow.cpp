@@ -35,6 +35,7 @@ void PaintWindow::mousePressEvent(QMouseEvent *event) {
         _lastPoint = event->pos();
     } else if (event->button() == Qt::RightButton) {
         _image.fill(QColor(255, 255, 255));
+        update();
     }
 }
 
