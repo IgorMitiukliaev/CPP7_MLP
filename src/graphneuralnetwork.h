@@ -11,7 +11,7 @@ class Neuron {
   std::vector<double> dw;
   std::vector<Neuron *> n;
 
-  double sum = 0, out = 0, dout = 0, err_ = 0, delta_ = 0;
+  double sum = 0, out = 0, dout = 0, delta_ = 0;
   double sigmoid(double x);
   double dsigmoid(double x);
 
@@ -37,7 +37,7 @@ class Neuron {
 
 class GraphNeuralNetwork : public NeuralNetwork {
  private:
-  float const a_ = 0.5, g_ = 0;
+  float const a_ = 0.1, g_ = 0;
   std::vector<Neuron> input_layer;
   std::vector<Neuron> out_layer;
   std::vector<Neuron> hidden_layer[5];

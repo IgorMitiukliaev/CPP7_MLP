@@ -14,14 +14,28 @@ void Neuron::activate(const double input = 1) {
   dout = dsigmoid(sum);
 }
 
+void GraphNeuralNetwork::Activate(std::vector<double> &input) {
+  for (unsigned int i = 0; i < num_neurons_input; i++) {
+    input_layer[i].activate(input[i]);
+  }
+  for (unsigned int i = 0; i < num_layers_hidden; i++) {
+    for (unsigned int j = 0; j < num_neurons_hidden; j++) {
+      hidden_layer[i][j].activate();
+    }
+  }
+  for (unsigned int i = 0; i < num_neurons_out; i++) {
+    out_layer[i].activate();
+  }
+};
+
 void GraphNeuralNetwork::InitNetwork(InitConfig *config) {
   num_layers_hidden = config->num_layers_hidden;
   num_neurons_hidden = config->num_neurons_hidden;
   num_neurons_input = config->num_neurons_input;
   num_neurons_out = config->num_neurons_out;
-  input_layer = std::vector<Neuron>(config->num_neurons_input);
+  input_layer = std::vector<Neuron>(num_neurons_input);
 
-  for (unsigned int i = 0; i < config->num_layers_hidden; i++) {
+  for (unsigned int i = 0; i < num_layers_hidden; i++) {
     for (unsigned int j = 0; j < num_neurons_hidden; j++) {
       if (i == 0) {
         hidden_layer[i].push_back(Neuron(&input_layer));
@@ -30,7 +44,8 @@ void GraphNeuralNetwork::InitNetwork(InitConfig *config) {
       }
     }
   }
-  for (unsigned int i = 0; i < config->num_neurons_out; i++) {
+
+  for (unsigned int i = 0; i < num_neurons_out; i++) {
     out_layer.push_back(Neuron(&hidden_layer[num_layers_hidden - 1]));
   }
 
@@ -68,30 +83,16 @@ Neuron::Neuron()
   p[0] = nullptr;
 };
 
-Neuron::Neuron(std::vector<Neuron> *input_layer) : Neuron() {
-  n.resize(input_layer->size());
-  w.resize(input_layer->size());
-  dw.resize(input_layer->size());
-  for (int i = 0; i < n.size(); i++) n[i] = &(*input_layer)[i];
+Neuron::Neuron(std::vector<Neuron> *layer) : Neuron() {
+  n.resize(layer->size());
+  w.resize(layer->size());
+  dw.resize(layer->size());
+  for (int i = 0; i < n.size(); i++) n[i] = &(*layer)[i];
   std::random_device rd;
   std::default_random_engine eng(rd());
-  std::uniform_real_distribution<double> distr(-0.5, 0.5);
+  std::uniform_real_distribution<double> distr(-1, 1);
   std::for_each(w.begin(), w.end(),
                 [&distr, &eng](double &el) { el = distr(eng); });
-};
-
-void GraphNeuralNetwork::Activate(std::vector<double> &input) {
-  for (unsigned int i = 0; i < num_neurons_input; i++) {
-    input_layer[i].activate(input[i]);
-  }
-  for (unsigned int i = 0; i < num_layers_hidden; i++) {
-    for (unsigned int j = 0; j < num_neurons_hidden; j++) {
-      hidden_layer[i][j].activate();
-    }
-  }
-  for (unsigned int i = 0; i < num_neurons_out; i++) {
-    out_layer[i].activate();
-  }
 };
 
 std::vector<double> GraphNeuralNetwork::getOutput() {
@@ -107,7 +108,7 @@ void Neuron::evaluateErr(unsigned int num_pos = 0, double correct = 0) {
     delta_ = (correct - out) * dout;
   } else {
     std::for_each(p.begin(), p.end(), [&](Neuron *el) {
-      delta_ = el->getWeight(num_pos) * el->getDelta();
+      delta_ += el->getWeight(num_pos) * el->getDelta();
     });
     delta_ *= dout;
   }
