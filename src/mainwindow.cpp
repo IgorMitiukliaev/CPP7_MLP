@@ -340,6 +340,7 @@ void MainWindow::on_btnLoadDatasetTest_clicked() {
   QString file_name = GetDatasetFileName();
   if (!file_name.isEmpty()) {
     _controller->loadDataset(file_name.toStdString());
+    _controller->EvaluateErr();
     num_images = _controller->getCountOfElements();
     num_curr_image = 0;
     UpdateTestSheet();
@@ -382,6 +383,7 @@ void MainWindow::UpdateTestPreviewLabel() {
 void MainWindow::on_btnImgUpTest_clicked() {
   num_curr_image++;
   _controller->loadNextDataset();
+  _controller->EvaluateErr();
   UpdateTestSheet();
 }
 
@@ -405,3 +407,22 @@ void MainWindow::on_btnStartTest_clicked() {
   ui->btnStartLearn->setEnabled(_controller->stop_);
 }
 
+void MainWindow::on_MainWindow_destroyed() {
+  _controller->StopTeachLoop(true);
+}
+
+void MainWindow::on_rbtnGraph_clicked() {
+  _controller->ResetNetworkConfiguration();
+}
+
+void MainWindow::on_rbtnMatrix_clicked() {
+  _controller->ResetNetworkConfiguration();
+}
+
+void MainWindow::on_num_layers_hidden_valueChanged(int arg1) {
+  _controller->ResetNetworkConfiguration();
+}
+
+void MainWindow::on_num_neurons_hidden_valueChanged(int arg1) {
+  _controller->ResetNetworkConfiguration();
+}

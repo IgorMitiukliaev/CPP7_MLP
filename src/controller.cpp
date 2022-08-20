@@ -91,11 +91,18 @@ void Controller::TestNetwork(unsigned int percent) {
     loadNextDataset();
     m->activate(m->getInputValues());
     if (i % 100 == 0) {
+      m->EvaluateErr();
       emit progressTestChanged_(100, 100 * i / num_test_images);
     }
   }
   if (i == num_test_images) {
       stop_ = true;
+      m->EvaluateErr();
       emit progressTestChanged_(100, 100);
   }
+};
+
+void Controller::ResetNetworkConfiguration() {
+  if (!load_) m->ResetNetworkConfiguration();
+  load_ = false;
 };
