@@ -18,7 +18,7 @@ class Controller : public QObject {
 
   void loadDataset(string const &path);
   std::vector<double> getInputValues(int img_num = 0);
-
+  std::vector<ErrorData> errorDataVector;
   void loadNextDataset();
   void InitNetwork(InitConfig &config);
   std::vector<double> getOutValues();

@@ -11,7 +11,7 @@ void s21::MatrixNeuralNetwork::InitNetwork(s21::InitConfig* config) {
 }
 
 void s21::MatrixNeuralNetwork::InitWeights() {
-  weights_.resize(num_layers_hidden+1);
+  weights_.resize(num_layers_hidden + 1);
   weights_[0].InitRand(num_neurons_hidden, num_neurons_input);
   for (auto i = 1; i <= num_layers_hidden - 1; i++) {
     weights_[i].InitRand(num_neurons_hidden, num_neurons_hidden);
@@ -36,7 +36,7 @@ void s21::MatrixNeuralNetwork::InitNeuronsErrors() {
   neurons_err_[num_layers_hidden + 1].resize(num_neurons_out);
 }
 
-void s21::MatrixNeuralNetwork::Sigmoid(std::vector<double> &a, int n) {
+void s21::MatrixNeuralNetwork::Sigmoid(std::vector<double>& a, int n) {
   for (auto i = 0; i < n; i++) a[i] = 1 / (1 + exp(-a[i]));
 }
 
@@ -129,7 +129,9 @@ void s21::MatrixNeuralNetwork::SaveConfiguration(const std::string& filename) {
 
   for (auto i = 0; i < num_layers_hidden + 1; i++) {
     weights_[i].Save(out);
+    weights_[i].PrintMatrix();
   }
+
   out.close();
 }
 
@@ -140,15 +142,16 @@ void s21::MatrixNeuralNetwork::LoadConfiguration(const std::string& filename) {
   InitNetwork(&config);
   for (auto i = 0; i < num_layers_hidden + 1; i++) {
     weights_[i].Load(in);
+    weights_[i].PrintMatrix();
   }
   in.close();
 }
 
 s21::InitConfig s21::MatrixNeuralNetwork::GetConfiguration() {
   s21::InitConfig config = {.num_neurons_input = num_neurons_input,
-                       .num_layers_hidden = num_layers_hidden,
-                       .num_neurons_hidden = num_neurons_hidden,
-                       .num_neurons_out = num_neurons_out,
-                       .is_graph = false};
+                            .num_layers_hidden = num_layers_hidden,
+                            .num_neurons_hidden = num_neurons_hidden,
+                            .num_neurons_out = num_neurons_out,
+                            .is_graph = false};
   return config;
 }

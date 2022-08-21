@@ -311,7 +311,7 @@ void MainWindow::UpdateConfigurationView() {
 
 void MainWindow::UpdateAnswerLabel() {
   std::vector<double> out = _controller->getOutValues();
-  qDebug() << out;
+//  qDebug() << out;
   int maxElementIndex = std::max_element(out.begin(), out.end()) - out.begin();
   ui->lblAnswer->setText(QString(QChar::fromLatin1(maxElementIndex + 65)));
 }

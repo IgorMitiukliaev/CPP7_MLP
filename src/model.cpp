@@ -135,19 +135,29 @@ void Model::UpdateErrData() {
 }
 
 void Model::EvaluateErr() {
+  // here come some definitions
+
+  // TP = True positives (given A predicted as A)
+  // FP = False positives (predicted as A but not A)
+  // FN = False negatives (given A not predicted as A)
+  // Accuracy = Success count / Total count
+  // Precision = TP / (TP + FP)
+  // Recall = TP / (TP + FN)
+  // f-measure = 2*(Precision * Recall)/(Precision + Recall)
+  // source:
+  // https://towardsdatascience.com/precision-recall-and-f1-score-of-multiclass-classification-learn-in-depth-6c194b217629
+
   err_.precision = err_.recall = 0;
   long count_p = 0, count_r = 0;
   for (int i = 0; i < num_neurons_out_; i++) {
     int __sum = (*err_.confusion_matrix).SumColumn(i);
     if (__sum > 0)
-      err_.precision += (*err_.confusion_matrix)(i, i) /
-                        (*err_.confusion_matrix).SumColumn(i);
+      err_.precision += (*err_.confusion_matrix)(i, i) / __sum;
     else
       count_p++;
     __sum = (*err_.confusion_matrix).SumRow(i);
     if (__sum > 0)
-      err_.recall +=
-          (*err_.confusion_matrix)(i, i) / (*err_.confusion_matrix).SumRow(i);
+      err_.recall += (*err_.confusion_matrix)(i, i) / __sum;
     else
       count_r++;
   }
