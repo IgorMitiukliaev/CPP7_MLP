@@ -4,8 +4,7 @@
 GraphWindow::GraphWindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::GraphWindow),
-    _image(512, 512, QImage::Format_RGB16)
-{
+    _image(512, 512, QImage::Format_RGB16) {
     ui->setupUi(this);
     this->setWindowTitle("Graph");
     _image.fill(QColor(255, 255, 255));
@@ -28,7 +27,6 @@ auto GraphWindow::DrawGraph(std::vector<double> &values) -> void {
     update();
 }
 
-GraphWindow::~GraphWindow()
-{
+GraphWindow::~GraphWindow() {
     delete ui;
 }
