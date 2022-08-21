@@ -47,11 +47,11 @@ void s21::Matrix::Save(std::ofstream &out) {
 }
 
 void s21::Matrix::Load(std::ifstream &in) {
-  for (auto i = 0; i < rows_; i++) {
-    for (auto j = 0; j < columns_; j++) {
-      in.read((char *)&(matrix_[i][j]), sizeof(double));
-    }
-  }
+ for (auto i = 0; i < rows_; i++) {
+   for (auto j = 0; j < columns_; j++) {
+     in.read((char *)&(matrix_[i][j]), sizeof(double));
+   }
+ }
 }
 
 void s21::Matrix::Resize() {
