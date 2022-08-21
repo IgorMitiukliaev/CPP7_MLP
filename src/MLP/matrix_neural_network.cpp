@@ -44,7 +44,7 @@ double s21::MatrixNeuralNetwork::DerSigmoid(double a) {
   return a = a * (1 - a);
 }
 
-void s21::MatrixNeuralNetwork::Activate(std::vector<double>& input) {
+void s21::MatrixNeuralNetwork::Activate(const std::vector<double>& input) {
   for (auto i = 0; i < num_neurons_input; i++) {
     neurons_val_[0][i] = input[i];
   }
@@ -71,10 +71,10 @@ void s21::MatrixNeuralNetwork::BackPropagationSignal(
     neurons_err_[k][i] =
         (correct[i] - neurons_val_[k][i]) * DerSigmoid(neurons_val_[k][i]);
   }
-  for (auto k = num_layers_hidden; k > 1; k--) {
-    Matrix::TransposeMult(weights_[k], neurons_err_[k + 1], neurons_err_[k]);
+  for (auto i = num_layers_hidden; i > 1; i--) {
+    Matrix::TransposeMult(weights_[i], neurons_err_[i + 1], neurons_err_[i]);
     for (auto j = 0; j < num_neurons_hidden; j++) {
-      neurons_err_[k][j] *= DerSigmoid(neurons_val_[k][j]);
+      neurons_err_[i][j] *= DerSigmoid(neurons_val_[i][j]);
     }
   }
   k = 0;
@@ -85,11 +85,11 @@ void s21::MatrixNeuralNetwork::BackPropagationSignal(
 }
 
 void s21::MatrixNeuralNetwork::CalcWeights(double learning_rate) {
-  auto i = 0;
+  auto i2 = 0;
   for (auto j = 0; j < num_neurons_hidden; j++) {
     for (auto k = 0; k < num_neurons_input; k++) {
-      weights_[i](j, k) +=
-          neurons_val_[i][k] * neurons_err_[i + 1][j] * learning_rate;
+      weights_[i2](j, k) +=
+          neurons_val_[i2][k] * neurons_err_[i2 + 1][j] * learning_rate;
     }
   }
   for (auto i = 1; i < num_layers_hidden; i++) {
@@ -100,11 +100,11 @@ void s21::MatrixNeuralNetwork::CalcWeights(double learning_rate) {
       }
     }
   }
-  i = num_layers_hidden;
+  i2 = num_layers_hidden;
   for (auto j = 0; j < num_neurons_out; j++) {
     for (auto k = 0; k < num_neurons_hidden; k++) {
-      weights_[i](j, k) +=
-          neurons_val_[i][k] * neurons_err_[i + 1][j] * learning_rate;
+      weights_[i2](j, k) +=
+          neurons_val_[i2][k] * neurons_err_[i2 + 1][j] * learning_rate;
     }
   }
 }

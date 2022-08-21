@@ -4,14 +4,22 @@
 #include "matrix_neural_network.h"
 
 using s21::Model;
+
 s21::Model::Model() {
-  fileloader_ = new FileLoader;
   network_ = nullptr;
   num_images_ = 0;
+  err_.accuracy = 0;
+  err_.average_sq_err = 0;
+  err_.confusion_matrix = nullptr;
+  err_.count = 0;
+  err_.count_success = 0;
+  err_.f_measure = 0;
+  err_.precision = 0;
+  err_.recall = 0;
+  err_.sum_sqr_err = 0;
 }
 
 s21::Model::~Model() {
-  delete fileloader_;
   delete network_;
   delete err_.confusion_matrix;
 }
@@ -33,26 +41,26 @@ void Model::InitNetwork(s21::InitConfig &config) {
 }
 
 void Model::loadDataset(string const &path) {
-  fileloader_->SetFileStream(path);
-  num_images_ = fileloader_->GetCountOfElements();
-  fileloader_->ReadElement();
-  input_ = fileloader_->GetInputValues();
-  correct_ = fileloader_->GetOutputValues();
-  input_value_ = fileloader_->GetOutputValues();
+  fileloader_.SetFileStream(path);
+  num_images_ = fileloader_.GetCountOfElements();
+  fileloader_.ReadElement();
+  input_ = fileloader_.GetInputValues();
+  correct_ = fileloader_.GetOutputValues();
+  input_value_ = fileloader_.GetOutputValues();
   normalizeInput();
   resetErr();
-};
+}
 
 void Model::loadNextDataset() {
-  bool check = fileloader_->ReadElement();
+  bool check = fileloader_.ReadElement();
   if (!check) {
-    fileloader_->StartReadElements();
-    check = fileloader_->ReadElement();
+    fileloader_.StartReadElements();
+    check = fileloader_.ReadElement();
   }
   if (!check) throw std::runtime_error("Error reading file: rewind failed");
-  input_ = fileloader_->GetInputValues();
+  input_ = fileloader_.GetInputValues();
   normalizeInput();
-  correct_ = fileloader_->GetOutputValues();
+  correct_ = fileloader_.GetOutputValues();
 }
 
 void Model::normalizeInput() {
@@ -72,7 +80,7 @@ void Model::activate(std::vector<double> input_) {
   network_->Activate(input_);
   out_ = network_->getOutput();
   UpdateErrData();
-};
+}
 
 void Model::TeachNetwork() { network_->teachNetwork(correct_); }
 
@@ -84,7 +92,7 @@ void Model::TeachNetwork(LearnConfig &learn_config) {
       network_->teachNetwork(correct_);
       loadNextDataset();
     }
-    fileloader_->StartReadElements();
+    fileloader_.StartReadElements();
   }
 }
 
@@ -156,4 +164,4 @@ void Model::EvaluateErr() {
   err_.accuracy = (double)err_.count_success / err_.count;
   err_.f_measure =
       2 * (err_.precision * err_.recall) / (err_.precision + err_.recall);
-};
+}

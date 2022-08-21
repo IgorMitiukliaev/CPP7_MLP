@@ -1,5 +1,5 @@
-#ifndef GRAPHWINDOW_H
-#define GRAPHWINDOW_H
+#ifndef SRC_MLP_GRAPHWINDOW_H_
+#define SRC_MLP_GRAPHWINDOW_H_
 
 #include <QDialog>
 #include <QImage>
@@ -11,19 +11,18 @@ namespace Ui {
 class GraphWindow;
 }
 
-class GraphWindow : public QDialog
-{
+class GraphWindow : public QDialog {
     Q_OBJECT
 
-public:
+ public:
     explicit GraphWindow(QWidget *parent = nullptr);
     ~GraphWindow();
     auto DrawGraph(std::vector<double> &values) -> void;
 
-protected:
- virtual void paintEvent(QPaintEvent *p) override;
+ protected:
+    void paintEvent(QPaintEvent *p);
 
-private:
+ private:
     Ui::GraphWindow *ui;
     QImage _image;
     const int _width = 512;
@@ -31,4 +30,4 @@ private:
     const int _penWidth = 5;
 };
 
-#endif // GRAPHWINDOW_H
+#endif  // SRC_MLP_GRAPHWINDOW_H_
