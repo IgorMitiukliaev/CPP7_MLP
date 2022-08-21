@@ -1,0 +1,46 @@
+\input texinfo
+@settitle Multilayer Perceptron
+
+@copying
+Copyright @copyright{} 2022-08 wloyd@@student.21-school.ru dhammer@@student.21-school.ru mcarb@@student.21-school.ru
+@end copying
+
+@titlepage
+@title Multilayer Perceptron
+@author wloyd, dhammer, mcarb 
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+@end titlepage
+
+В данном проекте реализована простейшая искусственная нейронная сеть в виде перцептрона, которая была обучена на открытом наборе данных и осуществляет распознавание 28 рукописных букв латинского алфавита. 
+
+В первой вкладке Setup инициализируется или загружается из файла конфигурация многослойного перцептрона.
+
+@itemize @bullet
+@item Тип перцептрона: матричный или графовый.
+@item Кол-во скрытыый слоёв: 2-5. 
+@item Размер скрытых слоёв. 
+@end itemize
+
+Во второй вкладке Learn происходит обучение сети.
+@itemize @bullet
+@item Load Dataset - загружает датасет 
+@item Create Graph - вывод отчета в виде графика изменения ошибки
+@item Start (Stop) - кнопки для начала/остановки обучения сети
+@item Save network configuration - сохранение весов в файл
+@end itemize
+
+В третьей вкладке Test тестируется работа сети. 
+@itemize @bullet
+@item Load .bmp - создаёт диалоговое окно для выбора картинки  
+@item Load Dataset - загрузка датасета. Процесс распознавания запускается кнопкой Start
+@item Draw - создаёт диалоговое окно для рисования мышкой 
+@item Procced - передаёт картинку в сеть для определения результата
+@end itemize
+
+
+Created by: wloyd, dhammer, mcarb 
+
+August, 2022
+@bye
