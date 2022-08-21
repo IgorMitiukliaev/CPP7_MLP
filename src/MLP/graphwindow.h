@@ -27,7 +27,9 @@ class GraphWindow : public QDialog {
     QImage _image;
     const int _width = 512;
     const int _height = 512;
-    const int _penWidth = 5;
+    const int _penWidthForAxis = 1;
+    const int _penWidthForLine = 2;
+
 };
 
 #endif  // SRC_MLP_GRAPHWINDOW_H_
