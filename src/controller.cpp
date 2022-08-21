@@ -35,6 +35,7 @@ unsigned Controller::getCorrectValue() {
 };
 
 void Controller::TeachNetwork(LearnConfig &learn_config) {
+  m->resetErr();
   const int p_bar_increment = 250;
   unsigned int num_epochs_ = learn_config.num_epochs;
   unsigned int num_batches_ = learn_config.num_batches;
@@ -83,10 +84,16 @@ void Controller::TeachNetwork(LearnConfig &learn_config) {
         errorDataVector[batches_count++] = m->getErr();
         emit progressChanged_(0, 100 * i / max_count);
         m->resetErr();
+        std::for_each(errorDataVector.begin(), errorDataVector.end(),
+                      [](ErrorData el) {
+                        qDebug() << "success / count = " << el.count_success
+                                 << " / " << el.count;
+                      });
       }
       if (teach_count >= num_images_) {
         teach_count = 0;
         teach_on = false;
+        m->resetErr();
       }
       loadNextDataset();
       if (i % p_bar_increment == 0 && i > 0) {

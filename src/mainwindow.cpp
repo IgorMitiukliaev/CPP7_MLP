@@ -91,7 +91,9 @@ void MainWindow::UpdateMLPState() {
   //      / _controller->getErr().count : 0;
   //  text = "Success rate " + QString::number(success_rate * 100, 'f', 1) +
   //  "%";
-  text = "Success count " +
+  text = "Total count " +
+         QString::number(_controller->getErr().count, 'f', 0) + "\n";
+  text += "Success count " +
          QString::number(_controller->getErr().count_success, 'f', 0) + "\n";
   text += "Accuracy " +
           QString::number(_controller->getErr().accuracy * 100, 'f', 2) + "%\n";

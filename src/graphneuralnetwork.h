@@ -46,7 +46,6 @@ class GraphNeuralNetwork : public NeuralNetwork {
   GraphNeuralNetwork(){};
   ~GraphNeuralNetwork(){};
   auto InitNetwork(InitConfig *config) -> void override;
-  auto CheckNetworkReady() -> bool override;
   auto Activate(std::vector<double> &input) -> void override;
   auto getOutput() -> std::vector<double> override;
   auto teachNetwork(const std::vector<double> &correct) -> void override;

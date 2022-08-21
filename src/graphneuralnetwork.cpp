@@ -144,8 +144,6 @@ void GraphNeuralNetwork::teachNetwork(const std::vector<double> &correct) {
   }
 };
 
-bool GraphNeuralNetwork::CheckNetworkReady() { return true; };
-
 void s21::GraphNeuralNetwork::SaveConfiguration(const std::string &filename) {
   std::ofstream out(filename, std::ios::binary | std::ios::out);
   s21::InitConfig config = GetConfiguration();
