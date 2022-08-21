@@ -33,7 +33,7 @@ void GraphNeuralNetwork::Activate(const std::vector<double> &input) {
   }
 }
 
-void GraphNeuralNetwork::InitNetwork(InitConfig *config) {
+void GraphNeuralNetwork::InitNetwork(const InitConfig *config) {
   num_layers_hidden = config->num_layers_hidden;
   num_neurons_hidden = config->num_neurons_hidden;
   num_neurons_input = config->num_neurons_input;

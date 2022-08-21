@@ -9,7 +9,7 @@ class MatrixNeuralNetwork : public NeuralNetwork {
  public:
     MatrixNeuralNetwork() {}
     ~MatrixNeuralNetwork() {}
-    void InitNetwork(InitConfig* config) override;       // Инициализация весов
+    void InitNetwork(const InitConfig*  config) override;       // Инициализация весов
     void Activate(const std::vector<double>& input) override;  //  Прямое распространение сигнала
     std::vector<double> getOutput() override;
     void teachNetwork(const std::vector<double>& correct) override;

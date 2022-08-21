@@ -18,7 +18,7 @@ void GraphWindow::paintEvent(QPaintEvent *) {
 //    update();
 }
 
-auto GraphWindow::DrawGraph(std::vector<double> &values) -> void {
+auto GraphWindow::DrawGraph(const std::vector<double> &values) -> void {
     QString procentage[] = {"90%", "80%", "70%", "60%", "50%", "40%", "30%", "20%", "10%", "0%"};
     QPainter painter(&_image);
     painter.setPen(QPen(Qt::black, _penWidthForAxis, Qt::SolidLine));

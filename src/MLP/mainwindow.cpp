@@ -231,7 +231,6 @@ void MainWindow::on_tabWidget_tabBarClicked(int index) {
 
 bool MainWindow::enableButtons() {
   bool res = _controller->CheckDataReady();
-  ui->btnImgDown->setEnabled(res);
   ui->btnImgUp->setEnabled(res);
   ui->btnStartLearn->setEnabled(res);
   return res;
@@ -304,6 +303,9 @@ void MainWindow::UpdateAnswerLabel() {
 void MainWindow::on_CreateGraph_clicked() {
   _graphWindow->show();
   std::vector<double> v;
+  std::for_each(_controller->errorDataVector.begin(),
+                _controller->errorDataVector.end(),
+                [&v](s21::ErrorData el) { v.push_back(el.accuracy); });
   _graphWindow->DrawGraph(v);
 }
 
@@ -440,7 +442,6 @@ auto MainWindow::ResearchInitMatrixPerceptron() -> void {
           .toStdString());
 }
 
-
 auto MainWindow::ResearchTestingTime(const int count) -> double {
   clock_t t1, t2, t3;
   t1 = std::clock();
@@ -462,8 +463,8 @@ void MainWindow::on_pushButtonResearch_clicked() {
       ResearchInitGraphPerceptron();
     }
     double averageTime(0.0);
-    double time(0.0);
     for (int j = 1; j <= 3; ++j) {
+      double time(0.0);
       time = ResearchTestingTime(pow(10, j));
       averageTime += time;
       ui->tableWidget->setItem(

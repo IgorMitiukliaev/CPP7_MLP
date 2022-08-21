@@ -29,7 +29,7 @@ class NeuralNetwork {
     NeuralNetwork() {}
     virtual ~NeuralNetwork() {}
     //  NeuralNetwork(InitConfig config)
-    virtual void InitNetwork(InitConfig *config) {}  // инициализация из конфига
+    virtual void InitNetwork(InitConfig const *config) {}  // инициализация из конфига
     //  virtual void LearningNetwork(LearnConfig *config);
     //  virtual int Predicate(std::vector<double> input);
     virtual void SaveConfiguration(const std::string &filename) {}

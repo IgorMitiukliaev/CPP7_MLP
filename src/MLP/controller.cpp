@@ -22,7 +22,7 @@ void Controller::loadNextDataset() {
     m->activate(m->getInputValues());
 }
 
-void Controller::InitNetwork(s21::InitConfig &config) {
+void Controller::InitNetwork(const s21::InitConfig &config) {
     m->InitNetwork(config);
 }
 
@@ -33,7 +33,7 @@ unsigned Controller::getCorrectValue() {
     return i;
 }
 
-void Controller::TeachNetwork(LearnConfig &learn_config) {
+void Controller::TeachNetwork(LearnConfig const &learn_config) {
     m->resetErr();
   const int p_bar_increment = 250;
   unsigned int num_epochs_ = learn_config.num_epochs;

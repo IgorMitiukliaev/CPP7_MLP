@@ -21,11 +21,11 @@ QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow {
   Q_OBJECT
+
  private:
   Ui::MainWindow *ui;
   PaintWindow *paintWindow;
   GraphWindow *_graphWindow;
-
   s21::Controller *_controller;
   long num_images = 0, num_curr_image = 0;
   std::vector<double> _vectorPixels;

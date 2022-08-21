@@ -1,8 +1,3 @@
-files_for_test = test/test.cpp MLP/graphneuralnetwork.cpp MLP/matrix_neural_network.cpp MLP/matrix.cpp
-files_for_cppcheck = MLP/controller.h \
-					 MLP/controller.cpp \
-					 MLP/model.h \
-					 MLP/model.cpp \
 SRC_DIR = MLP/
 TEXI2DVI = makeinfo --html
 SUP = --suppress=
@@ -31,15 +26,12 @@ install: uninstall
 dvi:
 	$(TEXI2DVI) Documentation.texi
 
-clean:
-	@rm -rf Documentation
-
 linter:
 	@cp ../materials/linters/CPPLINT.cfg CPPLINT.cfg 
-	@python3 ../materials/linters/cpplint.py --extensions=cpp $(SRC_DIR)*.cpp 
-	@python3 ../materials/linters/cpplint.py --extensions=cpp $(SRC_DIR)*.h
+	@python3 ../materials/linters/cpplint.py --filter=-runtime/references --extensions=cpp $(SRC_DIR)*.cpp 
+	@python3 ../materials/linters/cpplint.py  --extensions=cpp $(SRC_DIR)*.h
 
-cppcheck1:
+cppcheck:
 	cppcheck --enable=all $(SUP)useStlAlgorithm $(SUP)unusedFunction $(SUP)missingInclude $(SRC_DIR)*.cpp
 
 dist: 
@@ -65,14 +57,6 @@ endif
 	rm -rf tests
 test: tests
 
-cpplint:
-	cp ../materials/linters/CPPLINT.cfg .
-	python3 ../materials/linters/cpplint.py --filter=-runtime/references --extension=cpp *.cpp ./*/*.cpp
-	python3 ../materials/linters/cpplint.py --filter=-runtime/references --extension=h ./*/*.h
-	rm CPPLINT.cfg
-
-cppcheck2:
-	cppcheck --enable=all --suppress=missingIncludeSystem --suppress=unusedFunction $(files_for_cppcheck)
-
 clean:
+	@rm -rf Documentation
 	rm -rf tests report *.gcda *.gcno testresult *.info

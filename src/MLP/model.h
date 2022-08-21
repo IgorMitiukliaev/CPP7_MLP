@@ -38,12 +38,12 @@ class Model {
  public:
     Model();
     ~Model();
-    void InitNetwork(InitConfig &config);
+    void InitNetwork(const InitConfig &config);
     void loadDataset(string const &path);
-    void activate(std::vector<double> input);
+    void activate(const std::vector<double> &input);
     void loadNextDataset();
     void TeachNetwork();
-    void TeachNetwork(LearnConfig &learn_config);
+    void TeachNetwork(const LearnConfig &learn_config);
     void createNetwork(InitConfig config);
     void UpdateErrData();
     void EvaluateErr();

@@ -24,7 +24,7 @@ s21::Model::~Model() {
   delete err_.confusion_matrix;
 }
 
-void Model::InitNetwork(s21::InitConfig &config) {
+void Model::InitNetwork(const s21::InitConfig &config) {
   num_layers_hidden_ = config.num_layers_hidden;
   num_neurons_hidden_ = config.num_neurons_hidden,
   num_neurons_input_ = config.num_neurons_input,
@@ -76,7 +76,7 @@ void Model::normalizeInput() {
   }
 }
 
-void Model::activate(std::vector<double> input_) {
+void Model::activate(const std::vector<double> &input_) {
   network_->Activate(input_);
   out_ = network_->getOutput();
   UpdateErrData();
@@ -84,7 +84,7 @@ void Model::activate(std::vector<double> input_) {
 
 void Model::TeachNetwork() { network_->teachNetwork(correct_); }
 
-void Model::TeachNetwork(LearnConfig &learn_config) {
+void Model::TeachNetwork(const LearnConfig &learn_config) {
   num_epochs_ = learn_config.num_epochs,
   num_batches_ = learn_config.num_batches;
   for (unsigned int i = 0, j = 0; i < num_epochs_; i++) {
