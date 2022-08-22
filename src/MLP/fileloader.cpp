@@ -82,32 +82,6 @@ std::vector<double> s21::FileLoader::GetInputValues() {
     return input_values_;
 }
 
-void s21::FileLoader::PrintOutputValues() {
-    std::vector<double> output = GetOutputValues();
-    for (auto iter : output) {
-        std::cout << iter;
-    }
-    std::cout << std::endl;
-}
-
-void s21::FileLoader::PrintInputValues(bool view) {
-    std::vector<double> input = GetInputValues();
-    int i = 0;
-    for (auto iter : input) {
-        if (view) {
-            if (iter == 0.0) {
-                std::cout << " ";
-            } else {
-                std::cout << "*";
-            }
-        } else {
-            std::cout << iter;
-        }
-        i++;
-        if (i % 28 == 0) std::cout << std::endl;
-    }
-}
-
 void s21::FileLoader::ReadCountOfElements() {
     count_of_elements_ = 0;
     if (filestream_.good()) {

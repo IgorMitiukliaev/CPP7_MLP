@@ -1,5 +1,5 @@
-#ifndef SRC_MLP_MATRIX_NEURAL_NETWORK_H_
-#define SRC_MLP_MATRIX_NEURAL_NETWORK_H_
+#ifndef SRC_MLP_MATRIXNEURALNETWORK_H_
+#define SRC_MLP_MATRIXNEURALNETWORK_H_
 
 #include "matrix.h"
 #include "neuralnetwork.h"
@@ -11,12 +11,11 @@ class MatrixNeuralNetwork : public NeuralNetwork {
     ~MatrixNeuralNetwork() {}
     void InitNetwork(const InitConfig*  config) override;       // Инициализация весов
     void Activate(const std::vector<double>& input) override;  //  Прямое распространение сигнала
-    std::vector<double> getOutput() override;
-    void teachNetwork(const std::vector<double>& correct) override;
+    std::vector<double> GetOutput() override;
+    void TeachNetwork(const std::vector<double>& correct) override;
     void SaveConfiguration(const std::string& filename) override;
     void LoadConfiguration(const std::string& filename) override;
     s21::InitConfig GetConfiguration() override;
-    void PrintOutputValues();
 
  private:
     std::vector<Matrix> weights_;

@@ -4,49 +4,48 @@
 
 PaintWindow::PaintWindow(QWidget *parent) : QDialog(parent),
                                             ui(new Ui::PaintWindow),
-                                            _image(512, 512, QImage::Format_RGB16) {
+                                            image_(512, 512, QImage::Format_RGB16) {
     ui->setupUi(this);
     this->setMouseTracking(true);
     this->setWindowTitle("Painter");
-    _image.fill(QColor(255, 255, 255));
+    image_.fill(QColor(255, 255, 255));
     update();
 }
 
-void PaintWindow::paintEvent(QPaintEvent *) {
+void PaintWindow::PaintEvent(QPaintEvent *) {
     QPainter painter(this);
-    painter.drawImage(QPoint(0, 0), _image);
-//    update();
+    painter.drawImage(QPoint(0, 0), image_);
 }
 
-void PaintWindow::mouseMoveEvent(QMouseEvent *event) {
-    if (_isLeftButtonPressed) {
-        QPainter painter(&_image);
-        painter.setPen(QPen(Qt::black, _penWidth, Qt::SolidLine));
+void PaintWindow::MouseMoveEvent(QMouseEvent *event) {
+    if (is_left_button_pressed_) {
+        QPainter painter(&image_);
+        painter.setPen(QPen(Qt::black, pen_width_, Qt::SolidLine));
         QPoint newPoint = event->pos();
-        painter.drawLine(_lastPoint.x(), _lastPoint.y(), newPoint.x(), newPoint.y());
-        _lastPoint = newPoint;
+        painter.drawLine(last_point_.x(), last_point_.y(), newPoint.x(), newPoint.y());
+        last_point_ = newPoint;
         update();
     }
 }
 
-void PaintWindow::mousePressEvent(QMouseEvent *event) {
+void PaintWindow::MousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
-        _isLeftButtonPressed = true;
-        _lastPoint = event->pos();
+        is_left_button_pressed_ = true;
+        last_point_ = event->pos();
     } else if (event->button() == Qt::RightButton) {
-        _image.fill(QColor(255, 255, 255));
+        image_.fill(QColor(255, 255, 255));
         update();
     }
 }
 
-void PaintWindow::mouseReleaseEvent(QMouseEvent *event) {
+void PaintWindow::MouseReleaseEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
-        _isLeftButtonPressed = false;
+        is_left_button_pressed_ = false;
     }
 }
 
 QImage& PaintWindow::GetImage() {
-    return _image;
+    return image_;
 }
 
 PaintWindow::~PaintWindow() {

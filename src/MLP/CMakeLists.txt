@@ -29,8 +29,8 @@ set(PROJECT_SOURCES
         fileloader.cpp
         fileloader.h
         neuralnetwork.h
-        matrix_neural_network.h
-        matrix_neural_network.cpp
+        matrixneuralnetwork.h
+        matrixneuralnetwork.cpp
         graphneuralnetwork.h
         graphneuralnetwork.cpp
         matrix.h

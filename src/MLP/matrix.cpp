@@ -86,14 +86,3 @@ double s21::Matrix::SumColumn(int column) {
     return res;
 }
 
-void s21::Matrix::PrintMatrix() {
-    std::cout << std::endl
-              << std::endl;
-    std::cout << "Rows: " << rows_ << " Columns:" << columns_ << std::endl;
-    for (auto i = 0; i < rows_; i++) {
-        for (auto j = 0; j < columns_; j++) {
-            std::cout << matrix_[i][j] << " ";
-        }
-        std::cout << std::endl;
-    }
-}

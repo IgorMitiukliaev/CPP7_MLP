@@ -24,19 +24,19 @@ class MainWindow : public QMainWindow {
 
  private:
   Ui::MainWindow *ui;
-  PaintWindow *paintWindow;
-  GraphWindow *_graphWindow;
-  s21::Controller *_controller;
-  long num_images = 0, num_curr_image = 0;
-  std::vector<double> _vectorPixels;
-  QImage _graphics_view_image;
-  const int _countNeurons = 28;
+  PaintWindow *paint_window_;
+  GraphWindow *graph_window_;
+  s21::Controller *controller_;
+  long num_images_ = 0, num_curr_image_ = 0;
+  std::vector<double> vector_pixels_;
+  QImage graphics_view_image_;
+  const int count_neurons_ = 28;
 
-  void drawPreview(int img_num = 0);
-  void updatePreviewLabel();
-  void updateBatchLabel();
+  void DrawPreview(int img_num = 0);
+  void UpdatePreviewLabel();
+  void UpdateBatchLabel();
   void UpdateMLPState();
-  bool enableButtons();
+  bool EnableButtons();
   void UpdateConfigurationView();
   void UpdateAnswerLabel();
   void CreateVectorPixels(QImage &image);

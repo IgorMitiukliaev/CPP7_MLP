@@ -40,29 +40,28 @@ class Model {
     unsigned int num_neurons_out_ = 26;
     unsigned int num_epochs_ = 0;
     unsigned int num_batches_ = 0;
-    void normalizeInput();
+    void NormalizeInput();
 
  public:
     Model();
     ~Model();
     void InitNetwork(const InitConfig &config);
-    void loadDataset(string const &path);
-    void activate(const std::vector<double> &input);
-    void loadNextDataset();
+    void LoadDataset(string const &path);
+    void Activate(const std::vector<double> &input);
+    void LoadNextDataset();
     void TeachNetwork();
     void TeachNetwork(const LearnConfig &learn_config);
-    void createNetwork(InitConfig config);
     void UpdateErrData();
     void EvaluateErr();
 
     // simple functions
     auto CheckModelState() -> s21::ModelState;
-    auto getInputValues(int img_num = 0) -> std::vector<double> { return input_; }
-    auto getOutValues() -> std::vector<double> { return out_; }
-    auto getCorrectValue(int img_num) -> std::vector<double> { return correct_; }
-    auto getCountOfElements() -> long { return num_images_; }
-    auto resetErr() -> void;
-    auto getErr() -> s21::ErrorData & { return err_; }
+    auto GetInputValues(int img_num = 0) -> std::vector<double> { return input_; }
+    auto GetOutValues() -> std::vector<double> { return out_; }
+    auto GetCorrectValue(int img_num) -> std::vector<double> { return correct_; }
+    auto GetCountOfElements() -> long { return num_images_; }
+    auto ResetErr() -> void;
+    auto GetErr() -> s21::ErrorData & { return err_; }
     auto ResetNetworkConfiguration() -> void {
         if (network_) delete network_;
         network_ = nullptr;
@@ -71,8 +70,6 @@ class Model {
     auto SetVectorPixelsOfImage(const std::vector<double> &vector_pixels) -> void {
         input_ = vector_pixels;
     }
-    //  auto GetCurrentImageNumber() -> unsigned int;
-
     void SaveConfiguration(const std::string &filename);
     void LoadConfiguration(const std::string &filename, bool is_graph);
     InitConfig GetConfiguration();

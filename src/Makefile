@@ -1,4 +1,4 @@
-files_for_test = test/test.cpp MLP/graphneuralnetwork.cpp MLP/matrix_neural_network.cpp MLP/matrix.cpp
+files_for_test = test/test.cpp MLP/graphneuralnetwork.cpp MLP/matrixneuralnetwork.cpp MLP/matrix.cpp
 
 SRC_DIR = MLP/
 TEXI2DVI = makeinfo --html

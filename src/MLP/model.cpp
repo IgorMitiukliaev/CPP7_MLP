@@ -1,7 +1,7 @@
 #include "model.h"
 
 #include "graphneuralnetwork.h"
-#include "matrix_neural_network.h"
+#include "matrixneuralnetwork.h"
 
 using s21::Model;
 
@@ -41,18 +41,18 @@ void Model::InitNetwork(const s21::InitConfig &config) {
   input_.clear();
 }
 
-void Model::loadDataset(string const &path) {
+void Model::LoadDataset(string const &path) {
   fileloader_.SetFileStream(path);
   num_images_ = fileloader_.GetCountOfElements();
   fileloader_.ReadElement();
   input_ = fileloader_.GetInputValues();
   correct_ = fileloader_.GetOutputValues();
   input_value_ = fileloader_.GetOutputValues();
-  normalizeInput();
-  resetErr();
+  NormalizeInput();
+  ResetErr();
 }
 
-void Model::loadNextDataset() {
+void Model::LoadNextDataset() {
   bool check = fileloader_.ReadElement();
   if (!check) {
     fileloader_.StartReadElements();
@@ -60,11 +60,11 @@ void Model::loadNextDataset() {
   }
   if (!check) throw std::runtime_error("Error reading file: rewind failed");
   input_ = fileloader_.GetInputValues();
-  normalizeInput();
+  NormalizeInput();
   correct_ = fileloader_.GetOutputValues();
 }
 
-void Model::normalizeInput() {
+void Model::NormalizeInput() {
   double max = *max_element(input_.begin(), input_.end());
   double min = *min_element(input_.begin(), input_.end());
   if (max > min) {
@@ -77,21 +77,21 @@ void Model::normalizeInput() {
   }
 }
 
-void Model::activate(const std::vector<double> &input_) {
+void Model::Activate(const std::vector<double> &input_) {
   network_->Activate(input_);
-  out_ = network_->getOutput();
+  out_ = network_->GetOutput();
   UpdateErrData();
 }
 
-void Model::TeachNetwork() { network_->teachNetwork(correct_); }
+void Model::TeachNetwork() { network_->TeachNetwork(correct_); }
 
 void Model::TeachNetwork(const LearnConfig &learn_config) {
   num_epochs_ = learn_config.num_epochs,
   num_batches_ = learn_config.num_batches;
   for (unsigned int i = 0, j = 0; i < num_epochs_; i++) {
     while (j++ < num_images_) {
-      network_->teachNetwork(correct_);
-      loadNextDataset();
+      network_->TeachNetwork(correct_);
+      LoadNextDataset();
     }
     fileloader_.StartReadElements();
   }
@@ -114,14 +114,14 @@ void Model::LoadConfiguration(const std::string &filename, bool is_graph) {
   num_neurons_hidden_ = config.num_neurons_hidden;
   num_neurons_input_ = config.num_neurons_input;
   num_neurons_out_ = config.num_neurons_out;
-  resetErr();
+  ResetErr();
 }
 
 s21::InitConfig Model::GetConfiguration() {
   return network_->GetConfiguration();
 }
 
-void Model::resetErr() {
+void Model::ResetErr() {
   if (err_.confusion_matrix) delete err_.confusion_matrix;
   err_ = {0};
   int size = network_->GetConfiguration().num_neurons_out;
