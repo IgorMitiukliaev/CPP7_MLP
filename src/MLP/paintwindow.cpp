@@ -12,12 +12,12 @@ PaintWindow::PaintWindow(QWidget *parent) : QDialog(parent),
     update();
 }
 
-void PaintWindow::PaintEvent(QPaintEvent *) {
+void PaintWindow::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     painter.drawImage(QPoint(0, 0), image_);
 }
 
-void PaintWindow::MouseMoveEvent(QMouseEvent *event) {
+void PaintWindow::mouseMoveEvent(QMouseEvent *event) {
     if (is_left_button_pressed_) {
         QPainter painter(&image_);
         painter.setPen(QPen(Qt::black, pen_width_, Qt::SolidLine));
@@ -28,7 +28,7 @@ void PaintWindow::MouseMoveEvent(QMouseEvent *event) {
     }
 }
 
-void PaintWindow::MousePressEvent(QMouseEvent *event) {
+void PaintWindow::mousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
         is_left_button_pressed_ = true;
         last_point_ = event->pos();
@@ -38,7 +38,7 @@ void PaintWindow::MousePressEvent(QMouseEvent *event) {
     }
 }
 
-void PaintWindow::MouseReleaseEvent(QMouseEvent *event) {
+void PaintWindow::mouseReleaseEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
         is_left_button_pressed_ = false;
     }

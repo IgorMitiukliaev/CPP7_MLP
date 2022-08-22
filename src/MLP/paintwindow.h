@@ -22,10 +22,10 @@ class PaintWindow : public QDialog {
     QImage &GetImage();
 
  protected:
-    void PaintEvent(QPaintEvent *p);
-    void MouseMoveEvent(QMouseEvent *event);
-    void MousePressEvent(QMouseEvent *event);
-    void MouseReleaseEvent(QMouseEvent *event);
+    void paintEvent(QPaintEvent *p);
+    void mouseMoveEvent(QMouseEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
 
  private:
     Ui::PaintWindow *ui;
