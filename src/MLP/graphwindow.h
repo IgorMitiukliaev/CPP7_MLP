@@ -20,7 +20,7 @@ class GraphWindow : public QDialog {
   auto DrawGraph(const std::vector<double> &values) -> void;
 
  protected:
-  void PaintEvent(QPaintEvent *p);
+  void paintEvent(QPaintEvent *p);
 
  private:
   Ui::GraphWindow *ui;

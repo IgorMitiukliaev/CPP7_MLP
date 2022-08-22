@@ -12,7 +12,7 @@ GraphWindow::GraphWindow(QWidget *parent) :
     update();
 }
 
-void GraphWindow::PaintEvent(QPaintEvent *) {
+void GraphWindow::paintEvent(QPaintEvent *) {
     QPainter painter(this);
     painter.drawImage(QPoint(0, 0), image_);
 }
