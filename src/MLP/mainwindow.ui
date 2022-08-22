@@ -41,7 +41,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tabInit">
      <attribute name="title">
@@ -413,60 +413,6 @@
       <property name="value">
        <number>0</number>
       </property>
-     </widget>
-     <widget class="QWidget" name="layoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>570</y>
-        <width>401</width>
-        <height>42</height>
-       </rect>
-      </property>
-      <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="1">
-        <widget class="QPushButton" name="pushClerLearn">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>14</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Clear</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QPushButton" name="btnStartLearn">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>14</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Start</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
      </widget>
      <widget class="QPushButton" name="btnSaveNetworkConfiguration">
       <property name="enabled">
@@ -855,6 +801,33 @@
        <string>Create Graph</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="btnStartLearn">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>580</y>
+        <width>402</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Start</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tabTest">
      <property name="enabled">
@@ -866,7 +839,7 @@
      <widget class="QGraphicsView" name="graphicsView">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>30</x>
         <y>60</y>
         <width>512</width>
         <height>512</height>
@@ -899,7 +872,7 @@
        <rect>
         <x>14</x>
         <y>20</y>
-        <width>521</width>
+        <width>551</width>
         <height>32</height>
        </rect>
       </property>
@@ -914,7 +887,7 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>120</width>
+           <width>100</width>
            <height>30</height>
           </size>
          </property>
@@ -925,6 +898,33 @@
          </property>
          <property name="text">
           <string>Load .bmp</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QPushButton" name="pushButton_8">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>100</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Proceed</string>
          </property>
         </widget>
        </item>
@@ -962,7 +962,7 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>120</width>
+           <width>100</width>
            <height>30</height>
           </size>
          </property>
@@ -976,20 +976,11 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="3">
-        <widget class="QPushButton" name="pushButton_8">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
+       <item row="0" column="4">
+        <widget class="QPushButton" name="pushButtonResearch">
          <property name="minimumSize">
           <size>
-           <width>120</width>
+           <width>100</width>
            <height>30</height>
           </size>
          </property>
@@ -999,7 +990,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Proceed</string>
+          <string>Research</string>
          </property>
         </widget>
        </item>
@@ -1008,7 +999,7 @@
      <widget class="QWidget" name="layoutWidget_2">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>40</x>
         <y>580</y>
         <width>482</width>
         <height>63</height>
@@ -1319,19 +1310,6 @@
         <string>0 sec</string>
        </property>
       </item>
-     </widget>
-     <widget class="QPushButton" name="pushButtonResearch">
-      <property name="geometry">
-       <rect>
-        <x>230</x>
-        <y>80</y>
-        <width>151</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Research</string>
-      </property>
      </widget>
     </widget>
    </widget>

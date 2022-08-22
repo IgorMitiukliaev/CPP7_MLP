@@ -38,6 +38,7 @@ void Model::InitNetwork(const s21::InitConfig &config) {
   network_->InitNetwork(&config);
   err_ = {0};
   err_.confusion_matrix = new Matrix(num_neurons_out_, num_neurons_out_);
+  input_.clear();
 }
 
 void Model::loadDataset(string const &path) {
@@ -174,4 +175,10 @@ void Model::EvaluateErr() {
   err_.accuracy = (double)err_.count_success / err_.count;
   err_.f_measure =
       2 * (err_.precision * err_.recall) / (err_.precision + err_.recall);
+}
+s21::ModelState Model::CheckModelState() {
+  ModelState res = Empty;
+  if (network_ != nullptr) res = Initialized;
+  if (!input_.empty()) res = DatasetReady;
+  return res;
 }

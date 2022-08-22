@@ -53,8 +53,8 @@ void MainWindow::on_btnLoadDataset_clicked() {
     updatePreviewLabel();
     UpdateAnswerLabel();
     UpdateMLPState();
-    enableButtons();
   }
+  enableButtons();
 }
 
 void MainWindow::drawPreview(int img_num) {
@@ -99,7 +99,6 @@ void MainWindow::UpdateMLPState() {
   text += "f-measure " +
           QString::number(_controller->getErr().f_measure * 100, 'f', 2) +
           "%\n";
-
   ui->lblError->setText(text);
 }
 
@@ -124,8 +123,8 @@ void MainWindow::on_btnInit_clicked() {
   config.num_neurons_hidden = ui->num_neurons_hidden->value();
   config.num_neurons_input = pow(ui->num_neurons_input->text().toInt(), 2);
   config.num_neurons_out = ui->num_neurons_out->text().toInt();
-  qDebug() << "Is Graph - " << config.is_graph;
   _controller->InitNetwork(config);
+  enableButtons();
 }
 
 void MainWindow::on_pushButton_draw_clicked() { paintWindow->show(); }
@@ -146,13 +145,12 @@ void MainWindow::on_pushButton_8_clicked() {
     GraphicsViewUpdate(paintWindow->GetImage());
   }
   CreateVectorPixels(_graphics_view_image);
-  if (!_vectorPixels.empty()) {
+  if (!_vectorPixels.empty() && _controller->CheckModelState() > 0) {
     _controller->SetVectorPixelsOfImage(_vectorPixels);
+    UpdateMLPState();
+    drawPreview();
+    UpdateAnswerLabel();
   }
-  UpdateMLPState();
-  drawPreview();
-
-  UpdateAnswerLabel();
 }
 
 void MainWindow::CreateVectorPixels(QImage &image) {
@@ -172,7 +170,6 @@ void MainWindow::CreateVectorPixels(QImage &image) {
 void MainWindow::on_btnStartLearn_clicked() {
   if (_controller->stop_) {
     _controller->StopTeachLoop(false);
-    qDebug() << _controller->stop_;
     s21::LearnConfig learn_config;
     ui->btnStartLearn->setText("Stop");
     learn_config.num_batches = ui->valBatchNum->text().toInt();
@@ -181,7 +178,6 @@ void MainWindow::on_btnStartLearn_clicked() {
     ui->btnStartLearn->setText("Start");
   } else {
     _controller->StopTeachLoop(true);
-    qDebug() << _controller->stop_;
     ui->btnStartLearn->setText("Start");
   }
 }
@@ -216,24 +212,43 @@ void MainWindow::on_valBatchNum_valueChanged(int arg1) {
   updateBatchLabel();
 }
 
-void MainWindow::on_tabWidget_tabBarClicked(int index) {
+void MainWindow::on_tabWidget_tabBarClicked(int index) { enableButtons(); }
+
+bool MainWindow::enableButtons() {
+  s21::ModelState state = _controller->CheckModelState();
+  ui->btnImgUp->setEnabled(state);
   ui->tabInit->setEnabled(_controller->stop_);
-  if (_controller->CheckNetworkReady()) {
+  ui->tabResearch->setEnabled(_controller->stop_);
+  ui->tabTest->setEnabled(_controller->stop_);
+  if (state > 1) {
+    ui->btnStartLearn->setEnabled(true);
+  } else {
+    ui->btnStartLearn->setEnabled(false);
+  }
+  if (state > 1 && !_controller->getErrVector().empty()) {
+    ui->CreateGraph->setEnabled(true);
+  } else {
+    ui->CreateGraph->setEnabled(false);
+  }
+  if (state != s21::Empty) {
     ui->tabLearn->setEnabled(true);
     ui->tabTest->setEnabled(true);
-    ui->tabResearch->setEnabled(true);
+    ui->pushButton_8->setEnabled(true);
+    ui->valEpochNum->setEnabled(true);
+    ui->valBatchNum->setEnabled(true);
   } else {
     ui->tabLearn->setEnabled(false);
     ui->tabTest->setEnabled(false);
-    ui->tabResearch->setEnabled(false);
+    ui->pushButton_8->setEnabled(false);
   }
-}
+  if (state > 1 && !_controller->getInputValues().empty()) {
+    ui->pushButtonResearch->setEnabled(true);
+  } else {
+    ui->pushButtonResearch->setEnabled(false);
+  }
 
-bool MainWindow::enableButtons() {
-  bool res = _controller->CheckDataReady();
-  ui->btnImgUp->setEnabled(res);
-  ui->btnStartLearn->setEnabled(res);
-  return res;
+  qDebug() << "state = " << state;
+  return state;
 }
 
 void MainWindow::on_progressChanged_(int i, int percentage) {
@@ -245,6 +260,7 @@ void MainWindow::on_progressChanged_(int i, int percentage) {
   updatePreviewLabel();
   UpdateAnswerLabel();
   UpdateMLPState();
+  enableButtons();
   QCoreApplication::processEvents();
 }
 
@@ -303,8 +319,8 @@ void MainWindow::UpdateAnswerLabel() {
 void MainWindow::on_CreateGraph_clicked() {
   _graphWindow->show();
   std::vector<double> v;
-  std::for_each(_controller->errorDataVector.begin(),
-                _controller->errorDataVector.end(),
+  std::vector<s21::ErrorData> err = _controller->getErrVector();
+  std::for_each(err.begin(), err.end(),
                 [&v](s21::ErrorData el) { v.push_back(el.accuracy); });
   _graphWindow->DrawGraph(v);
 }
@@ -330,6 +346,7 @@ void MainWindow::on_btnLoadDatasetTest_clicked() {
     num_images = _controller->getCountOfElements();
     num_curr_image = 0;
     UpdateTestSheet();
+    enableButtons();
   }
 }
 
@@ -377,6 +394,8 @@ void MainWindow::UpdateTestSheet() {
   UpdateTestPreviewLabel();
   UpdateAnswerLabel();
   UpdateMLPState();
+  qDebug() << "testPreview";
+  enableButtons();
 }
 
 void MainWindow::on_btnStartTest_clicked() {
@@ -410,57 +429,35 @@ void MainWindow::on_num_neurons_hidden_valueChanged(int arg1) {
   _controller->ResetNetworkConfiguration();
 }
 
-auto MainWindow::ResearchInitGraphPerceptron() -> void {
-  s21::InitConfig config;
-  config.is_graph = true;
-  config.num_layers_hidden = 2;
-  config.num_neurons_hidden = 100;
-  config.num_neurons_input = pow(28, 2);
-  config.num_neurons_out = 26;
-  _controller->InitNetwork(config);
-  _controller->LoadConfiguration(
-      QDir::currentPath().append("/../src/conf.bin").toStdString(), true);
-  _controller->loadDataset(
-      QDir::currentPath()
-          .append("/../datasets/emnist-letters/emnist-letters-test.csv")
-          .toStdString());
-}
-
-auto MainWindow::ResearchInitMatrixPerceptron() -> void {
-  s21::InitConfig config;
-  config.is_graph = false;
-  config.num_layers_hidden = 2;
-  config.num_neurons_hidden = 100;
-  config.num_neurons_input = pow(28, 2);
-  config.num_neurons_out = 26;
-  _controller->InitNetwork(config);
-  _controller->LoadConfiguration(
-      QDir::currentPath().append("/../src/conf.bin").toStdString(), false);
-  _controller->loadDataset(
-      QDir::currentPath()
-          .append("/../datasets/emnist-letters/emnist-letters-test.csv")
-          .toStdString());
-}
-
 auto MainWindow::ResearchTestingTime(const int count) -> double {
-  clock_t t1, t2, t3;
+  clock_t t1, t2;
   t1 = std::clock();
   for (int i = 0; i < count; ++i) {
-    s21::LearnConfig learn_config;
-    learn_config.num_batches = 1;
-    learn_config.num_epochs = 1;
-    _controller->TeachNetwork(learn_config);
+    _controller->TestNetwork(ui->valTestPercentage->value());
   }
   t2 = std::clock();
   return ((double)(t2 - t1) / CLOCKS_PER_SEC);
 }
 
 void MainWindow::on_pushButtonResearch_clicked() {
+  ui->tabWidget->setCurrentIndex(3);
+  ui->tabResearch->setEnabled(true);
+  //  s21::InitConfig config;
+  //  config.is_graph = false;
+  //  config.num_layers_hidden = 2;
+  //  config.num_neurons_hidden = 100;
+  //  config.num_neurons_input = pow(28, 2);
+  //  config.num_neurons_out = 26;
+  //  _controller->InitNetwork(config);
+  _controller->SaveConfiguration(
+      QDir::currentPath().append("/test.bin").toStdString());
   for (int i = 1; i <= 2; ++i) {
     if (i == 1) {
-      ResearchInitMatrixPerceptron();
+      _controller->LoadConfiguration(
+          QDir::currentPath().append("/test.bin").toStdString(), false);
     } else {
-      ResearchInitGraphPerceptron();
+      _controller->LoadConfiguration(
+          QDir::currentPath().append("/test.bin").toStdString(), true);
     }
     double averageTime(0.0);
     for (int j = 1; j <= 3; ++j) {

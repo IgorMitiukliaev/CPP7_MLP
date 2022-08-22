@@ -57,8 +57,9 @@ else
 endif
 	./tests
 	rm -rf tests
+	
 test: tests
 
 clean:
 	@rm -rf Documentation
-	rm -rf tests report *.gcda *.gcno testresult *.info
+	@rm -rf tests report *.gcda *.gcno testresult *.info

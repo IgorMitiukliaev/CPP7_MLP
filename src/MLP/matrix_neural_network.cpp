@@ -129,7 +129,6 @@ void s21::MatrixNeuralNetwork::SaveConfiguration(const std::string& filename) {
 
   for (auto i = 0; i < num_layers_hidden + 1; i++) {
     weights_[i].Save(out);
-    weights_[i].PrintMatrix();
   }
 
   out.close();
@@ -142,7 +141,6 @@ void s21::MatrixNeuralNetwork::LoadConfiguration(const std::string& filename) {
   InitNetwork(&config);
   for (auto i = 0; i < num_layers_hidden + 1; i++) {
     weights_[i].Load(in);
-    weights_[i].PrintMatrix();
   }
   in.close();
 }

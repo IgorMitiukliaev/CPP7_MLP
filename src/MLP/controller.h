@@ -11,15 +11,13 @@ class Controller : public QObject {
 
  private:
   s21::Model *m;
+  std::vector<ErrorData> errorDataVector;
 
  public:
   explicit Controller(s21::Model *model) : m(model) {}
   bool pause_ = true, stop_ = true;
   bool load_ = false;
-
   void loadDataset(string const &path);
-  std::vector<double> getInputValues(int img_num = 0);
-  std::vector<ErrorData> errorDataVector;
   void loadNextDataset();
   void InitNetwork(const InitConfig &config);
   std::vector<double> getOutValues();
@@ -30,8 +28,8 @@ class Controller : public QObject {
 
   // simple functions
   auto getCountOfElements() -> long { return m->getCountOfElements(); }
-  auto CheckNetworkReady() -> bool { return m->CheckNetworkReady(); };
-  auto CheckDataReady() -> bool { return m->CheckDataReady(); };
+  auto getInputValues(int img_num = 0) -> std::vector<double>;
+  auto CheckModelState() -> s21::ModelState { return m->CheckModelState(); };
   auto StopTeachLoop(bool val) -> void { stop_ = val; };
   auto SaveConfiguration(const std::string &filename) -> void {
     m->SaveConfiguration(filename);
@@ -42,6 +40,9 @@ class Controller : public QObject {
   };
   auto GetConfiguration() -> s21::InitConfig { return m->GetConfiguration(); };
   auto getErr() -> s21::ErrorData & { return m->getErr(); }
+  auto getErrVector() -> const std::vector<s21::ErrorData> & {
+    return errorDataVector;
+  }
   auto resetErr() -> void { m->resetErr(); }
   auto EvaluateErr() -> void { m->EvaluateErr(); };
 

@@ -46,10 +46,6 @@ class MainWindow : public QMainWindow {
   void DrawTestPreview(int img_num = 0);
   void UpdateTestPreviewLabel();
   void UpdateTestSheet();
-  // методы для исследования
-
-  auto ResearchInitGraphPerceptron() -> void;
-  auto ResearchInitMatrixPerceptron() -> void;
   auto ResearchTestingTime(const int count) -> double;
 
  public:

@@ -19,6 +19,13 @@ struct ErrorData {
     s21::Matrix *confusion_matrix;
 };
 
+enum ModelState{
+  Empty = 0,
+  Initialized = 1,
+  DatasetReady = 2,
+  Learned = 3,
+};
+
 class Model {
  private:
     s21::FileLoader fileloader_;
@@ -49,8 +56,7 @@ class Model {
     void EvaluateErr();
 
     // simple functions
-    auto CheckNetworkReady() -> bool { return network_ != nullptr; };
-    auto CheckDataReady() -> bool { return num_images_ != 0; };
+    auto CheckModelState() -> s21::ModelState;
     auto getInputValues(int img_num = 0) -> std::vector<double> { return input_; }
     auto getOutValues() -> std::vector<double> { return out_; }
     auto getCorrectValue(int img_num) -> std::vector<double> { return correct_; }
