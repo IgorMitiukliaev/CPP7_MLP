@@ -20,15 +20,15 @@ class GraphWindow : public QDialog {
   auto DrawGraph(const std::vector<double> &values) -> void;
 
  protected:
-  void paintEvent(QPaintEvent *p);
+  void PaintEvent(QPaintEvent *p);
 
  private:
   Ui::GraphWindow *ui;
-  QImage _image;
-  const int _width = 512;
-  const int _height = 512;
-  const int _penWidthForAxis = 1;
-  const int _penWidthForLine = 2;
+  QImage image_;
+  const int width_ = 512;
+  const int height_ = 512;
+  const int pen_width_for_axis_ = 1;
+  const int pen_width_for_line_ = 2;
 };
 
 #endif  // SRC_MLP_GRAPHWINDOW_H_

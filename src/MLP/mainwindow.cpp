@@ -8,24 +8,24 @@
 using s21::Controller;
 
 MainWindow::MainWindow(s21::Controller *controller, QWidget *parent)
-    : _controller(controller),
+    : controller_(controller),
       QMainWindow(parent),
       ui(new Ui::MainWindow),
-      paintWindow(new PaintWindow),
-      _graphWindow(new GraphWindow) {
+      paint_window_(new PaintWindow),
+      graph_window_(new GraphWindow) {
   ui->setupUi(this);
   ui->barLearnProgress->setRange(0, 100);
-  QObject::connect(qobject_cast<QObject *>(_controller),
+  QObject::connect(qobject_cast<QObject *>(controller_),
                    SIGNAL(progressChanged_(int, int)), this,
                    SLOT(on_progressChanged_(int, int)));
-  QObject::connect(qobject_cast<QObject *>(_controller),
+  QObject::connect(qobject_cast<QObject *>(controller_),
                    SIGNAL(progressTestChanged_(int, int)), this,
                    SLOT(on_progressTestChanged_(int, int)));
 }
 
 MainWindow::~MainWindow() {
-  delete _graphWindow;
-  delete paintWindow;
+  delete graph_window_;
+  delete paint_window_;
   delete ui;
 }
 
@@ -46,35 +46,35 @@ void MainWindow::on_btnLoadDataset_clicked() {
   QString file_name = GetDatasetFileName();
   qDebug() << file_name;
   if (!file_name.isEmpty()) {
-    _controller->loadDataset(file_name.toStdString());
-    num_images = _controller->getCountOfElements();
-    num_curr_image = 0;
-    drawPreview();
-    updatePreviewLabel();
+    controller_->LoadDataset(file_name.toStdString());
+    num_images_ = controller_->GetCountOfElements();
+    num_curr_image_ = 0;
+    DrawPreview();
+    UpdatePreviewLabel();
     UpdateAnswerLabel();
     UpdateMLPState();
   }
-  enableButtons();
+  EnableButtons();
 }
 
-void MainWindow::drawPreview(int img_num) {
+void MainWindow::DrawPreview(int img_num) {
   QLabel *wg = (QLabel *)ui->lblPreview;
   QPixmap pixmap = GetPreviewPicture(img_num);
   wg->setPixmap(pixmap);
   wg->show();
 }
 
-void MainWindow::updatePreviewLabel() {
-  QString lbl = " of " + QString::number(num_images);
+void MainWindow::UpdatePreviewLabel() {
+  QString lbl = " of " + QString::number(num_images_);
   ui->lblTotalImgs->setText(lbl);
-  ui->inpNumCurrImg->setText(QString::number(num_curr_image));
-  int num_letter = _controller->getCorrectValue() + 65;
+  ui->inpNumCurrImg->setText(QString::number(num_curr_image_));
+  int num_letter = controller_->GetCorrectValue() + 65;
   ui->lblLetter->setText(QString(QChar::fromLatin1(num_letter)));
-  updateBatchLabel();
+  UpdateBatchLabel();
 }
 
 void MainWindow::UpdateMLPState() {
-  std::vector<double> out = _controller->getOutValues();
+  std::vector<double> out = controller_->GetOutValues();
   QString text;
   for (int i{0}; i < ui->gridMLP->rowCount(); ++i) {
     for (int j{0}; j < ui->gridMLP->columnCount(); ++j) {
@@ -85,19 +85,19 @@ void MainWindow::UpdateMLPState() {
       label->setText(text);
     }
   }
-  text = "Total count " + QString::number(_controller->getErr().count, 'f', 0) +
+  text = "Total count " + QString::number(controller_->GetErr().count, 'f', 0) +
          "\n";
   text += "Success count " +
-          QString::number(_controller->getErr().count_success, 'f', 0) + "\n";
+          QString::number(controller_->GetErr().count_success, 'f', 0) + "\n";
   text += "Accuracy " +
-          QString::number(_controller->getErr().accuracy * 100, 'f', 2) + "%\n";
+          QString::number(controller_->GetErr().accuracy * 100, 'f', 2) + "%\n";
   text += "Precision " +
-          QString::number(_controller->getErr().precision * 100, 'f', 2) +
+          QString::number(controller_->GetErr().precision * 100, 'f', 2) +
           "%\n";
   text += "Recall " +
-          QString::number(_controller->getErr().recall * 100, 'f', 2) + "%\n";
+          QString::number(controller_->GetErr().recall * 100, 'f', 2) + "%\n";
   text += "f-measure " +
-          QString::number(_controller->getErr().f_measure * 100, 'f', 2) +
+          QString::number(controller_->GetErr().f_measure * 100, 'f', 2) +
           "%\n";
   ui->lblError->setText(text);
 }
@@ -105,11 +105,11 @@ void MainWindow::UpdateMLPState() {
 void MainWindow::on_btnImgUp_clicked() {
   for (int i = 0; i < ui->valEpochNum->text().toInt(); i++) {
     for (int j = 0; j < ui->valEpochNum->text().toInt(); j++) {
-      num_curr_image++;
-      _controller->loadNextDataset();
-      drawPreview();
+      num_curr_image_++;
+      controller_->LoadNextDataset();
+      DrawPreview();
       UpdateAnswerLabel();
-      updatePreviewLabel();
+      UpdatePreviewLabel();
       UpdateMLPState();
     }
     UpdateMLPState();
@@ -123,61 +123,61 @@ void MainWindow::on_btnInit_clicked() {
   config.num_neurons_hidden = ui->num_neurons_hidden->value();
   config.num_neurons_input = pow(ui->num_neurons_input->text().toInt(), 2);
   config.num_neurons_out = ui->num_neurons_out->text().toInt();
-  _controller->InitNetwork(config);
-  enableButtons();
+  controller_->InitNetwork(config);
+  EnableButtons();
 }
 
-void MainWindow::on_pushButton_draw_clicked() { paintWindow->show(); }
+void MainWindow::on_pushButton_draw_clicked() { paint_window_->show(); }
 
 void MainWindow::GraphicsViewUpdate(QImage &image) {
   if (image.width() <= 512 && image.height() <= 512) {
-    _graphics_view_image = image;
+    graphics_view_image_ = image;
     QGraphicsScene *scene = new QGraphicsScene();
-    scene->addPixmap(QPixmap::fromImage(_graphics_view_image));
-    scene->setSceneRect(0, 0, _graphics_view_image.width(),
-                        _graphics_view_image.height());
+    scene->addPixmap(QPixmap::fromImage(graphics_view_image_));
+    scene->setSceneRect(0, 0, graphics_view_image_.width(),
+                        graphics_view_image_.height());
     ui->graphicsView->setScene(scene);
   }
 }
 
 void MainWindow::on_pushButton_8_clicked() {
-  if (paintWindow->isVisible()) {
-    GraphicsViewUpdate(paintWindow->GetImage());
+  if (paint_window_->isVisible()) {
+    GraphicsViewUpdate(paint_window_->GetImage());
   }
-  CreateVectorPixels(_graphics_view_image);
-  if (!_vectorPixels.empty() && _controller->CheckModelState() > 0) {
-    _controller->SetVectorPixelsOfImage(_vectorPixels);
+  CreateVectorPixels(graphics_view_image_);
+  if (!vector_pixels_.empty() && controller_->CheckModelState() > 0) {
+    controller_->SetVectorPixelsOfImage(vector_pixels_);
     UpdateMLPState();
-    drawPreview();
+    DrawPreview();
     UpdateAnswerLabel();
   }
 }
 
 void MainWindow::CreateVectorPixels(QImage &image) {
   if (!image.isNull()) {
-    if (!_vectorPixels.empty()) {
-      _vectorPixels.clear();
+    if (!vector_pixels_.empty()) {
+      vector_pixels_.clear();
     }
-    QImage smallImage(image.scaled(_countNeurons, _countNeurons));
-    for (int i = 0; i < _countNeurons; ++i) {
-      for (int j = 0; j < _countNeurons; ++j) {
-        _vectorPixels.push_back(smallImage.pixelColor(i, j).blackF());
+    QImage smallImage(image.scaled(count_neurons_, count_neurons_));
+    for (int i = 0; i < count_neurons_; ++i) {
+      for (int j = 0; j < count_neurons_; ++j) {
+        vector_pixels_.push_back(smallImage.pixelColor(i, j).blackF());
       }
     }
   }
 }
 
 void MainWindow::on_btnStartLearn_clicked() {
-  if (_controller->stop_) {
-    _controller->StopTeachLoop(false);
+  if (controller_->stop_) {
+    controller_->StopTeachLoop(false);
     s21::LearnConfig learn_config;
     ui->btnStartLearn->setText("Stop");
     learn_config.num_batches = ui->valBatchNum->text().toInt();
     learn_config.num_epochs = ui->valEpochNum->text().toInt();
-    _controller->TeachNetwork(learn_config);
+    controller_->TeachNetwork(learn_config);
     ui->btnStartLearn->setText("Start");
   } else {
-    _controller->StopTeachLoop(true);
+    controller_->StopTeachLoop(true);
     ui->btnStartLearn->setText("Start");
   }
 }
@@ -186,16 +186,16 @@ void MainWindow::on_valEpochNum_valueChanged(int arg1) {
   qDebug() << arg1;
   if (arg1 == 1) {
     ui->valBatchNum->setEnabled(true);
-    updateBatchLabel();
+    UpdateBatchLabel();
   } else {
     ui->valBatchNum->setEnabled(false);
     ui->lblBatchLen->setText("");
   }
 }
 
-void MainWindow::updateBatchLabel() {
-  if (num_images > 0) {
-    unsigned int batch_len = num_images / ui->valBatchNum->text().toInt();
+void MainWindow::UpdateBatchLabel() {
+  if (num_images_ > 0) {
+    unsigned int batch_len = num_images_ / ui->valBatchNum->text().toInt();
     QString lbl = QString::number(batch_len) + " images / batch";
     ui->lblBatchLen->setText(lbl);
   }
@@ -205,27 +205,27 @@ void MainWindow::on_valBatchNum_valueChanged(int arg1) {
   qDebug() << arg1;
   if (arg1 == 1) {
     ui->valEpochNum->setEnabled(true);
-    updateBatchLabel();
+    UpdateBatchLabel();
   } else {
     ui->valEpochNum->setEnabled(false);
   }
-  updateBatchLabel();
+  UpdateBatchLabel();
 }
 
-void MainWindow::on_tabWidget_tabBarClicked(int index) { enableButtons(); }
+void MainWindow::on_tabWidget_tabBarClicked(int index) { EnableButtons(); }
 
-bool MainWindow::enableButtons() {
-  s21::ModelState state = _controller->CheckModelState();
+bool MainWindow::EnableButtons() {
+  s21::ModelState state = controller_->CheckModelState();
   ui->btnImgUp->setEnabled(state);
-  ui->tabInit->setEnabled(_controller->stop_);
-  ui->tabResearch->setEnabled(_controller->stop_ && state != s21::Empty);
-  ui->tabTest->setEnabled(_controller->stop_ && state != s21::Empty);
+  ui->tabInit->setEnabled(controller_->stop_);
+  ui->tabResearch->setEnabled(controller_->stop_ && state != s21::Empty);
+  ui->tabTest->setEnabled(controller_->stop_ && state != s21::Empty);
   if (state > 1) {
     ui->btnStartLearn->setEnabled(true);
   } else {
     ui->btnStartLearn->setEnabled(false);
   }
-  if (state > 1 && !_controller->getErrVector().empty()) {
+  if (state > 1 && !controller_->GetErrVector().empty()) {
     ui->CreateGraph->setEnabled(true);
   } else {
     ui->CreateGraph->setEnabled(false);
@@ -239,7 +239,7 @@ bool MainWindow::enableButtons() {
     ui->tabLearn->setEnabled(false);
     ui->pushButton_8->setEnabled(false);
   }
-  if (state > 1 && !_controller->getInputValues().empty()) {
+  if (state > 1 && !controller_->GetInputValues().empty()) {
     ui->pushButtonResearch->setEnabled(true);
   } else {
     ui->pushButtonResearch->setEnabled(false);
@@ -251,24 +251,24 @@ bool MainWindow::enableButtons() {
 
 void MainWindow::on_progressChanged_(int i, int percentage) {
   ui->barLearnProgress->setValue(percentage);
-  num_curr_image =
-      (num_curr_image + i >= num_images ? num_curr_image + i - num_images
-                                        : num_curr_image + i);
-  drawPreview();
-  updatePreviewLabel();
+  num_curr_image_ =
+      (num_curr_image_ + i >= num_images_ ? num_curr_image_ + i - num_images_
+                                        : num_curr_image_ + i);
+  DrawPreview();
+  UpdatePreviewLabel();
   UpdateAnswerLabel();
   UpdateMLPState();
-  enableButtons();
+  EnableButtons();
   QCoreApplication::processEvents();
 }
 
 void MainWindow::on_progressTestChanged_(int i, int percentage) {
   ui->barTestProgress->setValue(percentage);
-  num_curr_image =
-      (num_curr_image + i >= num_images ? num_curr_image + i - num_images
-                                        : num_curr_image + i);
+  num_curr_image_ =
+      (num_curr_image_ + i >= num_images_ ? num_curr_image_ + i - num_images_
+                                        : num_curr_image_ + i);
   UpdateTestSheet();
-  if (_controller->stop_) {
+  if (controller_->stop_) {
     ui->btnStartLearn->setEnabled(true);
     ui->btnStartTest->setText("Start");
   }
@@ -286,7 +286,7 @@ void MainWindow::on_btnSaveNetworkConfiguration_clicked() {
   if (!rx.match(q_filename).hasMatch()) q_filename += ".bin";
   qDebug() << q_filename;
   if (!q_filename.isEmpty()) {
-    _controller->SaveConfiguration((q_filename).toStdString());
+    controller_->SaveConfiguration((q_filename).toStdString());
   }
 }
 
@@ -295,32 +295,31 @@ void MainWindow::on_btnLoadNetworkConfiguration_clicked() {
   QString q_filename = QFileDialog::getOpenFileName(
       this, tr("Load configuration"), ".", filters);
   if (!q_filename.isEmpty()) {
-    _controller->LoadConfiguration(q_filename.toStdString(),
+    controller_->LoadConfiguration(q_filename.toStdString(),
                                    ui->rbtnGraph->isChecked());
     UpdateConfigurationView();
   }
 }
 
 void MainWindow::UpdateConfigurationView() {
-  s21::InitConfig config = _controller->GetConfiguration();
+  s21::InitConfig config = controller_->GetConfiguration();
   ui->num_layers_hidden->setValue(config.num_layers_hidden);
   ui->num_neurons_hidden->setValue(config.num_neurons_hidden);
 }
 
 void MainWindow::UpdateAnswerLabel() {
-  std::vector<double> out = _controller->getOutValues();
-  //  qDebug() << out;
+  std::vector<double> out = controller_->GetOutValues();
   int maxElementIndex = std::max_element(out.begin(), out.end()) - out.begin();
   ui->lblAnswer->setText(QString(QChar::fromLatin1(maxElementIndex + 65)));
 }
 
 void MainWindow::on_CreateGraph_clicked() {
-  _graphWindow->show();
+  graph_window_->show();
   std::vector<double> v;
-  std::vector<s21::ErrorData> err = _controller->getErrVector();
+  std::vector<s21::ErrorData> err = controller_->GetErrVector();
   std::for_each(err.begin(), err.end(),
                 [&v](s21::ErrorData el) { v.push_back(el.accuracy); });
-  _graphWindow->DrawGraph(v);
+  graph_window_->DrawGraph(v);
 }
 
 QString MainWindow::GetDatasetFileName() {
@@ -339,18 +338,18 @@ QString MainWindow::GetDatasetFileName() {
 void MainWindow::on_btnLoadDatasetTest_clicked() {
   QString file_name = GetDatasetFileName();
   if (!file_name.isEmpty()) {
-    _controller->loadDataset(file_name.toStdString());
-    _controller->EvaluateErr();
-    num_images = _controller->getCountOfElements();
-    num_curr_image = 0;
+    controller_->LoadDataset(file_name.toStdString());
+    controller_->EvaluateErr();
+    num_images_ = controller_->GetCountOfElements();
+    num_curr_image_ = 0;
     UpdateTestSheet();
-    enableButtons();
+    EnableButtons();
   }
 }
 
 QPixmap MainWindow::GetPreviewPicture(int img_num) {
   QByteArray pData;
-  std::vector<double> input = _controller->getInputValues(img_num);
+  std::vector<double> input = controller_->GetInputValues(img_num);
   std::for_each(input.begin(), input.end(), [&pData](double const &value) {
     pData.insert(0, ~0);
     pData.insert(0, (1 - value) * 255);
@@ -373,17 +372,17 @@ void MainWindow::DrawTestPreview(int img_num) {
 }
 
 void MainWindow::UpdateTestPreviewLabel() {
-  QString lbl = " of " + QString::number(num_images);
+  QString lbl = " of " + QString::number(num_images_);
   ui->lblTotalImgsTest->setText(lbl);
-  ui->inpNumCurrImgTest->setText(QString::number(num_curr_image));
-  int num_letter = _controller->getCorrectValue() + 65;
+  ui->inpNumCurrImgTest->setText(QString::number(num_curr_image_));
+  int num_letter = controller_->GetCorrectValue() + 65;
   ui->lblLetterTest->setText(QString(QChar::fromLatin1(num_letter)));
 }
 
 void MainWindow::on_btnImgUpTest_clicked() {
-  num_curr_image++;
-  _controller->loadNextDataset();
-  _controller->EvaluateErr();
+  num_curr_image_++;
+  controller_->LoadNextDataset();
+  controller_->EvaluateErr();
   UpdateTestSheet();
 }
 
@@ -393,45 +392,45 @@ void MainWindow::UpdateTestSheet() {
   UpdateAnswerLabel();
   UpdateMLPState();
   qDebug() << "testPreview";
-  enableButtons();
+  EnableButtons();
 }
 
 void MainWindow::on_btnStartTest_clicked() {
-  if (_controller->stop_) {
-    _controller->StopTeachLoop(false);
+  if (controller_->stop_) {
+    controller_->StopTeachLoop(false);
     ui->btnStartTest->setText("Stop");
-    _controller->TestNetwork(ui->valTestPercentage->value());
+    controller_->TestNetwork(ui->valTestPercentage->value());
     ui->btnStartTest->setText("Start");
   } else {
-    _controller->StopTeachLoop(true);
+    controller_->StopTeachLoop(true);
     ui->btnStartTest->setText("Start");
   }
-  ui->btnStartLearn->setEnabled(_controller->stop_);
+  ui->btnStartLearn->setEnabled(controller_->stop_);
 }
 
-void MainWindow::on_MainWindow_destroyed() { _controller->StopTeachLoop(true); }
+void MainWindow::on_MainWindow_destroyed() { controller_->StopTeachLoop(true); }
 
 void MainWindow::on_rbtnGraph_clicked() {
-  _controller->ResetNetworkConfiguration();
+  controller_->ResetNetworkConfiguration();
 }
 
 void MainWindow::on_rbtnMatrix_clicked() {
-  _controller->ResetNetworkConfiguration();
+  controller_->ResetNetworkConfiguration();
 }
 
 void MainWindow::on_num_layers_hidden_valueChanged(int arg1) {
-  _controller->ResetNetworkConfiguration();
+  controller_->ResetNetworkConfiguration();
 }
 
 void MainWindow::on_num_neurons_hidden_valueChanged(int arg1) {
-  _controller->ResetNetworkConfiguration();
+  controller_->ResetNetworkConfiguration();
 }
 
 auto MainWindow::ResearchTestingTime(const int count) -> double {
   clock_t t1, t2;
   t1 = std::clock();
   for (int i = 0; i < count; ++i) {
-    _controller->TestNetwork(ui->valTestPercentage->value());
+    controller_->TestNetwork(ui->valTestPercentage->value());
   }
   t2 = std::clock();
   return ((double)(t2 - t1) / CLOCKS_PER_SEC);
@@ -440,21 +439,14 @@ auto MainWindow::ResearchTestingTime(const int count) -> double {
 void MainWindow::on_pushButtonResearch_clicked() {
   ui->tabWidget->setCurrentIndex(3);
   ui->tabResearch->setEnabled(true);
-  //  s21::InitConfig config;
-  //  config.is_graph = false;
-  //  config.num_layers_hidden = 2;
-  //  config.num_neurons_hidden = 100;
-  //  config.num_neurons_input = pow(28, 2);
-  //  config.num_neurons_out = 26;
-  //  _controller->InitNetwork(config);
-  _controller->SaveConfiguration(
+  controller_->SaveConfiguration(
       QDir::currentPath().append("/test.bin").toStdString());
   for (int i = 1; i <= 2; ++i) {
     if (i == 1) {
-      _controller->LoadConfiguration(
+      controller_->LoadConfiguration(
           QDir::currentPath().append("/test.bin").toStdString(), false);
     } else {
-      _controller->LoadConfiguration(
+      controller_->LoadConfiguration(
           QDir::currentPath().append("/test.bin").toStdString(), true);
     }
     double averageTime(0.0);

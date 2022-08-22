@@ -17,7 +17,6 @@ class Matrix {
     double &operator()(int i, int j);
     void Save(std::ofstream &out);
     void Load(std::ifstream &in);
-    void PrintMatrix();
     double SumRow(int row);
     double SumColumn(int column);
 

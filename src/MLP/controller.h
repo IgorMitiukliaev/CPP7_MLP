@@ -10,46 +10,45 @@ class Controller : public QObject {
   Q_OBJECT
 
  private:
-  s21::Model *m;
-  std::vector<ErrorData> errorDataVector;
+  s21::Model *model_;
+  std::vector<ErrorData> error_data_vector_;
 
  public:
-  explicit Controller(s21::Model *model) : m(model) {}
+  explicit Controller(s21::Model *model) : model_(model) {}
   bool stop_ = true;
   bool load_ = false;
-  void loadDataset(string const &path);
-  void loadNextDataset();
+  void LoadDataset(string const &path);
+  void LoadNextDataset();
   void InitNetwork(const InitConfig &config);
-  std::vector<double> getOutValues();
-  auto getCorrectValue() -> unsigned;
+  std::vector<double> GetOutValues();
+  auto GetCorrectValue() -> unsigned;
   void TeachNetwork(LearnConfig const &learn_config);
   void TestNetwork(unsigned int percent);
   void ResetNetworkConfiguration();
 
   // simple functions
-  auto getCountOfElements() -> long { return m->getCountOfElements(); }
-  auto getInputValues(int img_num = 0) -> std::vector<double>;
-  auto CheckModelState() -> s21::ModelState { return m->CheckModelState(); };
+  auto GetCountOfElements() -> long { return model_->GetCountOfElements(); }
+  auto GetInputValues(int img_num = 0) -> std::vector<double>;
+  auto CheckModelState() -> s21::ModelState { return model_->CheckModelState(); };
   auto StopTeachLoop(bool val) -> void { stop_ = val; };
   auto SaveConfiguration(const std::string &filename) -> void {
-    m->SaveConfiguration(filename);
+    model_->SaveConfiguration(filename);
   };
   auto LoadConfiguration(const std::string &filename, bool is_graph) -> void {
-    m->LoadConfiguration(filename, is_graph);
+    model_->LoadConfiguration(filename, is_graph);
     load_ = true;
   };
-  auto GetConfiguration() -> s21::InitConfig { return m->GetConfiguration(); };
-  auto getErr() -> s21::ErrorData & { return m->getErr(); }
-  auto getErrVector() -> const std::vector<s21::ErrorData> & {
-    return errorDataVector;
+  auto GetConfiguration() -> s21::InitConfig { return model_->GetConfiguration(); };
+  auto GetErr() -> s21::ErrorData & { return model_->GetErr(); }
+  auto GetErrVector() -> const std::vector<s21::ErrorData> & {
+    return error_data_vector_;
   }
-  auto resetErr() -> void { m->resetErr(); }
-  auto EvaluateErr() -> void { m->EvaluateErr(); };
+  auto EvaluateErr() -> void { model_->EvaluateErr(); };
 
   auto SetVectorPixelsOfImage(const std::vector<double> &vector_pixels)
       -> void {
-    m->SetVectorPixelsOfImage(vector_pixels);
-    m->activate(vector_pixels);
+    model_->SetVectorPixelsOfImage(vector_pixels);
+    model_->Activate(vector_pixels);
   }
 
  signals:

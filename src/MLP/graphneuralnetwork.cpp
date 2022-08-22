@@ -3,75 +3,75 @@
 using s21::GraphNeuralNetwork;
 using s21::NeuralNetwork;
 
-double GraphNeuralNetwork::Neuron::sigmoid(double x) {
+double GraphNeuralNetwork::Neuron::Sigmoid(double x) {
   return 1 / (1 + exp(-x));
 }
-double GraphNeuralNetwork::Neuron::dsigmoid(double x) {
-  return sigmoid(x) * (1 - sigmoid(x));
+double GraphNeuralNetwork::Neuron::DSigmoid(double x) {
+  return Sigmoid(x) * (1 - Sigmoid(x));
 }
 
-void GraphNeuralNetwork::Neuron::activate(const double input = 1) {
+void GraphNeuralNetwork::Neuron::Activate(const double input = 1) {
   sum = 0;
   for (int i = 0; i < n.size(); i++) {
-    sum += w[i] * ((n[i] == nullptr) ? input : n[i]->getResponse());
+    sum += w[i] * ((n[i] == nullptr) ? input : n[i]->GetResponse());
   }
-  out = sigmoid(sum);
-  dout = dsigmoid(sum);
+  out = Sigmoid(sum);
+  dout = DSigmoid(sum);
 }
 
 void GraphNeuralNetwork::Activate(const std::vector<double> &input) {
-  for (unsigned int i = 0; i < num_neurons_input; i++) {
-    input_layer[i].activate(input[i]);
+  for (unsigned int i = 0; i < num_neurons_input_; i++) {
+    input_layer_[i].Activate(input[i]);
   }
-  for (unsigned int i = 0; i < num_layers_hidden; i++) {
-    for (unsigned int j = 0; j < num_neurons_hidden; j++) {
-      hidden_layer[i][j].activate();
+  for (unsigned int i = 0; i < num_layers_hidden_; i++) {
+    for (unsigned int j = 0; j < num_neurons_hidden_; j++) {
+      hidden_layer_[i][j].Activate();
     }
   }
-  for (unsigned int i = 0; i < num_neurons_out; i++) {
-    out_layer[i].activate();
+  for (unsigned int i = 0; i < num_neurons_out_; i++) {
+    out_layer_[i].Activate();
   }
 }
 
 void GraphNeuralNetwork::InitNetwork(const InitConfig *config) {
-  num_layers_hidden = config->num_layers_hidden;
-  num_neurons_hidden = config->num_neurons_hidden;
-  num_neurons_input = config->num_neurons_input;
-  num_neurons_out = config->num_neurons_out;
-  input_layer = std::vector<Neuron>(config->num_neurons_input);
+  num_layers_hidden_ = config->num_layers_hidden;
+  num_neurons_hidden_ = config->num_neurons_hidden;
+  num_neurons_input_ = config->num_neurons_input;
+  num_neurons_out_ = config->num_neurons_out;
+  input_layer_ = std::vector<Neuron>(config->num_neurons_input);
 
   for (unsigned int i = 0; i < config->num_layers_hidden; i++) {
-    for (unsigned int j = 0; j < num_neurons_hidden; j++) {
+    for (unsigned int j = 0; j < num_neurons_hidden_; j++) {
       if (i == 0) {
-        hidden_layer[i].push_back(Neuron(&input_layer));
+        hidden_layer_[i].push_back(Neuron(&input_layer_));
       } else {
-        hidden_layer[i].push_back(Neuron(&hidden_layer[i - 1]));
+        hidden_layer_[i].push_back(Neuron(&hidden_layer_[i - 1]));
       }
     }
   }
   for (unsigned int i = 0; i < config->num_neurons_out; i++) {
-    out_layer.push_back(Neuron(&hidden_layer[num_layers_hidden - 1]));
+    out_layer_.push_back(Neuron(&hidden_layer_[num_layers_hidden_ - 1]));
   }
 
-  for (unsigned int i = 0; i < num_neurons_input; i++) {
-    input_layer[i].p.clear();
-    for (unsigned int j = 0; j < num_neurons_hidden; j++) {
-      input_layer[i].p.push_back(&hidden_layer[0][j]);
+  for (unsigned int i = 0; i < num_neurons_input_; i++) {
+    input_layer_[i].p.clear();
+    for (unsigned int j = 0; j < num_neurons_hidden_; j++) {
+      input_layer_[i].p.push_back(&hidden_layer_[0][j]);
     }
   }
 
-  for (unsigned int i = 0; i < num_neurons_hidden; i++) {
-    hidden_layer[num_layers_hidden - 1][i].p.clear();
-    for (unsigned int j = 0; j < num_neurons_out; j++) {
-      hidden_layer[num_layers_hidden - 1][i].p.push_back(&out_layer[j]);
+  for (unsigned int i = 0; i < num_neurons_hidden_; i++) {
+    hidden_layer_[num_layers_hidden_ - 1][i].p.clear();
+    for (unsigned int j = 0; j < num_neurons_out_; j++) {
+      hidden_layer_[num_layers_hidden_ - 1][i].p.push_back(&out_layer_[j]);
     }
   }
 
-  for (unsigned int i = 0; i < num_layers_hidden - 1; i++) {
-    for (unsigned int j = 0; j < num_neurons_hidden; j++) {
-      hidden_layer[i][j].p.clear();
-      for (unsigned int k = 0; k < num_neurons_hidden; k++) {
-        hidden_layer[i][j].p.push_back(&hidden_layer[i + 1][k]);
+  for (unsigned int i = 0; i < num_layers_hidden_ - 1; i++) {
+    for (unsigned int j = 0; j < num_neurons_hidden_; j++) {
+      hidden_layer_[i][j].p.clear();
+      for (unsigned int k = 0; k < num_neurons_hidden_; k++) {
+        hidden_layer_[i][j].p.push_back(&hidden_layer_[i + 1][k]);
       }
     }
   }
@@ -100,53 +100,53 @@ GraphNeuralNetwork::Neuron::Neuron(std::vector<Neuron> *input_layer)
                 [&distr, &eng](double &el) { el = distr(eng); });
 }
 
-std::vector<double> GraphNeuralNetwork::getOutput() {
+std::vector<double> GraphNeuralNetwork::GetOutput() {
   std::vector<double> res;
-  for_each(out_layer.begin(), out_layer.end(),
-           [&res](Neuron &el) { res.push_back(el.getResponse()); });
+  for_each(out_layer_.begin(), out_layer_.end(),
+           [&res](Neuron &el) { res.push_back(el.GetResponse()); });
   return res;
 }
 
-void GraphNeuralNetwork::Neuron::evaluateErr(unsigned int num_pos = 0,
+void GraphNeuralNetwork::Neuron::EvaluateErr(unsigned int num_pos = 0,
                                              double correct = 0) {
   delta_ = 0;
   if (p[0] == nullptr) {
     delta_ = (correct - out) * dout;
   } else {
     std::for_each(p.begin(), p.end(), [&](Neuron *el) {
-      delta_ = el->getWeight(num_pos) * el->getDelta();
+      delta_ = el->GetWeight(num_pos) * el->GetDelta();
     });
     delta_ *= dout;
   }
 }
 
-void GraphNeuralNetwork::Neuron::refreshWeight(double const &a_,
+void GraphNeuralNetwork::Neuron::RefreshWeight(double const &a_,
                                                double const &g_) {
   for (unsigned int i = 0; i < dw.size(); i++) {
     dw[i] *= g_;
-    dw[i] += a_ * delta_ * n[i]->getResponse();
+    dw[i] += a_ * delta_ * n[i]->GetResponse();
     w[i] += dw[i];
   }
 }
 
-void GraphNeuralNetwork::teachNetwork(const std::vector<double> &correct) {
-  for (unsigned int i = 0; i < num_neurons_out; i++) {
-    out_layer[i].evaluateErr(i, correct[i]);
+void GraphNeuralNetwork::TeachNetwork(const std::vector<double> &correct) {
+  for (unsigned int i = 0; i < num_neurons_out_; i++) {
+    out_layer_[i].EvaluateErr(i, correct[i]);
   }
-  for (int i = num_layers_hidden - 1; i >= 0; i--) {
-    for (unsigned int j = 0; j < num_neurons_hidden; j++) {
-      hidden_layer[i][j].evaluateErr(j, 0);
+  for (int i = num_layers_hidden_ - 1; i >= 0; i--) {
+    for (unsigned int j = 0; j < num_neurons_hidden_; j++) {
+      hidden_layer_[i][j].EvaluateErr(j, 0);
     }
   }
-  for (unsigned int i = 0; i < num_neurons_input; i++) {
-    input_layer[i].evaluateErr(i, 0);
+  for (unsigned int i = 0; i < num_neurons_input_; i++) {
+    input_layer_[i].EvaluateErr(i, 0);
   }
-  for (unsigned int i = 0; i < num_neurons_out; i++) {
-    out_layer[i].refreshWeight(a_, g_);
+  for (unsigned int i = 0; i < num_neurons_out_; i++) {
+    out_layer_[i].RefreshWeight(a_, g_);
   }
-  for (int i = num_layers_hidden - 1; i >= 0; i--) {
-    for (unsigned int j = 0; j < num_neurons_hidden; j++) {
-      hidden_layer[i][j].refreshWeight(a_, g_);
+  for (int i = num_layers_hidden_ - 1; i >= 0; i--) {
+    for (unsigned int j = 0; j < num_neurons_hidden_; j++) {
+      hidden_layer_[i][j].RefreshWeight(a_, g_);
     }
   }
 }
@@ -158,12 +158,12 @@ void s21::GraphNeuralNetwork::SaveConfiguration(const std::string &filename) {
   s21::InitConfig config = GetConfiguration();
   out.write((char *)&config, sizeof(config));
 
-  for (unsigned i = 0; i < num_layers_hidden; i++) {
-    std::for_each(hidden_layer[i].begin(), hidden_layer[i].end(),
+  for (unsigned i = 0; i < num_layers_hidden_; i++) {
+    std::for_each(hidden_layer_[i].begin(), hidden_layer_[i].end(),
                   [&](Neuron &el) { SaveWeight(out, el.w); });
   }
 
-  std::for_each(out_layer.begin(), out_layer.end(),
+  std::for_each(out_layer_.begin(), out_layer_.end(),
                 [&](Neuron &el) { SaveWeight(out, el.w); });
 
   out.close();
@@ -174,22 +174,22 @@ void s21::GraphNeuralNetwork::LoadConfiguration(const std::string &filename) {
   s21::InitConfig config;
   in.read((char *)&config, sizeof(config));
   InitNetwork(&config);
-  for (unsigned i = 0; i < num_layers_hidden; i++) {
-    std::for_each(hidden_layer[i].begin(), hidden_layer[i].end(),
+  for (unsigned i = 0; i < num_layers_hidden_; i++) {
+    std::for_each(hidden_layer_[i].begin(), hidden_layer_[i].end(),
                   [&](Neuron &el) { LoadWeight(in, el.w); });
   }
 
-  std::for_each(out_layer.begin(), out_layer.end(),
+  std::for_each(out_layer_.begin(), out_layer_.end(),
                 [&](Neuron &el) { LoadWeight(in, el.w); });
 
   in.close();
 }
 
 s21::InitConfig s21::GraphNeuralNetwork::GetConfiguration() {
-  s21::InitConfig config = {.num_neurons_input = num_neurons_input,
-                            .num_layers_hidden = num_layers_hidden,
-                            .num_neurons_hidden = num_neurons_hidden,
-                            .num_neurons_out = num_neurons_out,
+  s21::InitConfig config = {.num_neurons_input = num_neurons_input_,
+                            .num_layers_hidden = num_layers_hidden_,
+                            .num_neurons_hidden = num_neurons_hidden_,
+                            .num_neurons_out = num_neurons_out_,
                             .is_graph = false};
   return config;
 }

@@ -28,27 +28,22 @@ class NeuralNetwork {
  public:
     NeuralNetwork() {}
     virtual ~NeuralNetwork() {}
-    //  NeuralNetwork(InitConfig config)
     virtual void InitNetwork(InitConfig const *config) {}  // инициализация из конфига
-    //  virtual void LearningNetwork(LearnConfig *config);
-    //  virtual int Predicate(std::vector<double> input);
     virtual void SaveConfiguration(const std::string &filename) {}
     virtual void LoadConfiguration(const std::string &filename) {}
     virtual InitConfig GetConfiguration() {
         return InitConfig();
     }
     virtual void Activate(const std::vector<double> &input) {}
-    virtual std::vector<double> getOutput() { return std::vector<double>(1); }
-    virtual void teachNetwork() {}
-    //  virtual void teachNetwork(std::vector<double> &e){};
+    virtual std::vector<double> GetOutput() { return std::vector<double>(1); }
     virtual bool CheckNetworkReady() { return true; }
-    virtual void teachNetwork(const std::vector<double> &e) {}
+    virtual void TeachNetwork(const std::vector<double> &e) {}
 
  protected:
-    unsigned int num_layers_hidden = 2;
-    unsigned int num_neurons_hidden = 100;
-    unsigned int num_neurons_input = 784;
-    unsigned int num_neurons_out = 26;
+    unsigned int num_layers_hidden_ = 2;
+    unsigned int num_neurons_hidden_ = 100;
+    unsigned int num_neurons_input_ = 784;
+    unsigned int num_neurons_out_ = 26;
 };
 
 }  // namespace s21

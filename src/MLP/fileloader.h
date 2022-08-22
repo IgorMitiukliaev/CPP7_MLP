@@ -18,8 +18,6 @@ class FileLoader {
   bool ReadElement();
   void StartReadElements();
   void SetPosition(int pos);  // нумерация строк с нуля
-  void PrintOutputValues();   //  потом удалить
-  void PrintInputValues(bool view);  //  потом удалить
 
  private:
   std::ifstream filestream_;

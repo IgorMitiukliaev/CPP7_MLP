@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "../MLP/graphneuralnetwork.h"
-#include "../MLP/matrix_neural_network.h"
+#include "../MLP/matrixneuralnetwork.h"
 
 void InitMatrixNeuralNetwork(s21::MatrixNeuralNetwork *const matrix_neural_network,
                              const unsigned int num_layers_hidden = 2,
@@ -50,7 +50,7 @@ TEST(matrix_neural_network, getOutput) {
     s21::MatrixNeuralNetwork matrix_neural_network;
     InitMatrixNeuralNetwork(&matrix_neural_network);
     std::vector<double> output;
-    output = matrix_neural_network.getOutput();
+    output = matrix_neural_network.GetOutput();
     if (output.size() != 26)
         result = false;
     ASSERT_TRUE(result);
@@ -82,7 +82,7 @@ TEST(matrix_neural_network, teachNetwork) {
     s21::MatrixNeuralNetwork matrix_neural_network;
     InitMatrixNeuralNetwork(&matrix_neural_network);
     std::vector<double> vector(26);
-    matrix_neural_network.teachNetwork(vector);
+    matrix_neural_network.TeachNetwork(vector);
     ASSERT_TRUE(true);
 }
 
@@ -107,7 +107,7 @@ TEST(graph_neural_network, getOutput) {
     s21::GraphNeuralNetwork graph_neural_network;
     InitGraphNeuralNetwork(&graph_neural_network);
     std::vector<double> output;
-    output = graph_neural_network.getOutput();
+    output = graph_neural_network.GetOutput();
     if (output.size() != 26)
         result = false;
     ASSERT_TRUE(result);
@@ -139,7 +139,7 @@ TEST(graph_neural_network, teachNetwork) {
     s21::GraphNeuralNetwork graph_neural_network;
     InitGraphNeuralNetwork(&graph_neural_network);
     std::vector<double> vector(26);
-    graph_neural_network.teachNetwork(vector);
+    graph_neural_network.TeachNetwork(vector);
     ASSERT_TRUE(true);
 }
 

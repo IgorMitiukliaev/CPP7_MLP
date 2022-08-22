@@ -22,17 +22,17 @@ class PaintWindow : public QDialog {
     QImage &GetImage();
 
  protected:
-    void paintEvent(QPaintEvent *p);
-    void mouseMoveEvent(QMouseEvent *event);
-    void mousePressEvent(QMouseEvent *event);
-    void mouseReleaseEvent(QMouseEvent *event);
+    void PaintEvent(QPaintEvent *p);
+    void MouseMoveEvent(QMouseEvent *event);
+    void MousePressEvent(QMouseEvent *event);
+    void MouseReleaseEvent(QMouseEvent *event);
 
  private:
     Ui::PaintWindow *ui;
-    QPoint _lastPoint;
-    QImage _image;
-    bool _isLeftButtonPressed = false;
-    const int _penWidth = 70;
+    QPoint last_point_;
+    QImage image_;
+    bool is_left_button_pressed_ = false;
+    const int pen_width_ = 70;
 };
 
 #endif  // SRC_MLP_PAINTWINDOW_H_
