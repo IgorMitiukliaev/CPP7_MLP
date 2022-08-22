@@ -218,8 +218,8 @@ bool MainWindow::enableButtons() {
   s21::ModelState state = _controller->CheckModelState();
   ui->btnImgUp->setEnabled(state);
   ui->tabInit->setEnabled(_controller->stop_);
-  ui->tabResearch->setEnabled(_controller->stop_);
-  ui->tabTest->setEnabled(_controller->stop_);
+  ui->tabResearch->setEnabled(_controller->stop_ && state != s21::Empty);
+  ui->tabTest->setEnabled(_controller->stop_ && state != s21::Empty);
   if (state > 1) {
     ui->btnStartLearn->setEnabled(true);
   } else {
@@ -232,13 +232,11 @@ bool MainWindow::enableButtons() {
   }
   if (state != s21::Empty) {
     ui->tabLearn->setEnabled(true);
-    ui->tabTest->setEnabled(true);
     ui->pushButton_8->setEnabled(true);
     ui->valEpochNum->setEnabled(true);
     ui->valBatchNum->setEnabled(true);
   } else {
     ui->tabLearn->setEnabled(false);
-    ui->tabTest->setEnabled(false);
     ui->pushButton_8->setEnabled(false);
   }
   if (state > 1 && !_controller->getInputValues().empty()) {

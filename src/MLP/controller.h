@@ -15,7 +15,7 @@ class Controller : public QObject {
 
  public:
   explicit Controller(s21::Model *model) : m(model) {}
-  bool pause_ = true, stop_ = true;
+  bool stop_ = true;
   bool load_ = false;
   void loadDataset(string const &path);
   void loadNextDataset();
