@@ -1,3 +1,5 @@
+files_for_test = test/test.cpp MLP/graphneuralnetwork.cpp MLP/matrix_neural_network.cpp MLP/matrix.cpp
+
 SRC_DIR = MLP/
 TEXI2DVI = makeinfo --html
 SUP = --suppress=
@@ -24,12 +26,12 @@ install: uninstall
 	@make clean -C $(SRC_DIR)
 
 dvi:
-	$(TEXI2DVI) Documentation.texi
+	$(TEXI2DVI) ./Documentation.texi
 
 linter:
 	@cp ../materials/linters/CPPLINT.cfg CPPLINT.cfg 
 	@python3 ../materials/linters/cpplint.py --filter=-runtime/references --extensions=cpp $(SRC_DIR)*.cpp 
-	@python3 ../materials/linters/cpplint.py  --extensions=cpp $(SRC_DIR)*.h
+	@python3 ../materials/linters/cpplint.py --filter=-runtime/references --extensions=cpp $(SRC_DIR)*.h
 
 cppcheck:
 	cppcheck --enable=all $(SUP)useStlAlgorithm $(SUP)unusedFunction $(SUP)missingInclude $(SRC_DIR)*.cpp
@@ -43,7 +45,7 @@ dist:
 gcov_report:
 	$(CC) --coverage -o testresult $(files_for_test) -lm -lgtest -lpthread
 	./testresult
-	lcov -t "testresult" -o testresult.info -c -d .
+	lcov -t "testresult" -o testresult.info -c -d . --no-external
 	genhtml -o report testresult.info
 	open ./report/index.html
 
