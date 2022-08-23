@@ -7,16 +7,14 @@ using s21::Model;
 
 s21::Model::Model() {
   network_ = nullptr;
+  err_.confusion_matrix = nullptr;
   num_images_ = 0;
   err_.accuracy = 0;
-  err_.average_sq_err = 0;
-  err_.confusion_matrix = nullptr;
   err_.count = 0;
   err_.count_success = 0;
   err_.f_measure = 0;
   err_.precision = 0;
   err_.recall = 0;
-  err_.sum_sqr_err = 0;
 }
 
 s21::Model::~Model() {
@@ -126,14 +124,12 @@ void Model::ResetErr() {
   err_ = {0};
   int size = network_->GetConfiguration().num_neurons_out;
   err_.confusion_matrix = new s21::Matrix(size, size);
+  err_.time_reset = std::time(nullptr);
 }
 
 void Model::UpdateErrData() {
   if (correct_.size() > 0) {
     err_.count++;
-    for (int i = 0; i < out_.size(); i++)
-      err_.sum_sqr_err += pow(correct_[i] - out_[i], 2);
-    err_.average_sq_err = std::sqrt(err_.sum_sqr_err / err_.count);
     int correctLetterIndex =
         std::max_element(correct_.begin(), correct_.end()) - correct_.begin();
     int answerLetterIndex =
@@ -175,6 +171,7 @@ void Model::EvaluateErr() {
   err_.accuracy = (double)err_.count_success / err_.count;
   err_.f_measure =
       2 * (err_.precision * err_.recall) / (err_.precision + err_.recall);
+  err_.time_lap = std::time(nullptr) - err_.time_reset;
 }
 s21::ModelState Model::CheckModelState() {
   ModelState res = Empty;

@@ -30,12 +30,10 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::on_btnLoadImage_clicked() {
-  qDebug() << "clicked";
   QFileDialog dialog(this);
   dialog.setFileMode(QFileDialog::ExistingFile);
   QString fileName = dialog.getOpenFileName(this, tr("Open File"), "/home",
                                             tr("Images (*.bmp)"));
-  qDebug() << fileName;
   if (!fileName.isEmpty()) {
     QImage image(fileName);
     GraphicsViewUpdate(image);
@@ -44,7 +42,6 @@ void MainWindow::on_btnLoadImage_clicked() {
 
 void MainWindow::on_btnLoadDataset_clicked() {
   QString file_name = GetDatasetFileName();
-  qDebug() << file_name;
   if (!file_name.isEmpty()) {
     controller_->LoadDataset(file_name.toStdString());
     num_images_ = controller_->GetCountOfElements();
@@ -85,6 +82,9 @@ void MainWindow::UpdateMLPState() {
       label->setText(text);
     }
   }
+  char buf[100];
+  std::strftime(buf, sizeof buf, "%T",
+                std::gmtime(&controller_->GetErr().time_lap));
   text = "Total count " + QString::number(controller_->GetErr().count, 'f', 0) +
          "\n";
   text += "Success count " +
@@ -99,6 +99,8 @@ void MainWindow::UpdateMLPState() {
   text += "f-measure " +
           QString::number(controller_->GetErr().f_measure * 100, 'f', 2) +
           "%\n";
+  text += "Time spent ";
+  text.append(buf);
   ui->lblError->setText(text);
 }
 
@@ -183,7 +185,6 @@ void MainWindow::on_btnStartLearn_clicked() {
 }
 
 void MainWindow::on_valEpochNum_valueChanged(int arg1) {
-  qDebug() << arg1;
   if (arg1 == 1) {
     ui->valBatchNum->setEnabled(true);
     UpdateBatchLabel();
@@ -202,7 +203,6 @@ void MainWindow::UpdateBatchLabel() {
 }
 
 void MainWindow::on_valBatchNum_valueChanged(int arg1) {
-  qDebug() << arg1;
   if (arg1 == 1) {
     ui->valEpochNum->setEnabled(true);
     UpdateBatchLabel();
@@ -244,8 +244,6 @@ bool MainWindow::EnableButtons() {
   } else {
     ui->pushButtonResearch->setEnabled(false);
   }
-
-  qDebug() << "state = " << state;
   return state;
 }
 
@@ -253,7 +251,7 @@ void MainWindow::on_progressChanged_(int i, int percentage) {
   ui->barLearnProgress->setValue(percentage);
   num_curr_image_ =
       (num_curr_image_ + i >= num_images_ ? num_curr_image_ + i - num_images_
-                                        : num_curr_image_ + i);
+                                          : num_curr_image_ + i);
   DrawPreview();
   UpdatePreviewLabel();
   UpdateAnswerLabel();
@@ -266,7 +264,7 @@ void MainWindow::on_progressTestChanged_(int i, int percentage) {
   ui->barTestProgress->setValue(percentage);
   num_curr_image_ =
       (num_curr_image_ + i >= num_images_ ? num_curr_image_ + i - num_images_
-                                        : num_curr_image_ + i);
+                                          : num_curr_image_ + i);
   UpdateTestSheet();
   if (controller_->stop_) {
     ui->btnStartLearn->setEnabled(true);
@@ -282,9 +280,7 @@ void MainWindow::on_btnSaveNetworkConfiguration_clicked() {
   dialog.setDefaultSuffix(".bin");
   QString q_filename = dialog.getSaveFileName(this, "Save configuration", ".",
                                               filters, &filters);
-  qDebug() << rx.match(q_filename);
   if (!rx.match(q_filename).hasMatch()) q_filename += ".bin";
-  qDebug() << q_filename;
   if (!q_filename.isEmpty()) {
     controller_->SaveConfiguration((q_filename).toStdString());
   }
@@ -391,7 +387,6 @@ void MainWindow::UpdateTestSheet() {
   UpdateTestPreviewLabel();
   UpdateAnswerLabel();
   UpdateMLPState();
-  qDebug() << "testPreview";
   EnableButtons();
 }
 

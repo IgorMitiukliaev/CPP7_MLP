@@ -100,8 +100,8 @@ void Controller::TeachNetwork(LearnConfig const &learn_config) {
 void Controller::TestNetwork(unsigned int percent) {
   unsigned int const &num_images_ = model_->GetCountOfElements();
   auto num_test_images = num_images_ * percent / 100;
+  model_->ResetErr();
   if (!model_->GetInputValues().empty()) {
-    qDebug() << "research";
     model_->Activate(model_->GetInputValues());
     unsigned int i;
     for (i = 1; (i < num_test_images) && !stop_; i++) {
