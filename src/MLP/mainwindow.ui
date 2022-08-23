@@ -902,7 +902,7 @@
         </widget>
        </item>
        <item row="0" column="3">
-        <widget class="QPushButton" name="pushButton_8">
+        <widget class="QPushButton" name="btnProceed">
          <property name="enabled">
           <bool>false</bool>
          </property>
@@ -1165,7 +1165,7 @@
       <bool>false</bool>
      </property>
      <attribute name="title">
-      <string>Page</string>
+      <string>Research</string>
      </attribute>
      <widget class="QTableWidget" name="tableWidget">
       <property name="geometry">

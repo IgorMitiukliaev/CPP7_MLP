@@ -140,7 +140,7 @@ void MainWindow::GraphicsViewUpdate(QImage &image) {
   }
 }
 
-void MainWindow::on_pushButton_8_clicked() {
+void MainWindow::on_btnProceed_clicked() {
   if (paint_window_->isVisible()) {
     GraphicsViewUpdate(paint_window_->GetImage());
   }
@@ -232,12 +232,12 @@ bool MainWindow::EnableButtons() {
   }
   if (state != s21::Empty) {
     ui->tabLearn->setEnabled(true);
-    ui->pushButton_8->setEnabled(true);
+    ui->btnProceed->setEnabled(true);
     ui->valEpochNum->setEnabled(true);
     ui->valBatchNum->setEnabled(true);
   } else {
     ui->tabLearn->setEnabled(false);
-    ui->pushButton_8->setEnabled(false);
+    ui->btnProceed->setEnabled(false);
   }
   if (state > 1 && !controller_->GetInputValues().empty()) {
     ui->pushButtonResearch->setEnabled(true);

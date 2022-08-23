@@ -59,7 +59,7 @@ class MainWindow : public QMainWindow {
   void on_btnLoadDataset_clicked();
   void on_btnImgUp_clicked();
   void on_pushButton_draw_clicked();
-  void on_pushButton_8_clicked();
+  void on_btnProceed_clicked();
   void on_btnInit_clicked();
   void on_btnStartLearn_clicked();
   void on_valEpochNum_valueChanged(int arg1);

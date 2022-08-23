@@ -30,4 +30,4 @@ class MatrixNeuralNetwork : public NeuralNetwork {
     void CalcWeights(double learning_rate);
 };
 }  // namespace s21
-#endif  // SRC_MLP_MATRIX_NEURAL_NETWORK_H_
+#endif  // SRC_MLP_MATRIXNEURALNETWORK_H_

@@ -56,10 +56,13 @@ else
 	$(CC) -o tests $(files_for_test) -lm -lgtest -lpthread
 endif
 	./tests
-	rm -rf tests
 	
 test: tests
 
+memcheck: test
+	valgrind -s --tool=memcheck --track-origins=yes --leak-check=full ./tests
+	make clean
+
 clean:
 	@rm -rf Documentation
-	@rm -rf tests report *.gcda *.gcno testresult *.info
+	@rm -rf tests report *.gcda *.gcno testresult *.info tests
