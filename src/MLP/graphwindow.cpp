@@ -27,10 +27,10 @@ auto GraphWindow::DrawGraph(const std::vector<double> &values) -> void {
         painter.drawText(2, height_ * 0.1 * i - 5, procentage[i - 1]);
     }
     painter.setPen(QPen(Qt::black, pen_width_for_line_, Qt::SolidLine));
-    QPoint oldPoint(0, height_);
+    QPoint oldPoint(0, height_ * (1.0 - values[0]));
     const size_t vectorSize = values.size();
-    const int dx = width_ / vectorSize;
-    for (int i = 0; i < vectorSize; ++i) {
+    const int dx = width_ / (vectorSize-1);
+    for (int i = 1; i < vectorSize; ++i) {
         QPoint newPoint(dx * (i + 1), height_ * (1.0 - values[i]));
         painter.drawLine(oldPoint.rx(), oldPoint.ry(), newPoint.rx(), newPoint.ry());
         oldPoint = newPoint;

@@ -61,6 +61,7 @@ void Controller::TeachNetwork(LearnConfig const &learn_config) {
         model_->ResetErr();
       }
     }
+    error_data_vector_[batches_count++] = model_->GetErr();
   } else {
     bool teach_on = false;
     long teach_count = 0;
@@ -94,6 +95,7 @@ void Controller::TeachNetwork(LearnConfig const &learn_config) {
       }
     }
   }
+  stop_ = true;
   emit progressChanged_(p_bar_increment, 100);
 }
 
