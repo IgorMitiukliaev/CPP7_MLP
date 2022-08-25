@@ -177,5 +177,6 @@ s21::ModelState Model::CheckModelState() {
   ModelState res = Empty;
   if (network_ != nullptr) res = Initialized;
   if (!input_.empty()) res = DatasetReady;
+  if (err_.accuracy > 0.5) res = Learned;
   return res;
 }

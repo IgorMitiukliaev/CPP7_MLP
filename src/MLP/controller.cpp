@@ -38,7 +38,7 @@ unsigned Controller::GetCorrectValue() {
 
 void Controller::TeachNetwork(LearnConfig const &learn_config) {
   model_->ResetErr();
-  const int p_bar_increment = 250;
+  const int p_bar_increment = 100;
   unsigned int num_epochs_ = learn_config.num_epochs;
   unsigned int num_batches_ = learn_config.num_batches;
   int batches_count = 0;

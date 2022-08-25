@@ -2,7 +2,7 @@
 #define SRC_MLP_GRAPHNEURALNETWORK_H_
 
 #include "neuralnetwork.h"
-
+#include <QDebug>
 namespace s21 {
 class GraphNeuralNetwork : public NeuralNetwork {
  private:
@@ -33,7 +33,7 @@ class GraphNeuralNetwork : public NeuralNetwork {
             return w[i];
         }
     };
-    float const a_ = 0.1, g_ = 0;
+    double const a_ = 0.07, g_ = 0;
     std::vector<Neuron> input_layer_;
     std::vector<Neuron> out_layer_;
     std::vector<Neuron> hidden_layer_[5];

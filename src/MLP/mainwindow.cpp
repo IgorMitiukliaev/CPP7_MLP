@@ -220,12 +220,12 @@ bool MainWindow::EnableButtons() {
   ui->tabInit->setEnabled(controller_->stop_);
   ui->tabResearch->setEnabled(controller_->stop_ && state != s21::Empty);
   ui->tabTest->setEnabled(controller_->stop_ && state != s21::Empty);
-  if (state > 1) {
+  if (state > s21::Initialized) {
     ui->btnStartLearn->setEnabled(true);
   } else {
     ui->btnStartLearn->setEnabled(false);
   }
-  if (state > 1 && !controller_->GetErrVector().empty()) {
+  if (state > s21::Initialized && !controller_->GetErrVector().empty()) {
     ui->CreateGraph->setEnabled(true);
   } else {
     ui->CreateGraph->setEnabled(false);
@@ -239,10 +239,13 @@ bool MainWindow::EnableButtons() {
     ui->tabLearn->setEnabled(false);
     ui->btnProceed->setEnabled(false);
   }
-  if (state > 1 && !controller_->GetInputValues().empty()) {
+  if (state > s21::Initialized && !controller_->GetInputValues().empty()) {
     ui->pushButtonResearch->setEnabled(true);
   } else {
     ui->pushButtonResearch->setEnabled(false);
+  }
+  if (state == s21::Learned) {
+    ui->btnSaveNetworkConfiguration->setEnabled(true);
   }
   return state;
 }

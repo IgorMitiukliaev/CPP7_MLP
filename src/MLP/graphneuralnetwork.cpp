@@ -12,16 +12,20 @@ double GraphNeuralNetwork::Neuron::DSigmoid(double x) {
 
 void GraphNeuralNetwork::Neuron::Activate(const double input = 1) {
   sum = 0;
-  for (int i = 0; i < n.size(); i++) {
-    sum += w[i] * ((n[i] == nullptr) ? input : n[i]->GetResponse());
+  if (n[0] == nullptr) {
+    sum = w[0] * input;
+  } else {
+    for (int i = 0; i < n.size(); i++) {
+      sum += w[i] * n[i]->GetResponse();
+    }
   }
   out = Sigmoid(sum);
   dout = DSigmoid(sum);
 }
 
-void GraphNeuralNetwork::Activate(const std::vector<double> &input) {
+void GraphNeuralNetwork::Activate(const std::vector<double> &input_data) {
   for (unsigned int i = 0; i < num_neurons_input_; i++) {
-    input_layer_[i].Activate(input[i]);
+    input_layer_[i].Activate(input_data[i]);
   }
   for (unsigned int i = 0; i < num_layers_hidden_; i++) {
     for (unsigned int j = 0; j < num_neurons_hidden_; j++) {
@@ -87,15 +91,15 @@ GraphNeuralNetwork::Neuron::Neuron()
   p[0] = nullptr;
 }
 
-GraphNeuralNetwork::Neuron::Neuron(std::vector<Neuron> *input_layer)
-    : Neuron() {
-  n.resize(input_layer->size());
-  w.resize(input_layer->size());
-  dw.resize(input_layer->size());
-  for (int i = 0; i < n.size(); i++) n[i] = &(*input_layer)[i];
+GraphNeuralNetwork::Neuron::Neuron(std::vector<Neuron> *layer) : Neuron() {
+  n = std::vector<Neuron *>(layer->size());
+  w = std::vector<double>(layer->size());
+  dw = std::vector<double>(layer->size());
+  p = std::vector<Neuron *>(1);
+  for (int i = 0; i < n.size(); i++) n[i] = &(*layer)[i];
   std::random_device rd;
   std::default_random_engine eng(rd());
-  std::uniform_real_distribution<double> distr(-0.5, 0.5);
+  std::uniform_real_distribution<double> distr(-1, 1);
   std::for_each(w.begin(), w.end(),
                 [&distr, &eng](double &el) { el = distr(eng); });
 }
@@ -114,7 +118,7 @@ void GraphNeuralNetwork::Neuron::EvaluateErr(unsigned int num_pos = 0,
     delta_ = (correct - out) * dout;
   } else {
     std::for_each(p.begin(), p.end(), [&](Neuron *el) {
-      delta_ = el->GetWeight(num_pos) * el->GetDelta();
+      delta_ += el->GetWeight(num_pos) * el->GetDelta();
     });
     delta_ *= dout;
   }
