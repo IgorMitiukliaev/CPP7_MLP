@@ -2,7 +2,7 @@
 #define SRC_MLP_GRAPHNEURALNETWORK_H_
 
 #include "neuralnetwork.h"
-#include <QDebug>
+
 namespace s21 {
 class GraphNeuralNetwork : public NeuralNetwork {
  private:
